@@ -2,8 +2,9 @@
 build.xml
 dist/
 build/
-nbproject/*
-!nbproject/project.*
+nbproject/
+# nbproject/*
+# !nbproject/project.*
 
 # Class Files #
 *.class

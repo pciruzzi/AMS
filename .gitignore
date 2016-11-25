@@ -1,10 +1,7 @@
 # NetBeans specific #
-build.xml
 dist/
 build/
-nbproject/
-# nbproject/*
-# !nbproject/project.*
+nbproject/private
 
 # Class Files #
 *.class

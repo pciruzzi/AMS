@@ -1,6 +1,6 @@
 package fr.insa.ams;
 
-public class Application {
+public class Application implements Databaseable {
 
     int id;
     Student student;

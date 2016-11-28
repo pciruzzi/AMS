@@ -1,6 +1,6 @@
 package fr.insa.ams;
 
-public abstract class Actor {
+public abstract class Actor implements Databaseable {
 
 //    private static int counter = 0;
     protected int id;

@@ -19,13 +19,13 @@ public class Database {
         }
     }
 
-    public int addActor(Actor actor) {
+    public int add(Databaseable entity) {
         Session session = factory.openSession();
         Transaction tx = null;
-        Integer actorID = null;
+        Integer id = null;
         try {
             tx = session.beginTransaction();
-            actorID = (Integer) session.save(actor);
+            id = (Integer) session.save(entity);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -33,24 +33,7 @@ public class Database {
         } finally {
             session.close();
         }
-        return actorID;
-    }
-
-    public int addApplication(Application application) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Integer applicationID = null;
-        try {
-            tx = session.beginTransaction();
-            applicationID = (Integer) session.save(application);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return applicationID;
+        return id;
     }
 
 }

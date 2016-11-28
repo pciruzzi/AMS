@@ -25,13 +25,13 @@ public class JDBCTest {
 //        Hibernate
         Database db = new Database();
         Student student = new Student("pepe", 4);
-        Integer id = db.addStudent(student);
+        Integer id = db.addActor(student);
         System.out.println("Student created with id " + id);
         Partner partner = new Partner("juan", "INSA", "1144370513");
-        id = db.addPartner(partner);
+        id = db.addActor(partner);
         System.out.println("Partner created with id " + id);
         ClassCoordinator coordinator = new ClassCoordinator("carlos", 5, "IR");
-        id = db.addClassCoordinator(coordinator);
+        id = db.addActor(coordinator);
         System.out.println("ClassCoordinator created with id " + id);
         Application application = new Application(student, coordinator, partner, 45);
         id = db.addApplication(application);

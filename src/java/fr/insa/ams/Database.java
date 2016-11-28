@@ -19,13 +19,13 @@ public class Database {
         }
     }
 
-    public int addStudent(Student student) {
+    public int addActor(Actor actor) {
         Session session = factory.openSession();
         Transaction tx = null;
-        Integer studentID = null;
+        Integer actorID = null;
         try {
             tx = session.beginTransaction();
-            studentID = (Integer) session.save(student);
+            actorID = (Integer) session.save(actor);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -33,41 +33,7 @@ public class Database {
         } finally {
             session.close();
         }
-        return studentID;
-    }
-
-    public int addPartner(Partner partner) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Integer partnerID = null;
-        try {
-            tx = session.beginTransaction();
-            partnerID = (Integer) session.save(partner);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return partnerID;
-    }
-
-    public int addClassCoordinator(ClassCoordinator coordinator) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        Integer coordinatorID = null;
-        try {
-            tx = session.beginTransaction();
-            coordinatorID = (Integer) session.save(coordinator);
-            tx.commit();
-        } catch (HibernateException e) {
-            if (tx!=null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
-        }
-        return coordinatorID;
+        return actorID;
     }
 
     public int addApplication(Application application) {

@@ -2,14 +2,11 @@ package fr.insa.ams;
 
 public abstract class Actor implements Databaseable {
 
-//    private static int counter = 0;
     protected int id;
     protected String name;
 
     public Actor() {}
     public Actor(String name) {
-//        this.id = counter;
-//        counter++;
         this.name = name;
     }
 

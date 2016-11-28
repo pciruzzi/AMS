@@ -29,7 +29,7 @@ public class ApplicationWS {
         Student student = new Student(studentName);
         applications.add(new Application(student, "Airbus"));
         applications.add(new Application(student, "IBM"));
-        return  new Gson().toJson(applications);
+        return new Gson().toJson(applications);
     }
 
     @PUT

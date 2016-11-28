@@ -1,29 +1,16 @@
 package fr.insa.ams;
 
-public class Student {
+public class Student extends Actor {
 
-    private String name;
-    private int id;
+    private int year;
 
     public Student() {}
-    public Student(String name) {
-        this.name = name;
+    public Student(String name, int year) {
+        super(name);
+        this.year = year;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+    public int getYear() { return this.year;}
+    public void setYear(int year) { this.year = year;}
 
 }

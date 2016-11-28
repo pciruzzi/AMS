@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="fr.insa.ams.Actor" table="actors">
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>
+        <property name="name" column="name" type="string"/>
+        <union-subclass name="fr.insa.ams.Student" table="students">
+            <property name="year" column="year" type="int"/>
+        </union-subclass>
+        <union-subclass name="fr.insa.ams.ClassCoordinator" table="classCoordinators">
+            <property name="year" column="year" type="int"/>
+            <property name="pathway" column="pathway" type="string"/>
+        </union-subclass>
+        <union-subclass name="fr.insa.ams.Partner" table="partners">
+            <property name="address" column="address" type="string"/>
+            <property name="telephone" column="telephone" type="string"/>
+        </union-subclass>
+    </class>
+</hibernate-mapping>

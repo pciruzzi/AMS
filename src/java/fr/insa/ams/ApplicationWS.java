@@ -26,9 +26,9 @@ public class ApplicationWS {
     @Produces("application/json")
     public String getApplications(@QueryParam("student") String studentName) {
         List<Application> applications = new ArrayList<Application>();
-        Student student = new Student(studentName);
-        applications.add(new Application(student, "Airbus"));
-        applications.add(new Application(student, "IBM"));
+        Student student = new Student(studentName, 4);
+//        applications.add(new Application(student, "Airbus"));
+//        applications.add(new Application(student, "IBM"));
         return new Gson().toJson(applications);
     }
 

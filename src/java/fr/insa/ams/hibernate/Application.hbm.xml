@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="fr.insa.ams.Application" table="applications">
+        <id name="id" type="int" column="id">
+            <generator class="increment"/>
+        </id>
+        <many-to-one name="student" class="fr.insa.ams.Student" fetch="select">
+            <column name="studentID"/>
+        </many-to-one>
+        <many-to-one name="partner" class="fr.insa.ams.Partner" fetch="select">
+            <column name="partnerID"/>
+        </many-to-one>
+        <many-to-one name="coordinator" class="fr.insa.ams.ClassCoordinator" fetch="select">
+            <column name="coordinatorID"/>
+        </many-to-one>
+        <property name="offerID" column="offerID" type="int"/>
+    </class>
+</hibernate-mapping>

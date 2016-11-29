@@ -13,7 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("classCoordinator")
+@Path("classCoordinators")
 public class ClassCoordinatorWS {
     @Context
     private UriInfo context;

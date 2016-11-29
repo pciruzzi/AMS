@@ -13,7 +13,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("partner")
+@Path("partners")
 public class PartnerWS {
     @Context
     private UriInfo context;

@@ -14,7 +14,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("application")
+@Path("applications")
 public class ApplicationWS {
     @Context
     private UriInfo context;

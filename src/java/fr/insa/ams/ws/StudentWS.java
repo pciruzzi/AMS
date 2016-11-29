@@ -11,7 +11,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("student")
+@Path("students")
 public class StudentWS {
     @Context
     private UriInfo context;

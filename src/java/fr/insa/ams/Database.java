@@ -1,23 +1,18 @@
 package fr.insa.ams;
 
+import fr.insa.ams.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 
 public class Database {
 
     public SessionFactory factory;
 
     public Database() {
-        try {
-            factory = new Configuration().configure("fr/insa/ams/hibernate/hibernate.cfg.xml").buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Failed to create sessionFactory object." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        factory = HibernateUtil.getSessionFactory();
     }
 
     public int add(Databasable entity) {

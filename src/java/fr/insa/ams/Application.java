@@ -6,6 +6,7 @@ public class Application implements Databasable {
     Student student;
     ClassCoordinator coordinator;
     Partner partner;
+    ApplicationState state;
     int offerID;
 
     public Application() {}
@@ -13,6 +14,7 @@ public class Application implements Databasable {
         this.student = student;
         this.coordinator = coordinator;
         this.partner = partner;
+        this.state = ApplicationState.WAITING_PARTNER;
         this.offerID = offerID;
     }
     // TODO: Attention!
@@ -20,6 +22,7 @@ public class Application implements Databasable {
         this.student = (Student) student;
         this.coordinator = (ClassCoordinator) coordinator;
         this.partner = (Partner) partner;
+        this.state = ApplicationState.WAITING_PARTNER;
         this.offerID = offerID;
     }
 
@@ -27,12 +30,14 @@ public class Application implements Databasable {
     public Student getStudent() { return this.student;}
     public ClassCoordinator getCoordinator() { return this.coordinator;}
     public Partner getPartner() { return this.partner;}
+    public ApplicationState getState() { return this.state;}
     public int getOfferID() { return this.offerID;}
 
     public void setId(int id) { this.id = id;}
     public void setStudent(Student student) { this.student = student;}
-    public void setCoordinator (ClassCoordinator coordinator) { this.coordinator = coordinator;}
-    public void setPartner (Partner partner) { this.partner = partner;}
+    public void setCoordinator(ClassCoordinator coordinator) { this.coordinator = coordinator;}
+    public void setPartner(Partner partner) { this.partner = partner;}
+    public void setState(ApplicationState state) { this.state = state;}
     public void setOfferID(int offerID) { this.offerID = offerID;}
 
 }

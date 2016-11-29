@@ -14,6 +14,12 @@
         <many-to-one name="coordinator" class="fr.insa.ams.ClassCoordinator" fetch="select">
             <column name="coordinatorID"/>
         </many-to-one>
+        <property name="state" column="state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">fr.insa.ams.ApplicationState</param>
+                <param name="type">12</param>
+            </type>
+        </property>
         <property name="offerID" column="offerID" type="int"/>
     </class>
 </hibernate-mapping>

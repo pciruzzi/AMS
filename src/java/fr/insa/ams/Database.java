@@ -59,7 +59,6 @@ public class Database {
         try {
             tx = session.beginTransaction();
             actor = (Actor) session.get(Actor.class, id);
-//            actor = (Actor) session.createQuery("FROM Actor A WHERE A.id=" + id).list().get(0);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

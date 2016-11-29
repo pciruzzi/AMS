@@ -26,7 +26,7 @@ public class ApplicationWS {
     public String getApplications(@QueryParam("id") int id) {
         Database db = new Database();
         List<Application> applications = db.getApplications(id);
-        String result = "{\n";
+        String result = "[\n";
         for (Application app : applications) {
             result = result.concat("\t{\n");
             result = result.concat("\t\t\"id\": " + app.getId() + ",\n");
@@ -38,7 +38,7 @@ public class ApplicationWS {
         }
         int ind = result.lastIndexOf(',');
         if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
-        result = result.concat("}\n");
+        result = result.concat("]\n");
         return result;
 //        return new Gson().toJson(applications);
     }

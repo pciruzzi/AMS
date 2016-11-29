@@ -1,5 +1,6 @@
-package fr.insa.ams;
+package fr.insa.ams.ws;
 
+import fr.insa.ams.*;
 import com.google.gson.Gson;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -23,8 +24,8 @@ public class StudentWS {
     // TODO: What if that id is not a student?
     public String getStudent(@QueryParam("id") int id) {
         Database db = new Database();
-        Actor actor = db.getActor(id);
-        return new Gson().toJson(actor);
+        Actor student = db.getActor(id);
+        return new Gson().toJson(student);
     }
 
     @PUT

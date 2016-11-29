@@ -1,5 +1,6 @@
-package fr.insa.ams;
+package fr.insa.ams.ws;
 
+import fr.insa.ams.*;
 import com.google.gson.Gson;
 
 import java.util.List;

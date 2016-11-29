@@ -16,7 +16,7 @@ public class Application implements Databasable {
         this.offerID = offerID;
     }
     // TODO: Attention!
-    Application(Actor student, Actor coordinator, Actor partner, int offerID) {
+    public Application(Actor student, Actor coordinator, Actor partner, int offerID) {
         this.student = (Student) student;
         this.coordinator = (ClassCoordinator) coordinator;
         this.partner = (Partner) partner;

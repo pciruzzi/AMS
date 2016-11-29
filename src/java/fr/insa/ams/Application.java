@@ -1,6 +1,6 @@
 package fr.insa.ams;
 
-public class Application implements Databaseable {
+public class Application implements Databasable {
 
     int id;
     Student student;
@@ -13,6 +13,13 @@ public class Application implements Databaseable {
         this.student = student;
         this.coordinator = coordinator;
         this.partner = partner;
+        this.offerID = offerID;
+    }
+    // TODO: Attention!
+    Application(Actor student, Actor coordinator, Actor partner, int offerID) {
+        this.student = (Student) student;
+        this.coordinator = (ClassCoordinator) coordinator;
+        this.partner = (Partner) partner;
         this.offerID = offerID;
     }
 

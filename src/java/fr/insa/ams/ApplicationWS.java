@@ -2,7 +2,6 @@ package fr.insa.ams;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Context;
@@ -24,17 +23,23 @@ public class ApplicationWS {
 
     @GET
     @Produces("application/json")
-    public String getApplications(@QueryParam("student") String studentName) {
-        List<Application> applications = new ArrayList<Application>();
-        Student student = new Student(studentName, 4);
-//        applications.add(new Application(student, "Airbus"));
-//        applications.add(new Application(student, "IBM"));
+    public String getApplications(@QueryParam("id") int id) {
+        Database db = new Database();
+        List<Application> applications = db.getApplications(id);
         return new Gson().toJson(applications);
     }
 
+    // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with
+    //            the year and pathway of the student, and the partner with the offerID??
     @PUT
     @Consumes("application/json")
-    public void addApplication(@QueryParam("student") String student, @QueryParam("offer") String offer) {
-        // add to list of applications
+    public void addApplication(@QueryParam("studentID") int studentID, @QueryParam("coordinatorID") int coordinatorID,
+                                             @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
+        Database db = new Database();
+        Actor student = db.getActor(studentID);
+        Actor coordinator = db.getActor(coordinatorID);
+        Actor partner = db.getActor(partnerID);
+        Application application = new Application(student, coordinator, partner, offerID);
+        db.add(application);
     }
 }

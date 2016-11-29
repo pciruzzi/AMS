@@ -20,7 +20,7 @@ public class Database {
         }
     }
 
-    public int add(Databaseable entity) {
+    public int add(Databasable entity) {
         Session session = factory.openSession();
         Transaction tx = null;
         Integer id = null;
@@ -37,7 +37,7 @@ public class Database {
         return id;
     }
 
-    public void delete(Databaseable entity) {
+    public void delete(Databasable entity) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
@@ -49,6 +49,24 @@ public class Database {
             e.printStackTrace();
         } finally {
             session.close();
+        }
+    }
+
+    public Actor getActor(int id) {
+        Session session = factory.openSession();
+        Actor result = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Actor actor = (Actor) session.createQuery("FROM Actor A WHERE A.id=" + id).list().get(0);
+            tx.commit();
+            result = actor;
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return result;
         }
     }
 

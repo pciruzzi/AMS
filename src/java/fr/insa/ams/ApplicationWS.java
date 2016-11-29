@@ -26,7 +26,21 @@ public class ApplicationWS {
     public String getApplications(@QueryParam("id") int id) {
         Database db = new Database();
         List<Application> applications = db.getApplications(id);
-        return new Gson().toJson(applications);
+        String result = "{\n";
+        for (Application app : applications) {
+            result = result.concat("\t{\n");
+            result = result.concat("\t\t\"id\": " + app.getId() + ",\n");
+            result = result.concat("\t\t\"idStudent\": " + app.getStudent().getId() + ",\n");
+            result = result.concat("\t\t\"idPartner\": " + app.getPartner().getId() + ",\n");
+            result = result.concat("\t\t\"idCoodrinator\": " + app.getCoordinator().getId() + ",\n");
+            result = result.concat("\t\t\"idOffer\": " + app.getOfferID() + "\n");
+            result = result.concat("\t},\n");
+        }
+        int ind = result.lastIndexOf(',');
+        if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
+        result = result.concat("}\n");
+        return result;
+//        return new Gson().toJson(applications);
     }
 
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with

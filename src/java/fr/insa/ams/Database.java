@@ -54,37 +54,36 @@ public class Database {
 
     public Actor getActor(int id) {
         Session session = factory.openSession();
-        Actor result = null;
+        Actor actor = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Actor actor = (Actor) session.createQuery("FROM Actor A WHERE A.id=" + id).list().get(0);
+            actor = (Actor) session.get(Actor.class, id);
+//            actor = (Actor) session.createQuery("FROM Actor A WHERE A.id=" + id).list().get(0);
             tx.commit();
-            result = actor;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
-            return result;
+            return actor;
         }
     }
 
     public List<Application> getApplications(int id) {
         Session session = factory.openSession();
-        List result = null;
+        List<Application> applications = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            List<Application> applications = session.createQuery("FROM Application A WHERE A.student.id=" + id + " OR A.partner.id=" + id + " OR A.coordinator.id=" + id).list();
+            applications = session.createQuery("FROM Application A WHERE A.student.id=" + id + " OR A.partner.id=" + id + " OR A.coordinator.id=" + id).list();
             tx.commit();
-            result = applications;
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
-            return result;
+            return applications;
         }
     }
 

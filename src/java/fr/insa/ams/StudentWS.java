@@ -20,6 +20,7 @@ public class StudentWS {
 
     @GET
     @Produces("application/json")
+    // TODO: What if that id is not a student?
     public String getStudent(@QueryParam("id") int id) {
         Database db = new Database();
         Actor actor = db.getActor(id);

@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -34,7 +35,7 @@ public class StudentWS {
     @Path("/{id}")
     @Produces("application/json")
     // TODO: What if that id is not a student?
-    public Response getStudent(@PathParam("id") int id) {
+    public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor student = db.getActor(id);
         return Response.ok(new Gson().toJson(student), MediaType.APPLICATION_JSON).build();

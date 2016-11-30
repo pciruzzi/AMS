@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -27,7 +28,7 @@ public class ApplicationWS {
 
     @GET
     @Produces("application/json")
-    public String getApplications(@QueryParam("id") int id) {
+    public String getApplications(@HeaderParam("id") int userId, @QueryParam("id") int id) {
         Database db = new Database();
         List<Application> applications = db.getApplications(id);
         String result = "[\n";
@@ -50,7 +51,8 @@ public class ApplicationWS {
     @GET
     @Path("/state/{id}")
     @Produces("text/plain")
-    public Response getState(@PathParam("id") int id) {
+    public Response getState(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         ApplicationState state = db.getApplicationState(id);
         return Response.ok(state.getMessage(), MediaType.TEXT_PLAIN).build();
@@ -60,7 +62,7 @@ public class ApplicationWS {
     //            the year and pathway of the student, and the partner with the offerID??
     @PUT
     @Consumes("application/json")
-    public void addApplication(@QueryParam("studentID") int studentID, @QueryParam("coordinatorID") int coordinatorID,
+    public void addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID, @QueryParam("coordinatorID") int coordinatorID,
                                              @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
         Database db = new Database();
         Actor student = db.getActor(studentID);

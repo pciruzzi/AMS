@@ -11,6 +11,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -35,7 +36,7 @@ public class PartnerWS {
     @GET
     @Path("/{id}")
     @Produces("application/json")
-    public Response getPartner(@PathParam("id") int id) {
+    public Response getPartner(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor partner = db.getActor(id);
         return Response.ok(new Gson().toJson(partner), MediaType.APPLICATION_JSON).build();

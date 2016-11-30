@@ -7,7 +7,7 @@ See the [OMS Module](https://github.com/pierromumu/PartnerOffers).
 ## REST API
 In this module, in order to access to it, we have developed several Web Services using REST protocol. For this reason, we had to define our Restful API:
 
-_In all the cases, a userId must be provided as a query parameter_
+_In all the cases, a userId must be provided as a header parameter named `id`_
 
 #### Applications
   - **Obtain all applications:** `GET` to `/applications`

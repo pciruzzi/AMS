@@ -10,10 +10,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("classCoordinators")
+@Path("classCoordinators/{id}")
 public class ClassCoordinatorWS {
     @Context
     private UriInfo context;
@@ -24,7 +25,7 @@ public class ClassCoordinatorWS {
     @GET
     @Produces("application/json")
     // TODO: What if that id is not a class coordinator?
-    public String getCoordinator(@QueryParam("id") int id) {
+    public String getCoordinator(@PathParam("id") int id) {
         Database db = new Database();
         Actor coordinator = db.getActor(id);
         return new Gson().toJson(coordinator);

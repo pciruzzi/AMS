@@ -8,10 +8,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
-@Path("students")
+@Path("students/{id}")
 public class StudentWS {
     @Context
     private UriInfo context;
@@ -22,7 +23,7 @@ public class StudentWS {
     @GET
     @Produces("application/json")
     // TODO: What if that id is not a student?
-    public String getStudent(@QueryParam("id") int id) {
+    public String getStudent(@PathParam("id") int id) {
         Database db = new Database();
         Actor student = db.getActor(id);
         return new Gson().toJson(student);

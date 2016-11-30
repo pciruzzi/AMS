@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.insa.ams.Actor;
 import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.Database;
+import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Consumes;
@@ -13,8 +14,10 @@ import javax.ws.rs.GET;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
-@Path("classCoordinators/{id}")
+@Path("classCoordinators")
 public class ClassCoordinatorWS {
     @Context
     private UriInfo context;
@@ -24,18 +27,27 @@ public class ClassCoordinatorWS {
 
     @GET
     @Produces("application/json")
+    public Response getClassCoordinators() {
+        // TODO: Retrieve all coordinators?
+        return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces("application/json")
     // TODO: What if that id is not a class coordinator?
-    public String getCoordinator(@PathParam("id") int id) {
+    public Response getCoordinator(@PathParam("id") int id) {
         Database db = new Database();
         Actor coordinator = db.getActor(id);
-        return new Gson().toJson(coordinator);
+        return Response.ok(new Gson().toJson(coordinator), MediaType.APPLICATION_JSON).build();
     }
 
     @PUT
     @Consumes("application/json")
-    public void addCoordinator(@QueryParam("name") String name, @QueryParam("year") int year, @QueryParam("pathway") String pathway) {
+    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("year") int year, @QueryParam("pathway") String pathway) {
         Database db = new Database();
         ClassCoordinator coordinator = new ClassCoordinator(name, year, pathway);
-        db.add(coordinator);
+        int coordinatorId = db.add(coordinator);
+        return Response.created(URI.create("classCoordinators/" + coordinatorId)).build();
     }
 }

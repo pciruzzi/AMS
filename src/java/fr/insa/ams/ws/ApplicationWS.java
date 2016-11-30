@@ -11,8 +11,11 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 @Path("applications")
 public class ApplicationWS {
@@ -42,6 +45,15 @@ public class ApplicationWS {
         result = result.concat("]\n");
         return result;
 //        return new Gson().toJson(applications);
+    }
+
+    @GET
+    @Path("/state/{id}")
+    @Produces("text/plain")
+    public Response getState(@PathParam("id") int id) {
+        Database db = new Database();
+        ApplicationState state = db.getApplicationState(id);
+        return Response.ok(state.getMessage(), MediaType.TEXT_PLAIN).build();
     }
 
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with

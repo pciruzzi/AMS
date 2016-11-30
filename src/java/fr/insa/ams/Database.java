@@ -64,6 +64,24 @@ public class Database {
         }
     }
 
+    public ApplicationState getApplicationState(int id) {
+        Session session = factory.openSession();
+        ApplicationState state = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            Application application = (Application) session.get(Application.class, id);
+            state = application.getState();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return state;
+        }
+    }
+
     public List<Application> getApplications(int id) {
         Session session = factory.openSession();
         List<Application> applications = null;

@@ -47,6 +47,6 @@ public class StudentWS {
         Database db = new Database();
         Student student = new Student(name, year);
         int studentId = db.add(student);
-        return Response.created(URI.create("students/" + studentId)).build();
+        return Response.created(URI.create(String.valueOf(studentId))).build();
     }
 }

@@ -6,16 +6,12 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.dialect.Dialect;
 
 public class HibernateUtil {
-    private static final SessionFactory sessionFactory;
+    
+    private static SessionFactory sessionFactory;
     private static final Configuration configuration = new AnnotationConfiguration().configure("fr/insa/ams/hibernate/hibernate.cfg.xml");
 
     static {
-        try {
-            sessionFactory = configuration.buildSessionFactory();
-        } catch (Throwable ex) {
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
-        }
+        createSessionFactory();
     }
 
     public static SessionFactory getSessionFactory() {
@@ -25,5 +21,18 @@ public class HibernateUtil {
     public static String[] getSchemas() {
         Dialect hibDialect = Dialect.getDialect(configuration.getProperties());
         return configuration.generateSchemaCreationScript(hibDialect);
+    }
+
+    public static void createSessionFactory() {
+        try {
+            sessionFactory = configuration.buildSessionFactory();
+        } catch (Throwable ex) {
+            System.err.println("Initial SessionFactory creation failed." + ex);
+            throw new ExceptionInInitializerError(ex);
+        }
+    }
+
+    public static void closeSessionFactory() {
+        sessionFactory.close();
     }
 }

@@ -45,6 +45,7 @@ public class ApplicationWS {
         if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
         result = result.concat("]\n");
         return result;
+        // TODO: Gson not working with nested Hibernate objects...
 //        return new Gson().toJson(applications);
     }
 

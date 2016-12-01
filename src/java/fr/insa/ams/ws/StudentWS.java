@@ -36,6 +36,7 @@ public class StudentWS {
     @Produces("application/json")
     // TODO: What if that id is not a student?
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        // TODO: Is everyone able to see the profile, or just the student?
         Database db = new Database();
         Actor student = db.getActor(id);
         return Response.ok(new Gson().toJson(student), MediaType.APPLICATION_JSON).build();

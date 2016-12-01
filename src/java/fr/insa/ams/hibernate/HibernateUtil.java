@@ -8,14 +8,23 @@ import org.hibernate.dialect.Dialect;
 public class HibernateUtil {
     
     private static SessionFactory sessionFactory;
-    private static final Configuration configuration = new AnnotationConfiguration().configure("fr/insa/ams/hibernate/hibernate.cfg.xml");
-
-    static {
-        createSessionFactory();
-    }
+    private static String configurationPath = "fr/insa/ams/hibernate/hibernate.cfg.xml";
+    private static Configuration configuration;
 
     public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            System.out.println("HIBERNATE UTIL: Configuration path: " + configurationPath);
+            System.out.println("HIBERNATE UTIL: Creating sessionFactory from MySQL configuration");
+            createSessionFactory();
+        }
+        System.out.println("HIBERNATE UTIL: Returning session factory...");
         return sessionFactory;
+    }
+
+    public static void setSessionFactory(String configurationPath) {
+        System.out.println("HIBERNATE UTIL: Setting sessionFactory from outside");
+        HibernateUtil.configurationPath = configurationPath;
+        createSessionFactory();
     }
 
     public static String[] getSchemas() {
@@ -25,6 +34,7 @@ public class HibernateUtil {
 
     public static void createSessionFactory() {
         try {
+            configuration = new AnnotationConfiguration().configure(configurationPath);
             sessionFactory = configuration.buildSessionFactory();
         } catch (Throwable ex) {
             System.err.println("Initial SessionFactory creation failed." + ex);

@@ -3,6 +3,7 @@ package fr.insa.ams;
 public class Web {
 
     public static final String BASE = "http://localhost:8080/AMS/resources";
+    public static final String DATABASE = BASE + "/database";
     public static final String APPLICATIONS = BASE + "/applications";
     public static final String COORDINATORS = BASE + "/classCoordinators";
     public static final String PARTNERS = BASE + "/partners";

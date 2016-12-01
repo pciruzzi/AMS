@@ -3,7 +3,6 @@ package fr.insa.ams.ws;
 import com.google.gson.Gson;
 import fr.insa.ams.Student;
 import fr.insa.ams.Web;
-import fr.insa.ams.hibernate.HibernateUtil;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -11,6 +10,7 @@ import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
@@ -26,13 +26,17 @@ public class StudentWSTest {
     }
 
     @Before
-    public void setUp() {
-        HibernateUtil.createSessionFactory();
+    public void setUp() throws IOException {
+        HttpClient client = HttpClients.createDefault();
+        HttpPut put = new HttpPut(Web.DATABASE);
+        client.execute(put);
     }
 
     @After
-    public void tearDown() {
-        HibernateUtil.closeSessionFactory();
+    public void tearDown() throws IOException {
+        HttpClient client = HttpClients.createDefault();
+        HttpDelete delete = new HttpDelete(Web.DATABASE);
+        client.execute(delete);
     }
 
     private HttpResponse createStudent(String name, String year) throws URISyntaxException, IOException {

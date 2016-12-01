@@ -65,30 +65,34 @@ public class Database {
     }
 
     public ApplicationState getApplicationState(int id) {
+        Application application = this.getApplication(id);
+        return application.getState();
+    }
+
+    public Application getApplication(int id) {
         Session session = factory.openSession();
-        ApplicationState state = null;
+        Application application = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            Application application = (Application) session.get(Application.class, id);
-            state = application.getState();
+            application = (Application) session.get(Application.class, id);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
-            return state;
+            return application;
         }
     }
 
-    public List<Application> getApplications(int id) {
+    public List<Application> getApplications(int actorId) {
         Session session = factory.openSession();
         List<Application> applications = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            applications = session.createQuery("FROM Application A WHERE A.student.id=" + id + " OR A.partner.id=" + id + " OR A.coordinator.id=" + id).list();
+            applications = session.createQuery("FROM Application A WHERE A.student.id=" + actorId + " OR A.partner.id=" + actorId + " OR A.coordinator.id=" + actorId).list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

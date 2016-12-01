@@ -1,7 +1,7 @@
 package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
-import fr.insa.ams.Student;
+import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.WebUtils;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +19,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class StudentWSTest {
+public class ClassCoordinatorWSTest {
 
-    public StudentWSTest() {
+    public ClassCoordinatorWSTest() {
     }
 
     @BeforeClass
@@ -40,18 +40,18 @@ public class StudentWSTest {
         WebUtils.closeDBSession();
     }
 
-     @Test
-     public void shouldCreateStudent() throws URISyntaxException, IOException {
-        HttpResponse response = WebUtils.createStudent("pepe", "4");
+    @Test
+    public void shouldCreateCoordinator() throws URISyntaxException, IOException {
+        HttpResponse response = WebUtils.createClassCoordinator("Pierre", "4", "IR");
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
-     }
+    }
 
-     @Test
-     public void shouldGetStudent() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+    @Test
+    public void shouldGetCoordinator() throws URISyntaxException, IOException {
+        WebUtils.createClassCoordinator("Pierre", "5", "GM");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/1")
+        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/1")
                                           .setParameter("id", "1")
                                           .build();
         HttpGet get = new HttpGet(uri);
@@ -61,9 +61,9 @@ public class StudentWSTest {
         InputStream input = response.getEntity().getContent();
         String json = IOUtils.toString(input, "UTF-8");
         System.out.println(json);
-        Student student = new Gson().fromJson(json, Student.class);
-        assertEquals(1, student.getId());
-        assertEquals("pablo", student.getName());
-     }
+        ClassCoordinator coordinator = new Gson().fromJson(json, ClassCoordinator.class);
+        assertEquals(1, coordinator.getId());
+        assertEquals("GM", coordinator.getPathway());
+    }
 
 }

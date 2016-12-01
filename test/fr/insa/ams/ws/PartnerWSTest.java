@@ -1,7 +1,7 @@
 package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
-import fr.insa.ams.Student;
+import fr.insa.ams.Partner;
 import fr.insa.ams.WebUtils;
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,9 +19,9 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-public class StudentWSTest {
+public class PartnerWSTest {
 
-    public StudentWSTest() {
+    public PartnerWSTest() {
     }
 
     @BeforeClass
@@ -40,18 +40,18 @@ public class StudentWSTest {
         WebUtils.closeDBSession();
     }
 
-     @Test
-     public void shouldCreateStudent() throws URISyntaxException, IOException {
-        HttpResponse response = WebUtils.createStudent("pepe", "4");
+    @Test
+    public void shouldCreatePartner() throws URISyntaxException, IOException {
+        HttpResponse response = WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
      }
 
-     @Test
-     public void shouldGetStudent() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+    @Test
+    public void shouldGetPartner() throws URISyntaxException, IOException {
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/1")
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/1")
                                           .setParameter("id", "1")
                                           .build();
         HttpGet get = new HttpGet(uri);
@@ -61,9 +61,9 @@ public class StudentWSTest {
         InputStream input = response.getEntity().getContent();
         String json = IOUtils.toString(input, "UTF-8");
         System.out.println(json);
-        Student student = new Gson().fromJson(json, Student.class);
-        assertEquals(1, student.getId());
-        assertEquals("pablo", student.getName());
-     }
+        Partner partner = new Gson().fromJson(json, Partner.class);
+        assertEquals(1, partner.getId());
+        assertEquals("Toulouse", partner.getAddress());
+    }
 
 }

@@ -7,7 +7,6 @@ import fr.insa.ams.Database;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
@@ -44,11 +43,10 @@ public class ClassCoordinatorWS {
     }
 
     @PUT
-    @Consumes("application/json")
     public Response addCoordinator(@QueryParam("name") String name, @QueryParam("year") int year, @QueryParam("pathway") String pathway) {
         Database db = new Database();
         ClassCoordinator coordinator = new ClassCoordinator(name, year, pathway);
         int coordinatorId = db.add(coordinator);
-        return Response.created(URI.create("classCoordinators/" + coordinatorId)).build();
+        return Response.created(URI.create(String.valueOf(coordinatorId))).build();
     }
 }

@@ -7,7 +7,6 @@ import fr.insa.ams.Partner;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
@@ -43,11 +42,10 @@ public class PartnerWS {
     }
 
     @PUT
-    @Consumes("application/json")
     public Response addPartner(@QueryParam("name") String name, @QueryParam("address") String address, @QueryParam("telephone") String telephone) {
         Database db = new Database();
         Partner partner = new Partner(name, address, telephone);
         int partnerId = db.add(partner);
-        return Response.created(URI.create("partners/" + partnerId)).build();
+        return Response.created(URI.create(String.valueOf(partnerId))).build();
     }
 }

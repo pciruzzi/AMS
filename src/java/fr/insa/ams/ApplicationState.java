@@ -6,6 +6,7 @@ public enum ApplicationState {
     WAITING_CC("Waiting for the class coordinator's approval"),
     REFUSED_PARTNER("Refused by the partner"),
     REFUSED_CC("Refused by the class coordinator"),
+    CANCELLED_STUDENT("Cancelled by the student"),
     ACCEPTED("Accepted!");
 
     private String message;

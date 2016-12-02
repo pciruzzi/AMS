@@ -8,10 +8,10 @@ import java.util.List;
 
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -66,7 +66,7 @@ public class ApplicationWS {
 
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with
     //            the year and pathway of the student, and the partner with the offerID??
-    @PUT
+    @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID, @QueryParam("coordinatorID") int coordinatorID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();

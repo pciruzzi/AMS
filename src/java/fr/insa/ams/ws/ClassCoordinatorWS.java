@@ -7,10 +7,10 @@ import fr.insa.ams.Database;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -42,7 +42,7 @@ public class ClassCoordinatorWS {
         return Response.ok(new Gson().toJson(coordinator), MediaType.APPLICATION_JSON).build();
     }
 
-    @PUT
+    @POST
     public Response addCoordinator(@QueryParam("name") String name, @QueryParam("year") int year, @QueryParam("pathway") String pathway) {
         Database db = new Database();
         ClassCoordinator coordinator = new ClassCoordinator(name, year, pathway);

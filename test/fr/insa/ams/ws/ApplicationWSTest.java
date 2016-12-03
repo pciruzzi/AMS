@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import fr.insa.ams.WebUtils;
 
+import fr.insa.ams.stateMachine.ApplicationState;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -13,6 +14,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.After;
@@ -109,7 +111,7 @@ public class ApplicationWSTest {
         String json = IOUtils.toString(input, "UTF-8");
         JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
         JsonObject jobject = jelement.getAsJsonArray().get(0).getAsJsonObject();
-        assertEquals(jobject.get("id").toString(), "1");
+        assertEquals(jobject.get("id").getAsInt(), 1);
         System.out.println("Content of id=1:\n" + json);
 
 
@@ -125,9 +127,9 @@ public class ApplicationWSTest {
         json = IOUtils.toString(input, "UTF-8");
         jelement = new Gson().fromJson(json, JsonElement.class);
         jobject = jelement.getAsJsonArray().get(0).getAsJsonObject();
-        assertEquals(jobject.get("id").toString(), "1");
+        assertEquals(jobject.get("id").getAsInt(), 1);
         jobject = jelement.getAsJsonArray().get(1).getAsJsonObject();
-        assertEquals(jobject.get("id").toString(), "2");
+        assertEquals(jobject.get("id").getAsInt(), 2);
         System.out.println("Content of id=2:\n" + json);
     }
 
@@ -162,6 +164,40 @@ public class ApplicationWSTest {
         get.addHeader("id", "4");
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.UNAUTHORIZED, response.getStatusLine().getStatusCode());
+    }
+
+    @Test
+    public void studentShouldBeAbleToMakeTheApplicationProcess() throws URISyntaxException, IOException {
+        WebUtils.createStudent("pablo", "5");
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createApplication(1, 1, 2, 3, 28);
+
+        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state")
+                                             .setParameter("accept", "true")
+                                             .build();
+        HttpClient client = HttpClients.createDefault();
+        HttpPut put = new HttpPut(uri);
+        put.addHeader("id", "2");
+        HttpResponse response = client.execute(put);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+
+        InputStream input = response.getEntity().getContent();
+        String json = IOUtils.toString(input, "UTF-8");
+        System.out.println("Content: " + json);
+        JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
+        assertEquals(ApplicationState.WAITING_CC.toString(), jelement.getAsJsonObject().get("state").getAsString());
+
+        put = new HttpPut(uri);
+        put.addHeader("id", "3");
+        response = client.execute(put);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+
+        input = response.getEntity().getContent();
+        json = IOUtils.toString(input, "UTF-8");
+        System.out.println("Content: " + json);
+        jelement = new Gson().fromJson(json, JsonElement.class);
+        assertEquals(ApplicationState.ACCEPTED.toString(), jelement.getAsJsonObject().get("state").getAsString());
     }
 
 }

@@ -3,7 +3,7 @@ package fr.insa.ams.stateMachine;
 public enum ApplicationState {
 
     WAITING_PARTNER("Waiting for the partner's approval"),
-    WAITING_CC("Waiting for the class coordinator's approval"),
+    WAITING_CC("Approved by the partner. Waiting for the class coordinator's approval"),
     REFUSED_PARTNER("Refused by the partner"),
     REFUSED_CC("Refused by the class coordinator"),
     CANCELLED_STUDENT("Cancelled by the student"),

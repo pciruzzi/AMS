@@ -11,12 +11,14 @@ _In all the cases, a userId must be provided as a header parameter named `id`_
 
 ### Applications
   - **Obtain all applications:** `GET` to `/applications`
-  - **Obtain application state:** `GET` to `/applications/<applicationID>/state`
   - **Create application:** `POST` to `/applications`
     + _studentID_
     + _coordinatorID_
     + _partnerID_
     + _offerID_
+  - **Obtain application state:** `GET` to `/applications/<applicationID>/state`
+  - **Accept/refuse application:** `PUT` to `/applications/<applicationID>/state`
+    + _accept_ - Boolean indicating if it's an acceptance or a rejection
 
 ### Class Coordinators
   - **Obtain class coordinator's profile:** `GET` to `/classCoordinators/<coordinatorID>`

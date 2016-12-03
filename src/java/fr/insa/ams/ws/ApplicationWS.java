@@ -88,7 +88,7 @@ public class ApplicationWS {
 
     private String stateToJson(ApplicationState applicationState) {
         String json = "{\n";
-        json = json.concat("\t\"state\": \"" + applicationState + "\",\n");
+        json = json.concat("\t\"state\": " + applicationState + ",\n");
         json = json.concat("\t\"message\": \"" + applicationState.getMessage() + "\"\n");
         json = json.concat("}");
         return json;

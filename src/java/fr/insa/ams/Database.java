@@ -1,5 +1,6 @@
 package fr.insa.ams;
 
+import fr.insa.ams.stateMachine.ApplicationState;
 import fr.insa.ams.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -100,6 +101,21 @@ public class Database {
         } finally {
             session.close();
             return applications;
+        }
+    }
+
+    public void updateApplication(Application application) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            session.update(application);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
         }
     }
 

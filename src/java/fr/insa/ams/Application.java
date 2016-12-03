@@ -1,13 +1,15 @@
 package fr.insa.ams;
 
+import fr.insa.ams.stateMachine.ApplicationState;
+
 public class Application implements Databasable {
 
-    int id;
-    Student student;
-    ClassCoordinator coordinator;
-    Partner partner;
-    ApplicationState state;
-    int offerID;
+    private int id;
+    private Student student;
+    private ClassCoordinator coordinator;
+    private Partner partner;
+    private ApplicationState state;
+    private int offerID;
 
     public Application() {}
     public Application(Student student, ClassCoordinator coordinator, Partner partner, int offerID) {

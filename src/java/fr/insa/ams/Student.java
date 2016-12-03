@@ -1,5 +1,7 @@
 package fr.insa.ams;
 
+import fr.insa.ams.stateMachine.ApplicationEvent;
+
 public class Student extends Actor {
 
     private int year;
@@ -12,5 +14,10 @@ public class Student extends Actor {
 
     public int getYear() { return this.year;}
     public void setYear(int year) { this.year = year;}
+
+    @Override
+    public ApplicationEvent getApplicationEvent(boolean accept) {
+        return accept ? ApplicationEvent.STUDENT_ACCEPT : ApplicationEvent.STUDENT_REFUSE;
+    }
 
 }

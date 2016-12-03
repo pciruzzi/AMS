@@ -3,6 +3,9 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 
+import fr.insa.ams.stateMachine.ApplicationEvent;
+import fr.insa.ams.stateMachine.ApplicationState;
+import fr.insa.ams.stateMachine.ApplicationStateMachine;
 import java.net.URI;
 import java.util.List;
 
@@ -12,6 +15,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -52,16 +56,42 @@ public class ApplicationWS {
 
     @GET
     @Path("/{id}/state")
-    @Produces("text/plain")
-    public Response getState(@HeaderParam("id") int userId, @PathParam("id") int id) {
+    @Produces("application/json")
+    public Response getState(@HeaderParam("id") int userId, @PathParam("id") int appId) {
         Database db = new Database();
-        Application application = db.getApplication(id);
+        Application application = db.getApplication(appId);
         if (userId != application.getStudent().getId() &&
             userId != application.getPartner().getId() &&
             userId != application.getCoordinator().getId())
                 return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
-        ApplicationState state = db.getApplicationState(id);
-        return Response.ok(state.getMessage(), MediaType.TEXT_PLAIN).build();
+        ApplicationState state = db.getApplicationState(appId);
+        return Response.ok(stateToJson(state), MediaType.APPLICATION_JSON).build();
+    }
+
+    @PUT
+    @Path("/{id}/state")
+    @Produces("application/json")
+    public Response changeState(@HeaderParam("id") int userId, @PathParam("id") int appId, @QueryParam("accept") boolean accept) {
+        Database db = new Database();
+        Application application = db.getApplication(appId);
+        if (userId != application.getStudent().getId() &&
+            userId != application.getPartner().getId() &&
+            userId != application.getCoordinator().getId())
+                return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
+        ApplicationState state = db.getApplicationState(appId);
+        ApplicationEvent event = db.getActor(userId).getApplicationEvent(accept);
+        state = ApplicationStateMachine.makeTransition(state, event);
+        application.setState(state);
+        db.updateApplication(application);
+        return Response.ok(stateToJson(state), MediaType.APPLICATION_JSON).build();
+    }
+
+    private String stateToJson(ApplicationState applicationState) {
+        String json = "{\n";
+        json = json.concat("\t\"state\": \"" + applicationState + "\",\n");
+        json = json.concat("\t\"message\": \"" + applicationState.getMessage() + "\"\n");
+        json = json.concat("}");
+        return json;
     }
 
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with

@@ -16,7 +16,7 @@
         </many-to-one>
         <property name="state" column="state">
             <type name="org.hibernate.type.EnumType">
-                <param name="enumClass">fr.insa.ams.ApplicationState</param>
+                <param name="enumClass">fr.insa.ams.stateMachine.ApplicationState</param>
                 <param name="type">12</param>
             </type>
         </property>

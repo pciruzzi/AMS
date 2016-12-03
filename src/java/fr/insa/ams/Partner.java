@@ -1,5 +1,7 @@
 package fr.insa.ams;
 
+import fr.insa.ams.stateMachine.ApplicationEvent;
+
 public class Partner extends Actor {
 
     private String address;
@@ -16,4 +18,9 @@ public class Partner extends Actor {
     public String getTelephone() { return this.telephone;}
     public void setAddress(String address) { this.address = address;}
     public void setTelephone(String telephone) { this.telephone = telephone;}
+
+    @Override
+    public ApplicationEvent getApplicationEvent(boolean accept) {
+        return accept ? ApplicationEvent.PARTNER_APPROVE : ApplicationEvent.PARTNER_REFUSE;
+    }
 }

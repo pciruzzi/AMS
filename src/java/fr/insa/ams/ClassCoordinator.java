@@ -1,5 +1,7 @@
 package fr.insa.ams;
 
+import fr.insa.ams.stateMachine.ApplicationEvent;
+
 public class ClassCoordinator extends Actor {
     
     private int year;
@@ -17,5 +19,10 @@ public class ClassCoordinator extends Actor {
 
     public void setYear(int year) { this.year = year;}
     public void setPathway(String pathway) { this.pathway = pathway;}
+
+    @Override
+    public ApplicationEvent getApplicationEvent(boolean accept) {
+        return accept ? ApplicationEvent.CC_APPROVE : ApplicationEvent.CC_REFUSE;
+    }
 
 }

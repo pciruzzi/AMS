@@ -1,4 +1,4 @@
-package fr.insa.ams;
+package fr.insa.ams.stateMachine;
 
 public enum ApplicationState {
 

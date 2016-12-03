@@ -1,18 +1,10 @@
-package fr.insa.ams;
+package fr.insa.ams.stateMachine;
 
 import java.util.HashSet;
 import java.util.Set;
 
 public class ApplicationStateMachine {
 
-//    ApplicationState transitionMap[][] = {
-//                                     //    Waiting partner                      Waiting CC
-//        {
-//        /*Partner approve*/    ApplicationState.WAITING_CC,  ApplicationState.WAITING_CC
-//        }, {
-//        /*Partner refuse*/      ApplicationState.REFUSED_PARTNER, ApplicationState.WAITING_CC
-//        }
-//    };
     private static Set<Transition> transitions;
 
     static {
@@ -28,12 +20,7 @@ public class ApplicationStateMachine {
     public ApplicationStateMachine() {
     }
 
-//    public ApplicationState makeTransition(ApplicationState initialState, ApplicationEvent event) {
-//        System.out.println("Accessing to: (" + initialState.ordinal() + "," + event.ordinal() + ")");
-//        return transitionMap[event.ordinal()][initialState.ordinal()];
-//    }
-
-    public ApplicationState makeTransition(ApplicationState initialState, ApplicationEvent event) {
+    public static ApplicationState makeTransition(ApplicationState initialState, ApplicationEvent event) {
         ApplicationState finalState = initialState;
         for (Transition transition : transitions) {
             if (transition.getInitialState() == initialState && transition.getEvent() == event) {

@@ -76,7 +76,8 @@ public class ApplicationWS {
         Application application = db.getApplication(appId);
         if (userId != application.getStudent().getId() &&
             userId != application.getPartner().getId() &&
-            userId != application.getCoordinator().getId())
+            userId != application.getCoordinator().getId() &&
+            userId != db.getFSD().getId())
                 return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         ApplicationState state = db.getApplicationState(appId);
         ApplicationEvent event = db.getActor(userId).getApplicationEvent(accept);

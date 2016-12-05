@@ -23,5 +23,6 @@
             <property name="telephone" column="telephone" type="string"/>
             <property name="location" column="location" type="string"/>
         </union-subclass>
+        <union-subclass name="fr.insa.ams.FSD" table="fsd"/>
     </class>
 </hibernate-mapping>

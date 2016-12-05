@@ -19,6 +19,7 @@ public class WebUtils {
     public static final String COORDINATORS = BASE + "/classCoordinators";
     public static final String PARTNERS = BASE + "/partners";
     public static final String STUDENTS = BASE + "/students";
+    public static final String FSD = BASE + "/fsd";
 
     public static final int SUCCESS = 200;
     public static final int RESOURCE_CREATED = 201;
@@ -74,6 +75,16 @@ public class WebUtils {
                                              .setParameter("pathway", pathway)
                                              .setParameter("address", "INSA Toulouse")
                                              .setParameter("telephone", "33769379998")
+                                             .build();
+        HttpClient client = HttpClients.createDefault();
+        HttpPost post = new HttpPost(uri);
+        return client.execute(post);
+    }
+
+    public static HttpResponse createFSD() throws URISyntaxException, IOException {
+        URI uri = new URIBuilder().setPath(FSD)
+                                             .setParameter("password", "password")
+                                             .setParameter("email", "a@a.com")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);

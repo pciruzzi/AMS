@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 public class Database {
 
     public SessionFactory factory;
+    public static int fsdId;
 
     public Database() {
         factory = HibernateUtil.getSessionFactory();
@@ -31,6 +32,11 @@ public class Database {
             session.close();
         }
         return id;
+    }
+
+    public int add(FSD fsd) {
+        fsdId = add((Databasable) fsd);
+        return fsdId;
     }
 
     public void delete(Databasable entity) {
@@ -63,6 +69,10 @@ public class Database {
             session.close();
             return actor;
         }
+    }
+
+    public Actor getFSD() {
+        return getActor(fsdId);
     }
 
     public ApplicationState getApplicationState(int id) {

@@ -171,7 +171,9 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IR");
+        WebUtils.createFSD();
         WebUtils.createApplication(1, 1, 2, 3, 28);
+
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1")
                                              .setParameter("accept", "true")
@@ -188,8 +190,21 @@ public class ApplicationWSTest {
         JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
         assertEquals(ApplicationState.WAITING_CC.toString(), jelement.getAsJsonObject().get("state").getAsString());
 
+
         put = new HttpPut(uri);
         put.addHeader("id", "3");
+        response = client.execute(put);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+
+        input = response.getEntity().getContent();
+        json = IOUtils.toString(input, "UTF-8");
+        System.out.println("Content: " + json);
+        jelement = new Gson().fromJson(json, JsonElement.class);
+        assertEquals(ApplicationState.WAITING_FSD.toString(), jelement.getAsJsonObject().get("state").getAsString());
+
+
+        put = new HttpPut(uri);
+        put.addHeader("id", "4");
         response = client.execute(put);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 

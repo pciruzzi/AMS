@@ -38,6 +38,8 @@ public class ApplicationStateMachineTest {
         state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.PARTNER_APPROVE);
         assertEquals(ApplicationState.WAITING_CC, state);
         state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.CC_APPROVE);
+        assertEquals(ApplicationState.WAITING_FSD, state);
+        state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.FSD_APPROVE);
         assertEquals(ApplicationState.ACCEPTED, state);
     }
 
@@ -50,6 +52,14 @@ public class ApplicationStateMachineTest {
     @Test
     public void studentShouldBeAbleToCancelWhenWaitingForCoordinator() {
         state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.PARTNER_APPROVE);
+        state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.STUDENT_REFUSE);
+        assertEquals(ApplicationState.CANCELLED_STUDENT, state);
+    }
+
+    @Test
+    public void studentShouldBeAbleToCancelWhenWaitingForFSD() {
+        state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.PARTNER_APPROVE);
+        state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.CC_APPROVE);
         state = ApplicationStateMachine.makeTransition(state, ApplicationEvent.STUDENT_REFUSE);
         assertEquals(ApplicationState.CANCELLED_STUDENT, state);
     }

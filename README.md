@@ -8,6 +8,7 @@ See the [OMS Module](https://github.com/pierromumu/PartnerOffers).
 In this module, in order to access to it, we have developed several Web Services using REST protocol. For this reason, we had to define our Restful API:
 
 _We use the next abbreviations: HP=Header Parameter, QP=Query Parameter_
+
 _In all the cases, a userId must be provided as a HP named `id`_
 
 ### Applications
@@ -31,6 +32,13 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _email (QP)_ Class coordinator's email
     + _year (QP)_ - Class coordinator's year
     + _pathway (QP)_ - Class coordinator's pathway
+
+### FSD
+  - **Obtain FSD's profile:** `GET` to `/fsd/<fsdID>`
+    + _id (QP)_ - ID of the FSD whom profile want to obtain
+  -**Create FSD:** `POST` to `/fsd`
+    + _password (QP)_ FSD's password
+    + _email (QP)_ FSD's email
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`

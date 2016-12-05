@@ -1,3 +1,4 @@
+
 package fr.insa.ams.stateMachine;
 
 import java.util.HashSet;
@@ -12,9 +13,12 @@ public class ApplicationStateMachine {
         transitions.add(new Transition(ApplicationState.WAITING_PARTNER, ApplicationEvent.PARTNER_APPROVE, ApplicationState.WAITING_CC));
         transitions.add(new Transition(ApplicationState.WAITING_PARTNER, ApplicationEvent.PARTNER_REFUSE, ApplicationState.REFUSED_PARTNER));
         transitions.add(new Transition(ApplicationState.WAITING_PARTNER, ApplicationEvent.STUDENT_REFUSE, ApplicationState.CANCELLED_STUDENT));
-        transitions.add(new Transition(ApplicationState.WAITING_CC, ApplicationEvent.CC_APPROVE, ApplicationState.ACCEPTED));
+        transitions.add(new Transition(ApplicationState.WAITING_CC, ApplicationEvent.CC_APPROVE, ApplicationState.WAITING_FSD));
         transitions.add(new Transition(ApplicationState.WAITING_CC, ApplicationEvent.CC_REFUSE, ApplicationState.REFUSED_CC));
         transitions.add(new Transition(ApplicationState.WAITING_CC, ApplicationEvent.STUDENT_REFUSE, ApplicationState.CANCELLED_STUDENT));
+        transitions.add(new Transition(ApplicationState.WAITING_FSD, ApplicationEvent.FSD_APPROVE, ApplicationState.ACCEPTED));
+        transitions.add(new Transition(ApplicationState.WAITING_FSD, ApplicationEvent.FSD_REFUSE, ApplicationState.REFUSED_FSD));
+        transitions.add(new Transition(ApplicationState.WAITING_FSD, ApplicationEvent.STUDENT_REFUSE, ApplicationState.CANCELLED_STUDENT));
     }
 
     public ApplicationStateMachine() {

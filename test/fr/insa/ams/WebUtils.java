@@ -38,10 +38,12 @@ public class WebUtils {
         client.execute(delete);
     }
 
-    public static HttpResponse createClassCoordinator(String name, String year, String pathway) throws URISyntaxException, IOException {
+    public static HttpResponse createClassCoordinator(String name, int year, String pathway) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(COORDINATORS)
                                              .setParameter("name", name)
-                                             .setParameter("year", year)
+                                             .setParameter("password", "password")
+                                             .setParameter("email", "a@a.com")
+                                             .setParameter("year", String.valueOf(year))
                                              .setParameter("pathway", pathway)
                                              .build();
         HttpClient client = HttpClients.createDefault();
@@ -52,18 +54,26 @@ public class WebUtils {
     public static HttpResponse createPartner(String name, String address, String telephone) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(PARTNERS)
                                              .setParameter("name", name)
+                                             .setParameter("password", "password")
+                                             .setParameter("email", "a@a.com")
                                              .setParameter("address", address)
                                              .setParameter("telephone", telephone)
+                                             .setParameter("location", "Toulouse")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
         return client.execute(post);
     }
 
-    public static HttpResponse createStudent(String name, String year) throws URISyntaxException, IOException {
+    public static HttpResponse createStudent(String name, int year, String pathway) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(STUDENTS)
                                              .setParameter("name", name)
-                                             .setParameter("year", year)
+                                             .setParameter("password", "password")
+                                             .setParameter("email", "a@a.com")
+                                             .setParameter("year", String.valueOf(year))
+                                             .setParameter("pathway", pathway)
+                                             .setParameter("address", "INSA Toulouse")
+                                             .setParameter("telephone", "33769379998")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);

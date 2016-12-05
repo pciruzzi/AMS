@@ -42,14 +42,14 @@ public class ClassCoordinatorWSTest {
 
     @Test
     public void shouldCreateCoordinator() throws URISyntaxException, IOException {
-        HttpResponse response = WebUtils.createClassCoordinator("Pierre", "4", "IR");
+        HttpResponse response = WebUtils.createClassCoordinator("Pierre", 4, "IR");
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
     }
 
     @Test
     public void shouldGetCoordinator() throws URISyntaxException, IOException {
-        WebUtils.createClassCoordinator("Pierre", "5", "GM");
+        WebUtils.createClassCoordinator("Pierre", 5, "GM");
         HttpClient client = HttpClients.createDefault();
         URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/1")
                                           .setParameter("id", "1")

@@ -7,38 +7,53 @@ See the [OMS Module](https://github.com/pierromumu/PartnerOffers).
 ## REST API
 In this module, in order to access to it, we have developed several Web Services using REST protocol. For this reason, we had to define our Restful API:
 
-_In all the cases, a userId must be provided as a header parameter named `id`_
+_We use the next abbreviations: HP=Header Parameter, QP=Query Parameter_
+_In all the cases, a userId must be provided as a HP named `id`_
 
 ### Applications
-  - **Obtain all applications:** `GET` to `/applications`
+  - **Obtain all applications for user:** `GET` to `/applications`
+    + _id (QP)_ - ID of the user whom applications want to obtain
   - **Create application:** `POST` to `/applications`
-    + _studentID_
-    + _coordinatorID_
-    + _partnerID_
-    + _offerID_
+    + _studentID (QP)_
+    + _coordinatorID (QP)_
+    + _partnerID (QP)_
+    + _offerID (QP)_
   - **Obtain application state:** `GET` to `/applications/<applicationID>/state`
-  - **Accept/refuse application:** `PUT` to `/applications/<applicationID>/state`
-    + _accept_ - Boolean indicating if it's an acceptance or a rejection
+  - **Accept/refuse application:** `PUT` to `/applications/<applicationID>`
+    + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection
 
 ### Class Coordinators
   - **Obtain class coordinator's profile:** `GET` to `/classCoordinators/<coordinatorID>`
+    + _id (QP)_ - ID of the class coordinator whom profile want to obtain
   - **Create class coordinator:** `POST` to `/classCoordinators`
-    + _name_ - Class coordinator's name
-    + _year_ - Class coordinator's year
-    + _pathway_ - Class coordinator's pathway
+    + _name (QP)_ - Class coordinator's name
+    + _password (QP)_ Class coordinator's password
+    + _email (QP)_ Class coordinator's email
+    + _year (QP)_ - Class coordinator's year
+    + _pathway (QP)_ - Class coordinator's pathway
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`
+    + _id (QP)_ - ID of the partner whom profile want to obtain
   - **Create partner:** `POST` to `/partners`
-    + _name_ - Partner's name
-    + _address_ - Partner's address
-    + _telephone_ - Partner's telephone
+    + _name (QP)_ - Partner's name
+    + _password (QP)_ Partner's password
+    + _email (QP)_ Partner's email
+    + _address (QP)_ - Partner's address
+    + _telephone (QP)_ - Partner's telephone
+    + _location (QP)_ - Partner's location
 
 ### Students
   - **Obtain student's profile:** `GET` to `/students/<studentID>`
+    + _id (QP)_ - ID of the student whom profile want to obtain
   - **Create student:** `POST` to `/students`
-    + _name_ - Student's name
-    + _year_ - Student's year
+    + _name (QP)_ - Student's name
+    + _password (QP)_ Student's password
+    + _email (QP)_ Student's email
+    + _year (QP)_ - Student's year
+    + _pathway (QP)_ - Student's pathway
+    + _address (QP)_ - Student's address
+    + _telephone (QP)_ - Student's telephone
 
 ### Database (ONLY FOR TESTING)
   - **Close database session:** `DELETE` to `/database`

@@ -46,9 +46,9 @@ public class ApplicationWSTest {
 
     @Test
     public void shouldCreateApplication() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createClassCoordinator("Pierre", 5, "IR");
         HttpResponse response = WebUtils.createApplication(1, 1, 2, 3, 28);
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
@@ -56,9 +56,9 @@ public class ApplicationWSTest {
 
     @Test
     public void shouldNotCreateApplicationWhenTheStudentIsNotTheUser() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createClassCoordinator("Pierre", 5, "IR");
         HttpResponse response = WebUtils.createApplication(2, 1, 2, 3, 28);
         assertEquals(WebUtils.UNAUTHORIZED, response.getStatusLine().getStatusCode());
     }
@@ -92,10 +92,10 @@ public class ApplicationWSTest {
 
     @Test
     public void shouldGetCorrectAplications() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
-        WebUtils.createStudent("pepe", "4");
+        WebUtils.createClassCoordinator("Pierre", 5, "IL");
+        WebUtils.createStudent("pepe", 4, "IR");
         WebUtils.createApplication(1, 1, 2, 3, 28);
         WebUtils.createApplication(4, 4, 2, 3, 28);
 
@@ -135,9 +135,9 @@ public class ApplicationWSTest {
 
     @Test
     public void shouldGetApplicationState() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createClassCoordinator("Pierre", 5, "IR");
         WebUtils.createApplication(1, 1, 2, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state").build();
@@ -153,9 +153,9 @@ public class ApplicationWSTest {
 
     @Test
     public void shouldNotBeAbleToGetApplicationStateWhenNotMineApplication() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createClassCoordinator("Pierre", 5, "IR");
         WebUtils.createApplication(1, 1, 2, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state").build();
@@ -168,12 +168,12 @@ public class ApplicationWSTest {
 
     @Test
     public void studentShouldBeAbleToMakeTheApplicationProcess() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
-        WebUtils.createClassCoordinator("Pierre", "5", "IR");
+        WebUtils.createClassCoordinator("Pierre", 5, "IR");
         WebUtils.createApplication(1, 1, 2, 3, 28);
 
-        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state")
+        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1")
                                              .setParameter("accept", "true")
                                              .build();
         HttpClient client = HttpClients.createDefault();

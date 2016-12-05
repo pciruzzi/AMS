@@ -35,7 +35,7 @@ public class ApplicationWS {
     public Response getApplications(@HeaderParam("id") int userId, @QueryParam("id") int id) {
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        List<Application> applications = db.getApplications(id);
+        List<Application> applications = db.getApplications(userId);
         String result = "[\n";
         for (Application app : applications) {
             result = result.concat("\t{\n");
@@ -69,7 +69,7 @@ public class ApplicationWS {
     }
 
     @PUT
-    @Path("/{id}/state")
+    @Path("/{id}")
     @Produces("application/json")
     public Response changeState(@HeaderParam("id") int userId, @PathParam("id") int appId, @QueryParam("accept") boolean accept) {
         Database db = new Database();
@@ -97,8 +97,9 @@ public class ApplicationWS {
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with
     //            the year and pathway of the student, and the partner with the offerID??
     @POST
-    public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID, @QueryParam("coordinatorID") int coordinatorID,
-                                                     @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
+    public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
+                                                     @QueryParam("coordinatorID") int coordinatorID, @QueryParam("partnerID") int partnerID,
+                                                     @QueryParam("offerID") int offerID) {
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor student = db.getActor(studentID);

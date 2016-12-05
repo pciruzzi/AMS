@@ -8,8 +8,8 @@ public class ClassCoordinator extends Actor {
     private String pathway;
 
     public ClassCoordinator() {}
-    public ClassCoordinator(String name, int year, String pathway) {
-        super(name);
+    public ClassCoordinator(String name, String password, String email, int year, String pathway) {
+        super(name, password, email);
         this.year = year;
         this.pathway = pathway;
     }

@@ -35,16 +35,20 @@ public class StudentWS {
     @Produces("application/json")
     // TODO: What if that id is not a student?
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
-        // TODO: Is everyone able to see the profile, or just the student?
+        // TODO: Is everyone able to see the profile, or just himself?
+//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor student = db.getActor(id);
         return Response.ok(new Gson().toJson(student), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
-    public Response addStudent(@QueryParam("name") String name, @QueryParam("year") int year) {
+    public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password,
+                                               @QueryParam("email") String email, @QueryParam("year") int year,
+                                               @QueryParam("pathway") String pathway, @QueryParam("address") String address,
+                                               @QueryParam("telephone") String telephone) {
         Database db = new Database();
-        Student student = new Student(name, year);
+        Student student = new Student(name, password, email, year, pathway, address, telephone);
         int studentId = db.add(student);
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }

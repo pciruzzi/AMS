@@ -42,14 +42,14 @@ public class StudentWSTest {
 
      @Test
      public void shouldCreateStudent() throws URISyntaxException, IOException {
-        HttpResponse response = WebUtils.createStudent("pepe", "4");
+        HttpResponse response = WebUtils.createStudent("pepe", 4, "IR");
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
      }
 
      @Test
      public void shouldGetStudent() throws URISyntaxException, IOException {
-        WebUtils.createStudent("pablo", "5");
+        WebUtils.createStudent("pablo", 5, "IL");
         HttpClient client = HttpClients.createDefault();
         URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/1")
                                           .setParameter("id", "1")

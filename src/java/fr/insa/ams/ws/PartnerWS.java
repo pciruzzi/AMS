@@ -35,16 +35,21 @@ public class PartnerWS {
     @GET
     @Path("/{id}")
     @Produces("application/json")
+    // TODO: What if that id is not a partner?
     public Response getPartner(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        // TODO: Is everyone able to see the profile, or just himself?
+//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor partner = db.getActor(id);
         return Response.ok(new Gson().toJson(partner), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
-    public Response addPartner(@QueryParam("name") String name, @QueryParam("address") String address, @QueryParam("telephone") String telephone) {
+    public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password,
+                                               @QueryParam("email") String email, @QueryParam("address") String address,
+                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
         Database db = new Database();
-        Partner partner = new Partner(name, address, telephone);
+        Partner partner = new Partner(name, password, email, address, telephone, location);
         int partnerId = db.add(partner);
         return Response.created(URI.create(String.valueOf(partnerId))).build();
     }

@@ -37,15 +37,19 @@ public class ClassCoordinatorWS {
     @Produces("application/json")
     // TODO: What if that id is not a class coordinator?
     public Response getCoordinator(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        // TODO: Is everyone able to see the profile, or just himself?
+//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor coordinator = db.getActor(id);
         return Response.ok(new Gson().toJson(coordinator), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
-    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("year") int year, @QueryParam("pathway") String pathway) {
+    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password,
+                                                      @QueryParam("email") String email, @QueryParam("year") int year,
+                                                      @QueryParam("pathway") String pathway) {
         Database db = new Database();
-        ClassCoordinator coordinator = new ClassCoordinator(name, year, pathway);
+        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway);
         int coordinatorId = db.add(coordinator);
         return Response.created(URI.create(String.valueOf(coordinatorId))).build();
     }

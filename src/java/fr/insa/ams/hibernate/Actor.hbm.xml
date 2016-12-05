@@ -6,8 +6,13 @@
             <generator class="increment"/>
         </id>
         <property name="name" column="name" type="string"/>
+        <property name="password" column="password" type="string"/>
+        <property name="email" column="email" type="string"/>
         <union-subclass name="fr.insa.ams.Student" table="students">
             <property name="year" column="year" type="int"/>
+            <property name="pathway" column="pathway" type="string"/>
+            <property name="address" column="address" type="string"/>
+            <property name="telephone" column="telephone" type="string"/>
         </union-subclass>
         <union-subclass name="fr.insa.ams.ClassCoordinator" table="classCoordinators">
             <property name="year" column="year" type="int"/>
@@ -16,6 +21,7 @@
         <union-subclass name="fr.insa.ams.Partner" table="partners">
             <property name="address" column="address" type="string"/>
             <property name="telephone" column="telephone" type="string"/>
+            <property name="location" column="location" type="string"/>
         </union-subclass>
     </class>
 </hibernate-mapping>

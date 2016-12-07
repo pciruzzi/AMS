@@ -34,9 +34,8 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _pathway (QP)_ - Class coordinator's pathway
 
 ### FSD
-  - **Obtain FSD's profile:** `GET` to `/fsd/<fsdID>`
-    + _id (QP)_ - ID of the FSD whom profile want to obtain
-  -**Create FSD:** `POST` to `/fsd`
+  - **Obtain FSD's profile:** `GET` to `/fsd`
+  - **Create FSD:** `POST` to `/fsd`
     + _password (QP)_ FSD's password
     + _email (QP)_ FSD's email
 

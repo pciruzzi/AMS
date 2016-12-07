@@ -11,7 +11,6 @@ import org.hibernate.Transaction;
 public class Database {
 
     public SessionFactory factory;
-    public static int fsdId;
 
     public Database() {
         factory = HibernateUtil.getSessionFactory();
@@ -35,8 +34,8 @@ public class Database {
     }
 
     public int add(FSD fsd) {
-        fsdId = add((Databasable) fsd);
-        return fsdId;
+        if (existsFSD()) return -1; // Indicates that FSD already exists
+        return add((Databasable) fsd);
     }
 
     public void delete(Databasable entity) {
@@ -71,8 +70,25 @@ public class Database {
         }
     }
 
-    public Actor getFSD() {
-        return getActor(fsdId);
+    public FSD getFSD() {
+        Session session = factory.openSession();
+        List<FSD> fsds = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            fsds = session.createQuery("FROM FSD").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return fsds.size() == 1 ? fsds.get(0) : null;
+        }
+    }
+
+    public boolean existsFSD() {
+        return getFSD() != null;
     }
 
     public ApplicationState getApplicationState(int id) {

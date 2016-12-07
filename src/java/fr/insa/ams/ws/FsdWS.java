@@ -9,7 +9,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
@@ -26,12 +25,13 @@ public class FsdWS {
     @GET
     @Produces("application/json")
     // TODO: What if that id is not fsd?
-    public Response getFSD(@HeaderParam("id") int userId, @PathParam("id") int id) {
+    public Response getFSD(@HeaderParam("id") int userId) {
         // TODO: Is everyone able to see the profile, or just himself?
-//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
+//        if (userId != db.getFSD().getId()) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        Actor partner = db.getActor(id);
-        return Response.ok(new Gson().toJson(partner), MediaType.APPLICATION_JSON).build();
+        if (! db.existsFSD()) return Response.status(Response.Status.NOT_FOUND).build();
+        Actor fsd = db.getActor(db.getFSD().getId());
+        return Response.ok(new Gson().toJson(fsd), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
@@ -39,6 +39,7 @@ public class FsdWS {
         Database db = new Database();
         FSD fsd = new FSD(password, email);
         int fsdId = db.add(fsd);
-        return Response.created(URI.create(String.valueOf(fsdId))).build();
+        return (fsdId != -1) ? Response.created(URI.create(String.valueOf(fsdId))).build() :
+                                       Response.status(Response.Status.CONFLICT).build();
     }
 }

@@ -47,6 +47,7 @@ public class WebUtils {
                                              .setParameter("email", "a@a.com")
                                              .setParameter("year", String.valueOf(year))
                                              .setParameter("pathway", pathway)
+                                             .setParameter("group", "coordinators")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
@@ -61,6 +62,7 @@ public class WebUtils {
                                              .setParameter("address", address)
                                              .setParameter("telephone", telephone)
                                              .setParameter("location", "Toulouse")
+                                             .setParameter("group", "partners")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
@@ -76,6 +78,7 @@ public class WebUtils {
                                              .setParameter("pathway", pathway)
                                              .setParameter("address", "INSA Toulouse")
                                              .setParameter("telephone", "33769379998")
+                                             .setParameter("group", "students")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
@@ -86,6 +89,7 @@ public class WebUtils {
         URI uri = new URIBuilder().setPath(FSD)
                                              .setParameter("password", "password")
                                              .setParameter("email", "a@a.com")
+                                             .setParameter("group", "fsd")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);

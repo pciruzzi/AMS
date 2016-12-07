@@ -109,7 +109,6 @@ public class ApplicationWSTest {
 
         InputStream input = response.getEntity().getContent();
         String json = IOUtils.toString(input, "UTF-8");
-        //ACA CAMBIAR POR Gson con el adapter
         JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
         JsonObject jobject = jelement.getAsJsonArray().get(0).getAsJsonObject();
         assertEquals(jobject.get("id").getAsInt(), 1);

@@ -39,9 +39,10 @@ public class FsdWS {
     }
 
     @POST
-    public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email) {
+    public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email,
+                                         @QueryParam("group") String groupName) {
         Database db = new Database();
-        Group group = new Group("fsd");
+        Group group = new Group(groupName);
         db.addGroup(group);
         FSD fsd = new FSD(password, email, group);
         int fsdId = db.add(fsd);

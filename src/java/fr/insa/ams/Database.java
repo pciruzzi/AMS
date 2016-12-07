@@ -39,7 +39,8 @@ public class Database {
         String name = null;
         try {
             tx = session.beginTransaction();
-            name = (String) session.save(group);
+            if (session.get(Group.class, group.getName()) == null) name = (String) session.save(group);
+                else name = group.getName();
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

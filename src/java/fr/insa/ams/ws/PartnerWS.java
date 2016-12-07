@@ -52,9 +52,10 @@ public class PartnerWS {
     @POST
     public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password,
                                                @QueryParam("email") String email, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
+                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location,
+                                               @QueryParam("group") String groupName) {
         Database db = new Database();
-        Group group = new Group("partners");
+        Group group = new Group(groupName);
         db.addGroup(group);
         Partner partner = new Partner(name, password, email, address, telephone, location, group);
         int partnerId = db.add(partner);

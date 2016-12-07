@@ -39,22 +39,6 @@ public class ApplicationWS {
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         List<Application> applications = db.getApplications(userId);
-//        String result = "[\n";
-//        for (Application app : applications) {
-//            result = result.concat("\t{\n");
-//            result = result.concat("\t\t\"id\": " + app.getId() + ",\n");
-//            result = result.concat("\t\t\"idStudent\": " + app.getStudent().getId() + ",\n");
-//            result = result.concat("\t\t\"idPartner\": " + app.getPartner().getId() + ",\n");
-//            result = result.concat("\t\t\"idCoordinator\": " + app.getCoordinator().getId() + ",\n");
-//            result = result.concat("\t\t\"idOffer\": " + app.getOfferID() + "\n");
-//            result = result.concat("\t},\n");
-//        }
-//        int ind = result.lastIndexOf(',');
-//        if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
-//        result = result.concat("]\n");
-//        return Response.ok(result, MediaType.APPLICATION_JSON).build();
-
-        // TODO: Gson not working with nested Hibernate objects...
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
         return Response.ok(gson.toJson(applications), MediaType.APPLICATION_JSON).build();

@@ -52,9 +52,9 @@ public class ClassCoordinatorWS {
     @POST
     public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password,
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
-                                                      @QueryParam("pathway") String pathway) {
+                                                      @QueryParam("pathway") String pathway, @QueryParam("group") String groupName) {
         Database db = new Database();
-        Group group = new Group("coordinators");
+        Group group = new Group(groupName);
         db.addGroup(group);
         ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, group);
         int coordinatorId = db.add(coordinator);

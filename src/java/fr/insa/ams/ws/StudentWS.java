@@ -50,9 +50,9 @@ public class StudentWS {
     public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password,
                                                @QueryParam("email") String email, @QueryParam("year") int year,
                                                @QueryParam("pathway") String pathway, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone) {
+                                               @QueryParam("telephone") String telephone, @QueryParam("group") String groupName) {
         Database db = new Database();
-        Group group = new Group("students");
+        Group group = new Group(groupName);
         db.addGroup(group);
         Student student = new Student(name, password, email, year, pathway, address, telephone, group);
         int studentId = db.add(student);

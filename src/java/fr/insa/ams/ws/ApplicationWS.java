@@ -3,6 +3,9 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 
+import com.google.gson.GsonBuilder;
+import fr.insa.ams.json.ApplicationAdapter;
+import fr.insa.ams.json.ApplicationStateAdapter;
 import fr.insa.ams.stateMachine.ApplicationEvent;
 import fr.insa.ams.stateMachine.ApplicationState;
 import fr.insa.ams.stateMachine.ApplicationStateMachine;
@@ -36,22 +39,25 @@ public class ApplicationWS {
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         List<Application> applications = db.getApplications(userId);
-        String result = "[\n";
-        for (Application app : applications) {
-            result = result.concat("\t{\n");
-            result = result.concat("\t\t\"id\": " + app.getId() + ",\n");
-            result = result.concat("\t\t\"idStudent\": " + app.getStudent().getId() + ",\n");
-            result = result.concat("\t\t\"idPartner\": " + app.getPartner().getId() + ",\n");
-            result = result.concat("\t\t\"idCoordinator\": " + app.getCoordinator().getId() + ",\n");
-            result = result.concat("\t\t\"idOffer\": " + app.getOfferID() + "\n");
-            result = result.concat("\t},\n");
-        }
-        int ind = result.lastIndexOf(',');
-        if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
-        result = result.concat("]\n");
-        return Response.ok(result, MediaType.APPLICATION_JSON).build();
+//        String result = "[\n";
+//        for (Application app : applications) {
+//            result = result.concat("\t{\n");
+//            result = result.concat("\t\t\"id\": " + app.getId() + ",\n");
+//            result = result.concat("\t\t\"idStudent\": " + app.getStudent().getId() + ",\n");
+//            result = result.concat("\t\t\"idPartner\": " + app.getPartner().getId() + ",\n");
+//            result = result.concat("\t\t\"idCoordinator\": " + app.getCoordinator().getId() + ",\n");
+//            result = result.concat("\t\t\"idOffer\": " + app.getOfferID() + "\n");
+//            result = result.concat("\t},\n");
+//        }
+//        int ind = result.lastIndexOf(',');
+//        if (ind >= 0) result = new StringBuilder(result).replace(ind, ind+1, "").toString();
+//        result = result.concat("]\n");
+//        return Response.ok(result, MediaType.APPLICATION_JSON).build();
+
         // TODO: Gson not working with nested Hibernate objects...
-//        return new Gson().toJson(applications);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
+        return Response.ok(gson.toJson(applications), MediaType.APPLICATION_JSON).build();
     }
 
     @GET
@@ -65,7 +71,9 @@ public class ApplicationWS {
             userId != application.getCoordinator().getId())
                 return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         ApplicationState state = db.getApplicationState(appId);
-        return Response.ok(stateToJson(state), MediaType.APPLICATION_JSON).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
+        return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
     }
 
     @PUT
@@ -84,15 +92,9 @@ public class ApplicationWS {
         state = ApplicationStateMachine.makeTransition(state, event);
         application.setState(state);
         db.updateApplication(application);
-        return Response.ok(stateToJson(state), MediaType.APPLICATION_JSON).build();
-    }
-
-    private String stateToJson(ApplicationState applicationState) {
-        String json = "{\n";
-        json = json.concat("\t\"state\": " + applicationState + ",\n");
-        json = json.concat("\t\"message\": \"" + applicationState.getMessage() + "\"\n");
-        json = json.concat("}");
-        return json;
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
+        return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
     }
 
     // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with

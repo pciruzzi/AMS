@@ -1,8 +1,11 @@
 package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.insa.ams.ClassCoordinator;
+import fr.insa.ams.Group;
 import fr.insa.ams.WebUtils;
+import fr.insa.ams.json.GroupAdapter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -61,7 +64,9 @@ public class ClassCoordinatorWSTest {
         InputStream input = response.getEntity().getContent();
         String json = IOUtils.toString(input, "UTF-8");
         System.out.println(json);
-        ClassCoordinator coordinator = new Gson().fromJson(json, ClassCoordinator.class);
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Group.class, new GroupAdapter()).create();
+        ClassCoordinator coordinator = gson.fromJson(json, ClassCoordinator.class);
         assertEquals(1, coordinator.getId());
         assertEquals("GM", coordinator.getPathway());
     }

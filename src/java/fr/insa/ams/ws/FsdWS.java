@@ -2,6 +2,8 @@ package fr.insa.ams.ws;
 
 import fr.insa.ams.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import fr.insa.ams.json.FSDAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -31,13 +33,17 @@ public class FsdWS {
         Database db = new Database();
         if (! db.existsFSD()) return Response.status(Response.Status.NOT_FOUND).build();
         Actor fsd = db.getActor(db.getFSD().getId());
-        return Response.ok(new Gson().toJson(fsd), MediaType.APPLICATION_JSON).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(FSD.class, new FSDAdapter()).create();
+        return Response.ok(gson.toJson(fsd), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
     public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email) {
         Database db = new Database();
-        FSD fsd = new FSD(password, email, new Group("1"));
+        Group group = new Group("fsd");
+        db.addGroup(group);
+        FSD fsd = new FSD(password, email, group);
         int fsdId = db.add(fsd);
         return (fsdId != -1) ? Response.created(URI.create(String.valueOf(fsdId))).build() :
                                        Response.status(Response.Status.CONFLICT).build();

@@ -1,10 +1,12 @@
 package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.insa.ams.Actor;
 import fr.insa.ams.Database;
 import fr.insa.ams.Group;
 import fr.insa.ams.Partner;
+import fr.insa.ams.json.PartnerAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -42,7 +44,9 @@ public class PartnerWS {
 //        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor partner = db.getActor(id);
-        return Response.ok(new Gson().toJson(partner), MediaType.APPLICATION_JSON).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Partner.class, new PartnerAdapter()).create();
+        return Response.ok(gson.toJson(partner), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
@@ -50,7 +54,9 @@ public class PartnerWS {
                                                @QueryParam("email") String email, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
         Database db = new Database();
-        Partner partner = new Partner(name, password, email, address, telephone, location, new Group("1"));
+        Group group = new Group("partners");
+        db.addGroup(group);
+        Partner partner = new Partner(name, password, email, address, telephone, location, group);
         int partnerId = db.add(partner);
         return Response.created(URI.create(String.valueOf(partnerId))).build();
     }

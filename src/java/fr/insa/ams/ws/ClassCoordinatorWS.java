@@ -1,10 +1,12 @@
 package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import fr.insa.ams.Actor;
 import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.Database;
 import fr.insa.ams.Group;
+import fr.insa.ams.json.ClassCoordinatorAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -42,7 +44,9 @@ public class ClassCoordinatorWS {
 //        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor coordinator = db.getActor(id);
-        return Response.ok(new Gson().toJson(coordinator), MediaType.APPLICATION_JSON).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(ClassCoordinator.class, new ClassCoordinatorAdapter()).create();
+        return Response.ok(gson.toJson(coordinator), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
@@ -50,7 +54,9 @@ public class ClassCoordinatorWS {
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
                                                       @QueryParam("pathway") String pathway) {
         Database db = new Database();
-        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, new Group("1"));
+        Group group = new Group("coordinators");
+        db.addGroup(group);
+        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, group);
         int coordinatorId = db.add(coordinator);
         return Response.created(URI.create(String.valueOf(coordinatorId))).build();
     }

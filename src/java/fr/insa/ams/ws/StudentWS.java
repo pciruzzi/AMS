@@ -2,6 +2,8 @@ package fr.insa.ams.ws;
 
 import fr.insa.ams.*;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import fr.insa.ams.json.StudentAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -39,7 +41,9 @@ public class StudentWS {
 //        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor student = db.getActor(id);
-        return Response.ok(new Gson().toJson(student), MediaType.APPLICATION_JSON).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).create();
+        return Response.ok(gson.toJson(student), MediaType.APPLICATION_JSON).build();
     }
 
     @POST
@@ -48,7 +52,9 @@ public class StudentWS {
                                                @QueryParam("pathway") String pathway, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone) {
         Database db = new Database();
-        Student student = new Student(name, password, email, year, pathway, address, telephone, new Group("1"));
+        Group group = new Group("students");
+        db.addGroup(group);
+        Student student = new Student(name, password, email, year, pathway, address, telephone, group);
         int studentId = db.add(student);
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }

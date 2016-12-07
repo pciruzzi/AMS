@@ -53,7 +53,6 @@ public class FsdWSTest {
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         response = WebUtils.createFSD();
         assertEquals(WebUtils.CONFLICT, response.getStatusLine().getStatusCode());
-        System.out.println("CONFLICT RESPONSE: " + response.toString());
     }
 
     @Test

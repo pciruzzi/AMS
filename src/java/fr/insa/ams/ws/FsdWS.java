@@ -37,7 +37,7 @@ public class FsdWS {
     @POST
     public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email) {
         Database db = new Database();
-        FSD fsd = new FSD(password, email);
+        FSD fsd = new FSD(password, email, new Group("1"));
         int fsdId = db.add(fsd);
         return (fsdId != -1) ? Response.created(URI.create(String.valueOf(fsdId))).build() :
                                        Response.status(Response.Status.CONFLICT).build();

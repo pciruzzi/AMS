@@ -10,8 +10,8 @@ public class Student extends Actor {
     private String telephone;
 
     public Student() {}
-    public Student(String name, String password, String email, int year, String pathway, String address, String telephone) {
-        super(name, password, email);
+    public Student(String name, String password, String email, int year, String pathway, String address, String telephone, Group group) {
+        super(name, password, email, group);
         this.year = year;
         this.pathway = pathway;
         this.address = address;

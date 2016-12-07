@@ -5,8 +5,8 @@ import fr.insa.ams.stateMachine.ApplicationEvent;
 public class FSD extends Actor {
 
     public FSD() {}
-    public FSD(String password, String email) {
-        super("FSD", password, email);
+    public FSD(String password, String email, Group group) {
+        super("FSD", password, email, group);
     }
 
     @Override

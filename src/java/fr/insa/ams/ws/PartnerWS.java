@@ -3,6 +3,7 @@ package fr.insa.ams.ws;
 import com.google.gson.Gson;
 import fr.insa.ams.Actor;
 import fr.insa.ams.Database;
+import fr.insa.ams.Group;
 import fr.insa.ams.Partner;
 import java.net.URI;
 import javax.ws.rs.core.Context;
@@ -49,7 +50,7 @@ public class PartnerWS {
                                                @QueryParam("email") String email, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
         Database db = new Database();
-        Partner partner = new Partner(name, password, email, address, telephone, location);
+        Partner partner = new Partner(name, password, email, address, telephone, location, new Group("1"));
         int partnerId = db.add(partner);
         return Response.created(URI.create(String.valueOf(partnerId))).build();
     }

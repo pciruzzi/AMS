@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import fr.insa.ams.Actor;
 import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.Database;
+import fr.insa.ams.Group;
 import java.net.URI;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -49,7 +50,7 @@ public class ClassCoordinatorWS {
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
                                                       @QueryParam("pathway") String pathway) {
         Database db = new Database();
-        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway);
+        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, new Group("1"));
         int coordinatorId = db.add(coordinator);
         return Response.created(URI.create(String.valueOf(coordinatorId))).build();
     }

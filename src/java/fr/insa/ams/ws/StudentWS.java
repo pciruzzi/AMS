@@ -48,7 +48,7 @@ public class StudentWS {
                                                @QueryParam("pathway") String pathway, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone) {
         Database db = new Database();
-        Student student = new Student(name, password, email, year, pathway, address, telephone);
+        Student student = new Student(name, password, email, year, pathway, address, telephone, new Group("1"));
         int studentId = db.add(student);
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }

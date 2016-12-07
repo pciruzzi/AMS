@@ -33,6 +33,23 @@ public class Database {
         return id;
     }
 
+    public String addGroup(Group group) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        String name = null;
+        try {
+            tx = session.beginTransaction();
+            name = (String) session.save(group);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return name;
+    }
+
     public int add(FSD fsd) {
         if (existsFSD()) return -1; // Indicates that FSD already exists
         return add((Databasable) fsd);
@@ -67,6 +84,23 @@ public class Database {
         } finally {
             session.close();
             return actor;
+        }
+    }
+
+    public Group getGroup(String name) {
+        Session session = factory.openSession();
+        Group group = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            group = (Group) session.get(Group.class, name);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return group;
         }
     }
 

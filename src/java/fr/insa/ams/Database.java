@@ -186,6 +186,23 @@ public class Database {
         }
     }
 
+    public List<Application> getApplicationsByOffer(int offerId) {
+        Session session = factory.openSession();
+        List<Application> applications = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            applications = session.createQuery("FROM Application A WHERE A.offerID=" + offerId).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return applications;
+        }
+    }
+
     public void updateApplication(Application application) {
         Session session = factory.openSession();
         Transaction tx = null;

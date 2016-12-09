@@ -45,6 +45,19 @@ public class ApplicationWS {
     }
 
     @GET
+    @Path("/offers")
+    @Produces("application/json")
+    public Response getApplicationsForOffer(@HeaderParam("id") int userId, @QueryParam("id") int offerId) {
+        Database db = new Database();
+        List<Application> applications = db.getApplicationsByOffer(offerId);
+        // TODO: It only can be called by the offer owner??
+//         if (applications.get(0).getPartner().getId() != userId) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
+        return Response.ok(gson.toJson(applications), MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
     @Path("/{id}/state")
     @Produces("application/json")
     public Response getState(@HeaderParam("id") int userId, @PathParam("id") int appId) {
@@ -81,8 +94,7 @@ public class ApplicationWS {
         return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
     }
 
-    // TODO: It should only receive studentID and offerID, the coordinator should be able to look for it in the DB with
-    //            the year and pathway of the student, and the partner with the offerID??
+    // TODO: It should only receive studentID and offerID, the partner should be able to be found with the offerID??
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {

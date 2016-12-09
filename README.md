@@ -14,9 +14,10 @@ _In all the cases, a userId must be provided as a HP named `id`_
 ### Applications
   - **Obtain all applications for user:** `GET` to `/applications`
     + _id (QP)_ - ID of the user whom applications want to obtain
+  - **Obtain all applications for offerID:** `GET` to `/applications/offers`
+    + _id (QP)_ - ID of the offer which applications want to obtain
   - **Create application:** `POST` to `/applications`
     + _studentID (QP)_
-    + _coordinatorID (QP)_
     + _partnerID (QP)_
     + _offerID (QP)_
   - **Obtain application state:** `GET` to `/applications/<applicationID>/state`

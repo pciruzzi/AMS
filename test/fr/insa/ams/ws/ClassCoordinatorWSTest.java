@@ -51,6 +51,14 @@ public class ClassCoordinatorWSTest {
     }
 
     @Test
+    public void shouldNotBeAbleToCreateCoordinatorForSameYearAndPathway() throws URISyntaxException, IOException {
+        HttpResponse response = WebUtils.createClassCoordinator("Pierre", 4, "IR");
+        assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
+        response = WebUtils.createClassCoordinator("Remi", 4, "IR");
+        assertEquals(WebUtils.CONFLICT, response.getStatusLine().getStatusCode());
+    }
+
+    @Test
     public void shouldGetCoordinator() throws URISyntaxException, IOException {
         WebUtils.createClassCoordinator("Pierre", 5, "GM");
         HttpClient client = HttpClients.createDefault();

@@ -54,6 +54,7 @@ public class ClassCoordinatorWS {
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
                                                       @QueryParam("pathway") String pathway, @QueryParam("group") String groupName) {
         Database db = new Database();
+        if (db.existsCoordinator(year, pathway)) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group(groupName);
         db.addGroup(group);
         ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, group);

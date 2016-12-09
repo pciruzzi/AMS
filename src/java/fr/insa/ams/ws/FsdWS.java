@@ -42,11 +42,11 @@ public class FsdWS {
     public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email,
                                          @QueryParam("group") String groupName) {
         Database db = new Database();
+        if (db.existsFSD()) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group(groupName);
         db.addGroup(group);
         FSD fsd = new FSD(password, email, group);
         int fsdId = db.add(fsd);
-        return (fsdId != -1) ? Response.created(URI.create(String.valueOf(fsdId))).build() :
-                                       Response.status(Response.Status.CONFLICT).build();
+        return Response.created(URI.create(String.valueOf(fsdId))).build();
     }
 }

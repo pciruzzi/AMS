@@ -126,6 +126,27 @@ public class Database {
         return getFSD() != null;
     }
 
+    public ClassCoordinator getCoordinator(int year, String pathway) {
+        Session session = factory.openSession();
+        List<ClassCoordinator> coordinators = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            coordinators = session.createQuery("FROM ClassCoordinator WHERE year=" + year + " AND pathway='" + pathway + "'").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return coordinators.size() == 1 ? coordinators.get(0) : null;
+        }
+    }
+
+    public boolean existsCoordinator(int year, String pathway) {
+        return getCoordinator(year, pathway) != null;
+    }
+
     public ApplicationState getApplicationState(int id) {
         Application application = this.getApplication(id);
         return application.getState();

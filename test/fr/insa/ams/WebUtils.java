@@ -96,11 +96,10 @@ public class WebUtils {
         return client.execute(post);
     }
 
-    public static HttpResponse createApplication(int userID, int studentID, int partnerID, int coordinatorID, int offerID) throws URISyntaxException, IOException {
+    public static HttpResponse createApplication(int userID, int studentID, int partnerID, int offerID) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(APPLICATIONS)
                                              .setParameter("studentID", String.valueOf(studentID))
                                              .setParameter("partnerID", String.valueOf(partnerID))
-                                             .setParameter("coordinatorID", String.valueOf(coordinatorID))
                                              .setParameter("offerID", String.valueOf(offerID))
                                              .build();
         HttpClient client = HttpClients.createDefault();

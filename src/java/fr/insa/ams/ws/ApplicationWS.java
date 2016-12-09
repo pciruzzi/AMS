@@ -85,12 +85,12 @@ public class ApplicationWS {
     //            the year and pathway of the student, and the partner with the offerID??
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
-                                                     @QueryParam("coordinatorID") int coordinatorID, @QueryParam("partnerID") int partnerID,
-                                                     @QueryParam("offerID") int offerID) {
+                                                     @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        Actor student = db.getActor(studentID);
-        Actor coordinator = db.getActor(coordinatorID);
+        Student student = (Student) db.getActor(studentID);
+        if (! db.existsCoordinator(student.getYear(), student.getPathway())) return Response.status(Response.Status.CONFLICT).build();
+        Actor coordinator = db.getCoordinator(student.getYear(), student.getPathway());
         Actor partner = db.getActor(partnerID);
         Application application = new Application(student, coordinator, partner, offerID);
         int applicationId = db.add(application);

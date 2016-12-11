@@ -3,6 +3,7 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import fr.insa.ams.json.StudentAdapter;
 import java.io.File;
@@ -11,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URL;
+import java.security.CodeSource;
+import java.security.ProtectionDomain;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
@@ -66,24 +70,36 @@ public class StudentWS {
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }
 
-        @POST
+    @POST
     @Path("/{id}/cvs")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id, @FormDataParam("file") InputStream uploadedInputStream/*,
-                                            @FormDataParam("file") FormDataContentDisposition fileDetail*/) {
-        String fileLocation = "/home/pablo/" + userId + ".pdf";//+ fileDetail.getFileName();
-        System.out.println("Uploading file to " + fileLocation);
-        writeToFile(uploadedInputStream, fileLocation);
+    public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
+                                            @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
+        // TODO: Name validations? Create userId folder?
+        String filename = userId + name + ".pdf";
+        System.out.println("Uploading file " + filename);
+//        System.out.println(getRelativePath());
+        writeToFile(uploadedInputStream, filename);
         System.out.println("File written...");
-        return Response.created(URI.create(fileLocation)).build();
+        return Response.created(URI.create(filename)).build();
+    }
+
+    private String getRelativePath() {
+        Class cls = this.getClass();
+        ProtectionDomain pDomain = cls.getProtectionDomain();
+        CodeSource cSource = pDomain.getCodeSource();
+        URL loc = cSource.getLocation();
+        return loc.toString();
     }
 
     private void writeToFile(InputStream uploadedInputStream, String fileLocation) {
         try {
-            OutputStream out = new FileOutputStream(new File(fileLocation));
+            File file = new File(fileLocation);
+//            System.out.println(file.getAbsolutePath());
+//            System.out.println(System.getProperty("user.dir"));
+            OutputStream out = new FileOutputStream(file);
             int read = 0;
             byte[] bytes = new byte[1024];
-            out = new FileOutputStream(new File(fileLocation));
             while ((read = uploadedInputStream.read(bytes)) != -1) {
                 out.write(bytes, 0, read);
             }

@@ -45,9 +45,9 @@ public class ApplicationWS {
     }
 
     @GET
-    @Path("/offers")
+    @Path("/offers/{id}")
     @Produces("application/json")
-    public Response getApplicationsForOffer(@HeaderParam("id") int userId, @QueryParam("id") int offerId) {
+    public Response getApplicationsForOffer(@HeaderParam("id") int userId, @PathParam("id") int offerId) {
         Database db = new Database();
         List<Application> applications = db.getApplicationsByOffer(offerId);
         // TODO: It only can be called by the offer owner??

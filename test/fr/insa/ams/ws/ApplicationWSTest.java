@@ -234,9 +234,7 @@ public class ApplicationWSTest {
         WebUtils.createApplication(4, 4, 2, 29);
         WebUtils.createApplication(4, 4, 2, 28);
 
-        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/offers")
-                                             .setParameter("id", "28")
-                                             .build();
+        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/offers/28").build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
         get.addHeader("id", "1");

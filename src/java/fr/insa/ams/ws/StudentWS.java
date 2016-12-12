@@ -72,13 +72,14 @@ public class StudentWS {
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }
 
+
     @GET
     @Path("/cvs/{cvId}")
     @Produces("application/pdf")
     public Response getCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
-        File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf"); //TODO: Attention
+        File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf");
         return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
     }
 
@@ -88,7 +89,7 @@ public class StudentWS {
         Database db = new Database();
         CV cv = db.getCV(cvId);
         if (cv != null) {
-            File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf"); //TODO: Attention
+            File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf");
             if (file.delete()) {
                 db.delete(cv);
                 return Response.ok().build();
@@ -115,35 +116,19 @@ public class StudentWS {
     public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
                                             @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
         File file = new File(CVS_FOLDER);
-        if (! file.exists()) {
-            if (! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
-        }
-        // TODO: Create userId folder?
+        if (! file.exists() && ! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         CV cv = new CV(name);
         int cvId = db.addCV(cv, userId);
         String filename = CVS_FOLDER + "/" + cvId + ".pdf";
-        System.out.println("Uploading file to " + filename);
-//        System.out.println(getRelativePath());
         writeToFile(uploadedInputStream, filename);
-        System.out.println("File written...");
         return Response.created(URI.create(String.valueOf(cvId))).build();
-    }
-
-    private String getRelativePath() {
-        Class cls = this.getClass();
-        ProtectionDomain pDomain = cls.getProtectionDomain();
-        CodeSource cSource = pDomain.getCodeSource();
-        URL loc = cSource.getLocation();
-        return loc.toString();
     }
 
     private void writeToFile(InputStream uploadedInputStream, String fileLocation) {
         try {
             File file = new File(fileLocation);
-//            System.out.println(file.getAbsolutePath());
-//            System.out.println(System.getProperty("user.dir"));
             OutputStream out = new FileOutputStream(file);
             int read = 0;
             byte[] bytes = new byte[1024];

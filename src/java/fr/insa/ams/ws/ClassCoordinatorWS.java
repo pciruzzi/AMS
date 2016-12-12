@@ -41,6 +41,7 @@ public class ClassCoordinatorWS {
     public Response getCoordinator(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor coordinator = db.getActor(id);
+        if (coordinator == null) return Response.status(Response.Status.NOT_FOUND).build();
         if (! (coordinator instanceof ClassCoordinator)) return Response.status(Response.Status.BAD_REQUEST).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(ClassCoordinator.class, new ClassCoordinatorAdapter()).create();

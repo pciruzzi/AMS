@@ -40,6 +40,7 @@ public class ActorsWS {
     public Response getActor(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor actor = db.getActor(id);
+        if (actor == null) return Response.status(Response.Status.NOT_FOUND).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(ClassCoordinator.class, new ClassCoordinatorAdapter())
                                             .registerTypeAdapter(FSD.class, new FSDAdapter())

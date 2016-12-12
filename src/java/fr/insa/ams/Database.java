@@ -184,11 +184,6 @@ public class Database {
         }
     }
 
-    public ApplicationState getApplicationState(int id) {
-        Application application = this.getApplication(id);
-        return application.getState();
-    }
-
     public Application getApplication(int id) {
         Session session = factory.openSession();
         Application application = null;

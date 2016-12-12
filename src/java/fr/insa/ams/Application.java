@@ -19,14 +19,6 @@ public class Application implements Databasable {
         this.state = ApplicationState.WAITING_PARTNER;
         this.offerID = offerID;
     }
-    // TODO: Attention!
-    public Application(Actor student, Actor coordinator, Actor partner, int offerID) {
-        this.student = (Student) student;
-        this.coordinator = (ClassCoordinator) coordinator;
-        this.partner = (Partner) partner;
-        this.state = ApplicationState.WAITING_PARTNER;
-        this.offerID = offerID;
-    }
 
     public int getId() { return this.id;}
     public Student getStudent() { return this.student;}

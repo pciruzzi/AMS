@@ -12,9 +12,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.net.URL;
-import java.security.CodeSource;
-import java.security.ProtectionDomain;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
@@ -53,6 +50,7 @@ public class StudentWS {
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor student = db.getActor(id);
+        if (student == null) return Response.status(Response.Status.NOT_FOUND).build();
         if (! (student instanceof Student)) return Response.status(Response.Status.BAD_REQUEST).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).registerTypeAdapter(CV.class, new CVAdapter()).create();
@@ -79,6 +77,7 @@ public class StudentWS {
     public Response getCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
+        if (cv == null) return Response.status(Response.Status.NOT_FOUND).build();
         File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf");
         return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
     }
@@ -105,6 +104,7 @@ public class StudentWS {
                                               @QueryParam("name") String newName) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
+        if (cv == null) return Response.status(Response.Status.NOT_FOUND).build();
         cv.setName(newName);
         db.update(cv);
         return Response.ok().build();
@@ -117,8 +117,14 @@ public class StudentWS {
                                             @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
         File file = new File(CVS_FOLDER);
         if (! file.exists() && ! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
+        // Only the connected user is able to upload a CV
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
+        Actor student = db.getActor(id);
+        // Only a student is able to upload CVs
+        if (student == null) return Response.status(Response.Status.NOT_FOUND).build();
+        if (! (student instanceof Student)) return Response.status(Response.Status.BAD_REQUEST).build();
+
         CV cv = new CV(name);
         int cvId = db.addCV(cv, userId);
         String filename = CVS_FOLDER + "/" + cvId + ".pdf";

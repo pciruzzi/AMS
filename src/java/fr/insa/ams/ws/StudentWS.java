@@ -35,6 +35,8 @@ public class StudentWS {
     @Context
     private UriInfo context;
 
+    private final String CVS_FOLDER = "cvs";
+
     public StudentWS() {
     }
 
@@ -76,7 +78,7 @@ public class StudentWS {
     public Response getCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
-        File file = new File(cv.getId() + ".pdf"); //TODO: Attention
+        File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf"); //TODO: Attention
         return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
     }
 
@@ -86,7 +88,7 @@ public class StudentWS {
         Database db = new Database();
         CV cv = db.getCV(cvId);
         if (cv != null) {
-            File file = new File(cv.getId() + ".pdf"); //TODO: Attention
+            File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf"); //TODO: Attention
             if (file.delete()) {
                 db.delete(cv);
                 return Response.ok().build();
@@ -112,13 +114,17 @@ public class StudentWS {
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
                                             @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
-        // TODO: Name validations? Create userId folder?
+        File file = new File(CVS_FOLDER);
+        if (! file.exists()) {
+            if (! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
+        }
+        // TODO: Create userId folder?
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         CV cv = new CV(name);
         int cvId = db.addCV(cv, userId);
-        String filename = cvId + ".pdf";
-        System.out.println("Uploading file " + filename);
+        String filename = CVS_FOLDER + "/" + cvId + ".pdf";
+        System.out.println("Uploading file to " + filename);
 //        System.out.println(getRelativePath());
         writeToFile(uploadedInputStream, filename);
         System.out.println("File written...");

@@ -1,6 +1,6 @@
 package fr.insa.ams;
 
-public class CV {
+public class CV implements Databasable {
 
     private String name;
     private int id;

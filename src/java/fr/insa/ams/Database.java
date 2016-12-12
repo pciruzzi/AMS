@@ -240,12 +240,12 @@ public class Database {
         }
     }
 
-    public void updateApplication(Application application) {
+    public void update(Databasable entity) {
         Session session = factory.openSession();
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            session.update(application);
+            session.update(entity);
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

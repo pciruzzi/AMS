@@ -3,7 +3,6 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
 import fr.insa.ams.json.CVAdapter;
 import fr.insa.ams.json.StudentAdapter;
@@ -17,12 +16,14 @@ import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
 import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
@@ -77,6 +78,33 @@ public class StudentWS {
         CV cv = db.getCV(cvId);
         File file = new File(cv.getId() + ".pdf"); //TODO: Attention
         return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
+    }
+
+    @DELETE
+    @Path("/cvs/{cvId}")
+    public Response deleteCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
+        Database db = new Database();
+        CV cv = db.getCV(cvId);
+        if (cv != null) {
+            File file = new File(cv.getId() + ".pdf"); //TODO: Attention
+            if (file.delete()) {
+                db.delete(cv);
+                return Response.ok().build();
+            }
+            return Response.status(Response.Status.NOT_MODIFIED).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+    @PUT
+    @Path("/cvs/{cvId}")
+    public Response renameCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId,
+                                              @QueryParam("name") String newName) {
+        Database db = new Database();
+        CV cv = db.getCV(cvId);
+        cv.setName(newName);
+        db.update(cv);
+        return Response.ok().build();
     }
 
     @POST

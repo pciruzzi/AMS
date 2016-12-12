@@ -3,7 +3,6 @@ package fr.insa.ams;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.insa.ams.hibernate.HibernateUtil;
-import fr.insa.ams.json.ActorAdapter;
 import fr.insa.ams.json.CVAdapter;
 import fr.insa.ams.json.ClassCoordinatorAdapter;
 import fr.insa.ams.json.FSDAdapter;

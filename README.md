@@ -25,7 +25,6 @@ _In all the cases, a userId must be provided as a HP named `id`_
 
 ### Class Coordinators
   - **Obtain class coordinator's profile:** `GET` to `/classCoordinators/<coordinatorID>`
-    + _id (QP)_ - ID of the class coordinator whom profile want to obtain
   - **Create class coordinator:** `POST` to `/classCoordinators`
     + _name (QP)_ - Class coordinator's name
     + _password (QP)_ Class coordinator's password
@@ -43,7 +42,6 @@ _In all the cases, a userId must be provided as a HP named `id`_
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`
-    + _id (QP)_ - ID of the partner whom profile want to obtain
   - **Create partner:** `POST` to `/partners`
     + _name (QP)_ - Partner's name
     + _password (QP)_ Partner's password
@@ -55,7 +53,6 @@ _In all the cases, a userId must be provided as a HP named `id`_
 
 ### Students
   - **Obtain student's profile:** `GET` to `/students/<studentID>`
-    + _id (QP)_ - ID of the student whom profile want to obtain
   - **Create student:** `POST` to `/students`
     + _name (QP)_ - Student's name
     + _password (QP)_ Student's password
@@ -65,6 +62,13 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _address (QP)_ - Student's address
     + _telephone (QP)_ - Student's telephone
     + _group (QP)_ - Student's group name
+#### CVs
+  - **Download CV:** `GET` to `/students/cvs/<cvID>`
+  - **Upload CV:** `POST` to `/students/<studentID>/cvs`
+	+ _name (QP)_ - CV's name
+  - **Rename CV:** `PUT` to `/students/cvs/<cvID>`
+    + _name (QP)_ - CV's new name
+  - **Delete CV:** `DELETE` to `/students/cvs/<cvID>`
 
 ### Database (ONLY FOR TESTING)
   - **Close database session:** `DELETE` to `/database`

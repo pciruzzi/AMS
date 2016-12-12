@@ -88,7 +88,7 @@ public class ApplicationWS {
         ApplicationEvent event = db.getActor(userId).getApplicationEvent(accept);
         state = ApplicationStateMachine.makeTransition(state, event);
         application.setState(state);
-        db.updateApplication(application);
+        db.update(application);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
         return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();

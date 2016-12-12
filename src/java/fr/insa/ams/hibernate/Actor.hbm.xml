@@ -16,7 +16,7 @@
             <property name="pathway" column="pathway" type="string"/>
             <property name="address" column="address" type="string"/>
             <property name="telephone" column="telephone" type="string"/>
-            <set name="cvs" table="cvs" fetch="select">
+            <set name="cvs" table="cvs" lazy="false" fetch="select">
                 <key>
                     <column name="actor_id"/>
                 </key>

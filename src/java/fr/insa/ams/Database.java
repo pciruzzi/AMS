@@ -167,6 +167,23 @@ public class Database {
         return getCoordinator(year, pathway) != null;
     }
 
+    public CV getCV(int id) {
+        Session session = factory.openSession();
+        CV cv = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            cv = (CV) session.get(CV.class, id);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return cv;
+        }
+    }
+
     public ApplicationState getApplicationState(int id) {
         Application application = this.getApplication(id);
         return application.getState();

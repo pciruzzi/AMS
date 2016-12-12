@@ -40,8 +40,6 @@ public class ClassCoordinatorWS {
     @Produces("application/json")
     // TODO: What if that id is not a class coordinator?
     public Response getCoordinator(@HeaderParam("id") int userId, @PathParam("id") int id) {
-        // TODO: Is everyone able to see the profile, or just himself?
-//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor coordinator = db.getActor(id);
         GsonBuilder gsonBuilder = new GsonBuilder();

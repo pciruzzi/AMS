@@ -16,6 +16,8 @@ public class StudentAdapter extends ActorAdapter implements JsonSerializer<Stude
         jsonObject.addProperty("pathway", student.getPathway());
         jsonObject.addProperty("address", student.getAddress());
         jsonObject.addProperty("telephone", student.getTelephone());
+        JsonElement jsonCvs = jsc.serialize(student.getCvs());
+        jsonObject.add("cvs", jsonCvs);
         return jsonObject;
     }
 

@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.jersey.core.header.FormDataContentDisposition;
 import com.sun.jersey.multipart.FormDataParam;
+import fr.insa.ams.json.CVAdapter;
 import fr.insa.ams.json.StudentAdapter;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -48,12 +49,10 @@ public class StudentWS {
     @Produces("application/json")
     // TODO: What if that id is not a student?
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
-        // TODO: Is everyone able to see the profile, or just himself?
-//        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
         Actor student = db.getActor(id);
         GsonBuilder gsonBuilder = new GsonBuilder();
-        Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).create();
+        Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).registerTypeAdapter(CV.class, new CVAdapter()).create();
         return Response.ok(gson.toJson(student), MediaType.APPLICATION_JSON).build();
     }
 
@@ -70,21 +69,32 @@ public class StudentWS {
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }
 
+    @GET
+    @Path("/cvs/{cvId}")
+    @Produces("application/pdf")
+    public Response getCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
+        Database db = new Database();
+        CV cv = db.getCV(cvId);
+        File file = new File(cv.getId() + ".pdf"); //TODO: Attention
+        return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
+    }
+
     @POST
     @Path("/{id}/cvs")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
                                             @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
         // TODO: Name validations? Create userId folder?
+        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        String filename = userId + name + ".pdf";
+        CV cv = new CV(name);
+        int cvId = db.addCV(cv, userId);
+        String filename = cvId + ".pdf";
         System.out.println("Uploading file " + filename);
 //        System.out.println(getRelativePath());
         writeToFile(uploadedInputStream, filename);
         System.out.println("File written...");
-        CV cv = new CV(name);
-        db.addCV(cv, userId);
-        return Response.created(URI.create(filename)).build();
+        return Response.created(URI.create(String.valueOf(cvId))).build();
     }
 
     private String getRelativePath() {

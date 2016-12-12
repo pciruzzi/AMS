@@ -79,4 +79,16 @@ public class ClassCoordinatorWSTest {
         assertEquals("GM", coordinator.getPathway());
     }
 
+    @Test
+     public void shouldNotGetCoordinatorIfIdIsNotOfIt() throws URISyntaxException, IOException {
+        WebUtils.createStudent("pierre", 5, "IL");
+        HttpClient client = HttpClients.createDefault();
+        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/1")
+                                          .setParameter("id", "1")
+                                          .build();
+        HttpGet get = new HttpGet(uri);
+        HttpResponse response = client.execute(get);
+        assertEquals(WebUtils.BAD_REQUEST, response.getStatusLine().getStatusCode());
+     }
+
 }

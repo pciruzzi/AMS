@@ -38,10 +38,10 @@ public class ClassCoordinatorWS {
     @GET
     @Path("/{id}")
     @Produces("application/json")
-    // TODO: What if that id is not a class coordinator?
     public Response getCoordinator(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor coordinator = db.getActor(id);
+        if (! (coordinator instanceof ClassCoordinator)) return Response.status(Response.Status.BAD_REQUEST).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(ClassCoordinator.class, new ClassCoordinatorAdapter()).create();
         return Response.ok(gson.toJson(coordinator), MediaType.APPLICATION_JSON).build();

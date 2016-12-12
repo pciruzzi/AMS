@@ -38,10 +38,10 @@ public class PartnerWS {
     @GET
     @Path("/{id}")
     @Produces("application/json")
-    // TODO: What if that id is not a partner?
     public Response getPartner(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor partner = db.getActor(id);
+        if (! (partner instanceof Partner)) return Response.status(Response.Status.BAD_REQUEST).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Partner.class, new PartnerAdapter()).create();
         return Response.ok(gson.toJson(partner), MediaType.APPLICATION_JSON).build();

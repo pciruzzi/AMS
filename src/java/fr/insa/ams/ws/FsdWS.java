@@ -26,7 +26,6 @@ public class FsdWS {
 
     @GET
     @Produces("application/json")
-    // TODO: What if that id is not fsd?
     public Response getFSD(@HeaderParam("id") int userId) {
         Database db = new Database();
         if (! db.existsFSD()) return Response.status(Response.Status.NOT_FOUND).build();

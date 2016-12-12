@@ -71,4 +71,16 @@ public class PartnerWSTest {
         assertEquals("Toulouse", partner.getAddress());
     }
 
+    @Test
+     public void shouldNotGetPartnerIfIdIsNotOfIt() throws URISyntaxException, IOException {
+        WebUtils.createClassCoordinator("pierre", 5, "IL");
+        HttpClient client = HttpClients.createDefault();
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/1")
+                                          .setParameter("id", "1")
+                                          .build();
+        HttpGet get = new HttpGet(uri);
+        HttpResponse response = client.execute(get);
+        assertEquals(WebUtils.BAD_REQUEST, response.getStatusLine().getStatusCode());
+     }
+
 }

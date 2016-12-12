@@ -50,10 +50,10 @@ public class StudentWS {
     @GET
     @Path("/{id}")
     @Produces("application/json")
-    // TODO: What if that id is not a student?
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {
         Database db = new Database();
         Actor student = db.getActor(id);
+        if (! (student instanceof Student)) return Response.status(Response.Status.BAD_REQUEST).build();
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).registerTypeAdapter(CV.class, new CVAdapter()).create();
         return Response.ok(gson.toJson(student), MediaType.APPLICATION_JSON).build();

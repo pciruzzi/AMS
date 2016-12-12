@@ -23,6 +23,9 @@ _In all the cases, a userId must be provided as a HP named `id`_
   - **Accept/refuse application:** `PUT` to `/applications/<applicationID>`
     + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection
 
+### Actors
+  - **Obtain actor's profile:** `GET` to `/actors/<actorID>`
+
 ### Class Coordinators
   - **Obtain class coordinator's profile:** `GET` to `/classCoordinators/<coordinatorID>`
   - **Create class coordinator:** `POST` to `/classCoordinators`

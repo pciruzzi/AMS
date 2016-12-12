@@ -20,15 +20,23 @@ public class Main {
             System.out.println(schema);
         }
 
+
         Group group = new Group("group1");
         String groupName = db.addGroup(group);
         System.out.println("Group " + group.getName() + " created with id " + groupName);
 
         Group group1 = db.getGroup("group1");
-        System.out.println("Group " + group.getName() + " got from DB");
+        System.out.println("Group " + group1.getName() + " got from DB");
         Group group2 = new Group("group1");
         groupName = db.addGroup(group2);
         System.out.println("Group2 " + group2.getName() + " created with id " + groupName);
+
+
+        Student st = new Student("jp", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        Integer idSt = db.add(st);
+        CV cv = new CV("cv de Pepe");
+        db.addCV(cv, idSt);
+
 
         Student student = new Student("pepe", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
         Integer id = db.add(student);

@@ -33,6 +33,11 @@ public class Database {
         return id;
     }
 
+    public int add(FSD fsd) {
+        if (existsFSD()) return -1; // Indicates that FSD already exists
+        return add((Databasable) fsd);
+    }
+
     public String addGroup(Group group) {
         Session session = factory.openSession();
         Transaction tx = null;
@@ -51,9 +56,24 @@ public class Database {
         return name;
     }
 
-    public int add(FSD fsd) {
-        if (existsFSD()) return -1; // Indicates that FSD already exists
-        return add((Databasable) fsd);
+    public int addCV(CV cv, int studentId) {
+        Session session = factory.openSession();
+        Transaction tx = null;
+        Integer id = null;
+        try {
+            tx = session.beginTransaction();
+            id = (Integer) session.save(cv);
+            Student student = (Student) session.get(Student.class, studentId);
+            student.addCV(cv);
+            session.update(student);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return id;
     }
 
     public void delete(Databasable entity) {

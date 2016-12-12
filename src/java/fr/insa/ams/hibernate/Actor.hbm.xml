@@ -16,6 +16,12 @@
             <property name="pathway" column="pathway" type="string"/>
             <property name="address" column="address" type="string"/>
             <property name="telephone" column="telephone" type="string"/>
+            <set name="cvs" table="cvs" fetch="select">
+                <key>
+                    <column name="id"/>
+                </key>
+                <one-to-many class="fr.insa.ams.CV"/>
+             </set>
         </union-subclass>
         <union-subclass name="fr.insa.ams.ClassCoordinator" table="classCoordinators">
             <property name="year" column="year" type="int"/>

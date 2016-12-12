@@ -76,11 +76,14 @@ public class StudentWS {
     public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
                                             @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
         // TODO: Name validations? Create userId folder?
+        Database db = new Database();
         String filename = userId + name + ".pdf";
         System.out.println("Uploading file " + filename);
 //        System.out.println(getRelativePath());
         writeToFile(uploadedInputStream, filename);
         System.out.println("File written...");
+        CV cv = new CV(name);
+        db.addCV(cv, userId);
         return Response.created(URI.create(filename)).build();
     }
 

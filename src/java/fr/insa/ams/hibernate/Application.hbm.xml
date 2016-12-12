@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="fr.insa.ams.Application" table="applications">
-        <id name="id" type="int" column="id">
+        <id name="id" type="int" column="application_id">
             <generator class="increment"/>
         </id>
         <many-to-one name="student" class="fr.insa.ams.Student" fetch="select">

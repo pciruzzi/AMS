@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="fr.insa.ams.Group" table="groups">
-        <id name="name" type="string" column="name">
+        <id name="name" type="string" column="group_name">
             <generator class="assigned"/>
         </id>
     </class>

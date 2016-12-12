@@ -32,14 +32,14 @@ public class Main {
         System.out.println("Group2 " + group2.getName() + " created with id " + groupName);
 
 
-        Student st = new Student("jp", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
-        Integer idSt = db.add(st);
-        CV cv = new CV("cv de Pepe");
-        db.addCV(cv, idSt);
-
-
-        Student student = new Student("pepe", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        Student student = new Student("jp", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
         Integer id = db.add(student);
+        CV cv = new CV("cv de jp");
+        db.addCV(cv, id);
+
+
+        student = new Student("pepe", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        id = db.add(student);
         System.out.println("Student created with id " + id);
         Partner partner = new Partner("juan", "password", "a@a.com", "INSA", "1144370513", "Toulouse", group);
         id = db.add(partner);
@@ -56,6 +56,8 @@ public class Main {
         student = new Student("pablo", "password", "a@a.com", 5, "IL", "asd", "33769379998", group);
         id = db.add(student);
         System.out.println("Student created with id " + id);
+        cv = new CV("cv de pablo");
+        db.addCV(cv, id);
         application = new Application(student, coordinator, partner, 46);
         id = db.add(application);
         System.out.println("Application created with id " + id);

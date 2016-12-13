@@ -54,8 +54,8 @@ public class StudentWSTest {
      public void shouldGetStudent() throws URISyntaxException, IOException {
         WebUtils.createStudent("pablo", 5, "IL");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);
@@ -67,7 +67,7 @@ public class StudentWSTest {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Group.class, new GroupAdapter()).create();
         Student student = gson.fromJson(json, Student.class);
-        assertEquals(1, student.getId());
+        assertEquals(2, student.getId());
         assertEquals("pablo", student.getName());
      }
 
@@ -75,8 +75,8 @@ public class StudentWSTest {
      public void shouldNotGetStudentIfIdIsNotOfIt() throws URISyntaxException, IOException {
         WebUtils.createClassCoordinator("pierre", 5, "IL");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.STUDENTS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);

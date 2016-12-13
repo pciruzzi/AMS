@@ -46,20 +46,11 @@ public class ActorsWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
 
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.ACTORS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.ACTORS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);
-        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
-        System.out.println(IOUtils.toString(response.getEntity().getContent(), "UTF-8"));
-
-        client = HttpClients.createDefault();
-        uri = new URIBuilder().setPath(WebUtils.ACTORS + "/2")
-                                        .setParameter("id", "2")
-                                        .build();
-        get = new HttpGet(uri);
-        response = client.execute(get);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
         System.out.println(IOUtils.toString(response.getEntity().getContent(), "UTF-8"));
 
@@ -75,6 +66,15 @@ public class ActorsWSTest {
         client = HttpClients.createDefault();
         uri = new URIBuilder().setPath(WebUtils.ACTORS + "/4")
                                         .setParameter("id", "4")
+                                        .build();
+        get = new HttpGet(uri);
+        response = client.execute(get);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+        System.out.println(IOUtils.toString(response.getEntity().getContent(), "UTF-8"));
+
+        client = HttpClients.createDefault();
+        uri = new URIBuilder().setPath(WebUtils.ACTORS + "/5")
+                                        .setParameter("id", "5")
                                         .build();
         get = new HttpGet(uri);
         response = client.execute(get);

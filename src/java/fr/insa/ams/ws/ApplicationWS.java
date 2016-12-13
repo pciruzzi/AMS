@@ -12,6 +12,7 @@ import fr.insa.ams.stateMachine.ApplicationStateMachine;
 import java.net.URI;
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -67,7 +68,8 @@ public class ApplicationWS {
         if (application == null) return Response.status(Response.Status.NOT_FOUND).build();
         if (userId != application.getStudent().getId() &&
             userId != application.getPartner().getId() &&
-            userId != application.getCoordinator().getId()) //TODO: Administrator?
+            userId != application.getCoordinator().getId() &&
+            userId != db.getFSD().getId()) //TODO: Administrator?
                 return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         ApplicationState state = application.getState();
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -95,6 +97,18 @@ public class ApplicationWS {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
         return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
+    }
+
+    @DELETE
+    @Path("/{id}")
+    public Response deleteApplication(@HeaderParam("id") int userId, @PathParam("id") int appId) {
+        Database db = new Database();
+        // Only the administrator can delete an application
+        if (db.getAdministrator().getId() != userId) return Response.status(Response.Status.UNAUTHORIZED).build();
+        Application application = db.getApplication(appId);
+        if (application == null) return Response.status(Response.Status.NOT_FOUND).build();
+        db.delete(application);
+        return Response.ok().build();
     }
 
     // TODO: It should only receive studentID and offerID, the partner should be able to be found with the offerID??

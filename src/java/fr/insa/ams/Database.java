@@ -1,6 +1,5 @@
 package fr.insa.ams;
 
-import fr.insa.ams.stateMachine.ApplicationState;
 import fr.insa.ams.hibernate.HibernateUtil;
 import java.util.List;
 import org.hibernate.HibernateException;
@@ -14,6 +13,13 @@ public class Database {
 
     public Database() {
         factory = HibernateUtil.getSessionFactory();
+        // Like this the administrator should be always the first actor
+        if (! existsAdministrator()) {
+            Group group = new Group("administrator");
+            this.addGroup(group);
+            Administrator admin = new Administrator("admin", "password", "a@a.com", group);
+            this.add(admin);
+        }
     }
 
     public int add(Databasable entity) {
@@ -125,21 +131,33 @@ public class Database {
         }
     }
 
-    public FSD getFSD() {
+    private Actor getUnique(String className) {
         Session session = factory.openSession();
-        List<FSD> fsds = null;
+        List<Actor> actors = null;
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            fsds = session.createQuery("FROM FSD").list();
+            actors = session.createQuery("FROM " + className).list();
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
             e.printStackTrace();
         } finally {
             session.close();
-            return fsds.size() == 1 ? fsds.get(0) : null;
+            return actors.size() == 1 ? actors.get(0) : null;
         }
+    }
+
+    public Administrator getAdministrator() {
+        return (Administrator) getUnique("Administrator");
+    }
+
+    public boolean existsAdministrator() {
+        return getAdministrator() != null;
+    }
+
+    public FSD getFSD() {
+        return (FSD) getUnique("FSD");
     }
 
     public boolean existsFSD() {

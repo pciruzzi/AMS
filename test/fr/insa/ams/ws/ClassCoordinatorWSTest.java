@@ -62,8 +62,8 @@ public class ClassCoordinatorWSTest {
     public void shouldGetCoordinator() throws URISyntaxException, IOException {
         WebUtils.createClassCoordinator("Pierre", 5, "GM");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);
@@ -75,7 +75,7 @@ public class ClassCoordinatorWSTest {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Group.class, new GroupAdapter()).create();
         ClassCoordinator coordinator = gson.fromJson(json, ClassCoordinator.class);
-        assertEquals(1, coordinator.getId());
+        assertEquals(2, coordinator.getId());
         assertEquals("GM", coordinator.getPathway());
     }
 
@@ -83,8 +83,8 @@ public class ClassCoordinatorWSTest {
      public void shouldNotGetCoordinatorIfIdIsNotOfIt() throws URISyntaxException, IOException {
         WebUtils.createStudent("pierre", 5, "IL");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.COORDINATORS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);

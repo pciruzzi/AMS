@@ -33,5 +33,6 @@
             <property name="location" column="location" type="string"/>
         </union-subclass>
         <union-subclass name="fr.insa.ams.FSD" table="fsd"/>
+        <union-subclass name="fr.insa.ams.Administrator" table="administrator"/>
     </class>
 </hibernate-mapping>

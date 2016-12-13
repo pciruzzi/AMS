@@ -54,8 +54,8 @@ public class PartnerWSTest {
     public void shouldGetPartner() throws URISyntaxException, IOException {
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);
@@ -67,7 +67,7 @@ public class PartnerWSTest {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Group.class, new GroupAdapter()).create();
         Partner partner = gson.fromJson(json, Partner.class);
-        assertEquals(1, partner.getId());
+        assertEquals(2, partner.getId());
         assertEquals("Toulouse", partner.getAddress());
     }
 
@@ -75,8 +75,8 @@ public class PartnerWSTest {
      public void shouldNotGetPartnerIfIdIsNotOfIt() throws URISyntaxException, IOException {
         WebUtils.createClassCoordinator("pierre", 5, "IL");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/1")
-                                          .setParameter("id", "1")
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/2")
+                                          .setParameter("id", "2")
                                           .build();
         HttpGet get = new HttpGet(uri);
         HttpResponse response = client.execute(get);

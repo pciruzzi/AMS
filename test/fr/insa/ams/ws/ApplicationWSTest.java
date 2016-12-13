@@ -13,6 +13,7 @@ import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
@@ -49,7 +50,7 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
-        HttpResponse response = WebUtils.createApplication(1, 1, 2, 28);
+        HttpResponse response = WebUtils.createApplication(2, 2, 3, 28);
         assertEquals(WebUtils.RESOURCE_CREATED, response.getStatusLine().getStatusCode());
         System.out.println("Createad at: " + response.getLastHeader("Location").getValue());
     }
@@ -59,18 +60,18 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IR");
-        HttpResponse response = WebUtils.createApplication(2, 1, 2, 28);
+        HttpResponse response = WebUtils.createApplication(3, 2, 3, 28);
         assertEquals(WebUtils.UNAUTHORIZED, response.getStatusLine().getStatusCode());
     }
 
     @Test
     public void shouldGetApplications() throws IOException, URISyntaxException {
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS)
-                                             .setParameter("id", "1")
+                                             .setParameter("id", "2")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "1");
+        get.addHeader("id", "2");
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 
@@ -81,11 +82,11 @@ public class ApplicationWSTest {
     @Test
     public void shouldNotBeAbleToGetApplicationsOfOthers() throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS)
-                                             .setParameter("id", "1")
+                                             .setParameter("id", "2")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "2");
+        get.addHeader("id", "3");
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.UNAUTHORIZED, response.getStatusLine().getStatusCode());
     }
@@ -96,15 +97,15 @@ public class ApplicationWSTest {
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
         WebUtils.createStudent("pepe", 5, "IL");
-        WebUtils.createApplication(1, 1, 2, 28);
-        WebUtils.createApplication(4, 4, 2, 28);
+        WebUtils.createApplication(2, 2, 3, 28);
+        WebUtils.createApplication(5, 5, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS)
-                                             .setParameter("id", "1")
+                                             .setParameter("id", "2")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "1");
+        get.addHeader("id", "2");
         HttpResponse response = client.execute(get);
 
         InputStream input = response.getEntity().getContent();
@@ -116,11 +117,11 @@ public class ApplicationWSTest {
 
 
         uri = new URIBuilder().setPath(WebUtils.APPLICATIONS)
-                                             .setParameter("id", "2")
+                                             .setParameter("id", "3")
                                              .build();
         client = HttpClients.createDefault();
         get = new HttpGet(uri);
-        get.addHeader("id", "2");
+        get.addHeader("id", "3");
         response = client.execute(get);
 
         input = response.getEntity().getContent();
@@ -130,7 +131,7 @@ public class ApplicationWSTest {
         assertEquals(jobject.get("id").getAsInt(), 1);
         jobject = jelement.getAsJsonArray().get(1).getAsJsonObject();
         assertEquals(jobject.get("id").getAsInt(), 2);
-        System.out.println("Content of id=2:\n" + json);
+        System.out.println("Content of id=3:\n" + json);
     }
 
     @Test
@@ -138,12 +139,12 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
-        WebUtils.createApplication(1, 1, 2, 28);
+        WebUtils.createApplication(2, 2, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state").build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "1");
+        get.addHeader("id", "2");
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 
@@ -156,12 +157,13 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
-        WebUtils.createApplication(1, 1, 2, 28);
+        WebUtils.createFSD();
+        WebUtils.createApplication(2, 2, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state").build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "4");
+        get.addHeader("id", "6");
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.UNAUTHORIZED, response.getStatusLine().getStatusCode());
     }
@@ -172,7 +174,7 @@ public class ApplicationWSTest {
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
         WebUtils.createFSD();
-        WebUtils.createApplication(1, 1, 2, 28);
+        WebUtils.createApplication(2, 2, 3, 28);
 
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1")
@@ -180,7 +182,7 @@ public class ApplicationWSTest {
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPut put = new HttpPut(uri);
-        put.addHeader("id", "2");
+        put.addHeader("id", "3");
         HttpResponse response = client.execute(put);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 
@@ -192,7 +194,7 @@ public class ApplicationWSTest {
 
 
         put = new HttpPut(uri);
-        put.addHeader("id", "3");
+        put.addHeader("id", "4");
         response = client.execute(put);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 
@@ -204,7 +206,7 @@ public class ApplicationWSTest {
 
 
         put = new HttpPut(uri);
-        put.addHeader("id", "4");
+        put.addHeader("id", "5");
         response = client.execute(put);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
 
@@ -220,7 +222,7 @@ public class ApplicationWSTest {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 4, "GM");
-        HttpResponse response = WebUtils.createApplication(1, 1, 2, 28);
+        HttpResponse response = WebUtils.createApplication(2, 2, 3, 28);
         assertEquals(WebUtils.CONFLICT, response.getStatusLine().getStatusCode());
     }
 
@@ -230,14 +232,14 @@ public class ApplicationWSTest {
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
         WebUtils.createStudent("pepe", 5, "IL");
-        WebUtils.createApplication(1, 1, 2, 28);
-        WebUtils.createApplication(4, 4, 2, 29);
-        WebUtils.createApplication(4, 4, 2, 28);
+        WebUtils.createApplication(2, 2, 3, 28);
+        WebUtils.createApplication(5, 5, 3, 29);
+        WebUtils.createApplication(5, 5, 3, 28);
 
         URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/offers/28").build();
         HttpClient client = HttpClients.createDefault();
         HttpGet get = new HttpGet(uri);
-        get.addHeader("id", "1");
+        get.addHeader("id", "2");
         HttpResponse response = client.execute(get);
 
         InputStream input = response.getEntity().getContent();
@@ -248,5 +250,27 @@ public class ApplicationWSTest {
         assertEquals(jobject.get("id").getAsInt(), 1);
         jobject = jelement.getAsJsonArray().get(1).getAsJsonObject();
         assertEquals(jobject.get("id").getAsInt(), 3);
+    }
+
+    @Test
+    public void administratorShouldBeAbleToDeleteApplication() throws URISyntaxException, IOException {
+        WebUtils.createStudent("pablo", 5, "IL");
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        WebUtils.createClassCoordinator("Pierre", 5, "IL");
+        WebUtils.createStudent("pepe", 5, "IL");
+        WebUtils.createApplication(2, 2, 3, 28);
+
+        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1").build();
+        HttpClient client = HttpClients.createDefault();
+        HttpDelete delete = new HttpDelete(uri);
+        delete.addHeader("id", "1");
+        HttpResponse response = client.execute(delete);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+
+        uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/1/state").build();
+        HttpGet get = new HttpGet(uri);
+        get.addHeader("id", "1");
+        response = client.execute(get);
+        assertEquals(WebUtils.NOT_FOUND, response.getStatusLine().getStatusCode());
     }
 }

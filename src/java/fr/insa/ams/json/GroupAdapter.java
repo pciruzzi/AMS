@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 
 public class GroupAdapter implements JsonDeserializer<Group> {
 
+    @Override
     public Group deserialize(JsonElement element, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         return new Group(element.getAsString());
     }

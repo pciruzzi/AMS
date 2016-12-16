@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 
 public class FSDAdapter extends ActorAdapter implements JsonSerializer<FSD> {
 
+    @Override
     public JsonElement serialize(FSD fsd, Type type, JsonSerializationContext fsc) {
         return super.serialize(fsd, type, fsc);
     }

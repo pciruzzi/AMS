@@ -30,8 +30,8 @@ _In all the cases, a userId must be provided as a HP named `id`_
   - **Obtain class coordinator's profile:** `GET` to `/classCoordinators/<coordinatorID>`
   - **Create class coordinator:** `POST` to `/classCoordinators`
     + _name (QP)_ - Class coordinator's name
-    + _password (QP)_ Class coordinator's password
-    + _email (QP)_ Class coordinator's email
+    + _password (QP)_ - Class coordinator's password
+    + _email (QP)_ - Class coordinator's email
     + _year (QP)_ - Class coordinator's year
     + _pathway (QP)_ - Class coordinator's pathway
     + _group (QP)_ - Class coordinator's group name
@@ -39,16 +39,16 @@ _In all the cases, a userId must be provided as a HP named `id`_
 ### FSD
   - **Obtain FSD's profile:** `GET` to `/fsd`
   - **Create FSD:** `POST` to `/fsd`
-    + _password (QP)_ FSD's password
-    + _email (QP)_ FSD's email
+    + _password (QP)_ - FSD's password
+    + _email (QP)_ - FSD's email
     + _group (QP)_ - FSD's group name
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`
   - **Create partner:** `POST` to `/partners`
     + _name (QP)_ - Partner's name
-    + _password (QP)_ Partner's password
-    + _email (QP)_ Partner's email
+    + _password (QP)_ - Partner's password
+    + _email (QP)_ - Partner's email
     + _address (QP)_ - Partner's address
     + _telephone (QP)_ - Partner's telephone
     + _location (QP)_ - Partner's location
@@ -58,13 +58,14 @@ _In all the cases, a userId must be provided as a HP named `id`_
   - **Obtain student's profile:** `GET` to `/students/<studentID>`
   - **Create student:** `POST` to `/students`
     + _name (QP)_ - Student's name
-    + _password (QP)_ Student's password
-    + _email (QP)_ Student's email
+    + _password (QP)_ - Student's password
+    + _email (QP)_ - Student's email
     + _year (QP)_ - Student's year
     + _pathway (QP)_ - Student's pathway
     + _address (QP)_ - Student's address
     + _telephone (QP)_ - Student's telephone
     + _group (QP)_ - Student's group name
+
 #### CVs
   - **Download CV:** `GET` to `/students/cvs/<cvID>`
   - **Upload CV:** `POST` to `/students/<studentID>/cvs`

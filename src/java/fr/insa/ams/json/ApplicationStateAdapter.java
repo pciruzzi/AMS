@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 
 public class ApplicationStateAdapter extends ActorAdapter implements JsonSerializer<ApplicationState> {
 
+    @Override
     public JsonElement serialize(ApplicationState state, Type type, JsonSerializationContext jsc) {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("state", state.name());

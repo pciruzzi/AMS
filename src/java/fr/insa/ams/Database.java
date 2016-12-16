@@ -17,7 +17,7 @@ public class Database {
         if (! existsAdministrator()) {
             Group group = new Group("administrator");
             this.addGroup(group);
-            Administrator admin = new Administrator("admin", "password", "a@a.com", group);
+            Administrator admin = new Administrator("password", "a@a.com", group);
             this.add(admin);
         }
     }

@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.Set;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.core.Context;
@@ -108,6 +109,24 @@ public class StudentWS {
         cv.setName(newName);
         db.update(cv);
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("/{id}/cvs")
+    @Produces("application/json")
+    public Response getCVs(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        // Only the connected user is able to get his CVs
+        if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
+        Database db = new Database();
+        Actor student = db.getActor(id);
+        // Only a student is able to get CVs
+        if (student == null) return Response.status(Response.Status.NOT_FOUND).build();
+        if (! (student instanceof Student)) return Response.status(Response.Status.BAD_REQUEST).build();
+
+        Set<CV> cvs = ((Student) student).getCvs();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(CV.class, new CVAdapter()).create();
+        return Response.ok(gson.toJson(cvs), MediaType.APPLICATION_JSON).build();
     }
 
     @POST

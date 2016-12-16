@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 
 public class PartnerAdapter extends ActorAdapter implements JsonSerializer<Partner> {
 
+    @Override
     public JsonElement serialize(Partner partner, Type type, JsonSerializationContext jsc) {
         JsonObject jsonObject = super.serialize(partner, type, jsc);
         jsonObject.addProperty("location", partner.getLocation());

@@ -1,6 +1,6 @@
 package fr.insa.ams.stateMachine;
 
-public enum ApplicationState {
+public enum ApplicationState implements Transitionable {
 
     WAITING_PARTNER("Waiting for the partner's approval"),
     WAITING_CC("Approved by the partner. Waiting for the class coordinator's approval"),

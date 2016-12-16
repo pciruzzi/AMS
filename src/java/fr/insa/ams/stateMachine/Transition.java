@@ -2,25 +2,25 @@ package fr.insa.ams.stateMachine;
 
 public class Transition {
 
-    ApplicationState initialState;
-    ApplicationState finalState;
-    ApplicationEvent event;
+    Transitionable initialState;
+    Transitionable finalState;
+    Transitionator event;
 
-    public Transition(ApplicationState initialState, ApplicationEvent event, ApplicationState finalState) {
+    public Transition(Transitionable initialState, Transitionator event, Transitionable finalState) {
         this.initialState = initialState;
         this.event = event;
         this.finalState = finalState;
     }
 
-    public ApplicationState getInitialState() {
+    public Transitionable getInitialState() {
         return this.initialState;
     }
 
-    public ApplicationEvent getEvent() {
+    public Transitionator getEvent() {
         return this.event;
     }
 
-    public ApplicationState getFinalState() {
+    public Transitionable getFinalState() {
         return this.finalState;
     }
 

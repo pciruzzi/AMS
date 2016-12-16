@@ -1,6 +1,6 @@
 package fr.insa.ams.stateMachine;
 
-public enum ApplicationEvent {
+public enum ApplicationEvent implements Transitionator {
 
     PARTNER_APPROVE,
     PARTNER_REFUSE,

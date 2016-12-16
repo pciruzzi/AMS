@@ -8,7 +8,7 @@ import fr.insa.ams.json.ApplicationAdapter;
 import fr.insa.ams.json.ApplicationStateAdapter;
 import fr.insa.ams.stateMachine.ApplicationEvent;
 import fr.insa.ams.stateMachine.ApplicationState;
-import fr.insa.ams.stateMachine.ApplicationStateMachine;
+import fr.insa.ams.stateMachine.StateMachine;
 import java.net.URI;
 import java.util.List;
 
@@ -91,7 +91,7 @@ public class ApplicationWS {
                 return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         ApplicationState state = application.getState();
         ApplicationEvent event = db.getActor(userId).getApplicationEvent(accept);
-        state = ApplicationStateMachine.makeTransition(state, event);
+        state = StateMachine.makeApplicationTransition(state, event);
         application.setState(state);
         db.update(application);
         GsonBuilder gsonBuilder = new GsonBuilder();

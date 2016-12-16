@@ -29,13 +29,6 @@ public class PartnerWS {
     }
 
     @GET
-    @Produces("application/json")
-    public Response getPartners() {
-        // TODO: Retrieve all partners?
-        return Response.noContent().build();
-    }
-
-    @GET
     @Path("/{id}")
     @Produces("application/json")
     public Response getPartner(@HeaderParam("id") int userId, @PathParam("id") int id) {

@@ -39,13 +39,6 @@ public class StudentWS {
     }
 
     @GET
-    @Produces("application/json")
-    public Response getStudents() {
-        // TODO: Retrieve all students?
-        return Response.noContent().build();
-    }
-
-    @GET
     @Path("/{id}")
     @Produces("application/json")
     public Response getStudent(@HeaderParam("id") int userId, @PathParam("id") int id) {

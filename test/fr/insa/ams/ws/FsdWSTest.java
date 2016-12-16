@@ -70,7 +70,7 @@ public class FsdWSTest {
 
         InputStream input = response.getEntity().getContent();
         String json = IOUtils.toString(input, "UTF-8");
-        System.out.println("JSON: " + json);
+        System.out.println(json);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Group.class, new GroupAdapter()).create();
         FSD fsd = gson.fromJson(json, FSD.class);

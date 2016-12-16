@@ -29,13 +29,6 @@ public class ClassCoordinatorWS {
     }
 
     @GET
-    @Produces("application/json")
-    public Response getClassCoordinators() {
-        // TODO: Retrieve all coordinators?
-        return Response.noContent().build();
-    }
-
-    @GET
     @Path("/{id}")
     @Produces("application/json")
     public Response getCoordinator(@HeaderParam("id") int userId, @PathParam("id") int id) {

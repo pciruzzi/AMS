@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="fr.insa.ams.InternshipAgreement" table="agreements">
+        <id name="id" type="int" column="agreement_id">
+            <generator class="foreign">
+                <param name="property">application</param>
+            </generator>
+        </id>
+        <one-to-one name="application" class="fr.insa.ams.Application"/>
+        <property name="state" column="state">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">fr.insa.ams.stateMachine.InternshipAgreementState</param>
+                <param name="type">12</param>
+            </type>
+        </property>
+    </class>
+</hibernate-mapping>

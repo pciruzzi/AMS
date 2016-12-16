@@ -84,6 +84,14 @@ public class Main {
         System.out.println("\n####################################################\n");
 
 
+        InternshipAgreement agreement = new InternshipAgreement(application);
+        Integer agreementId = db.add(agreement);
+        System.out.println("Internship agreement created with id " + agreementId);
+
+        System.out.println(gson.toJson(agreement));
+        System.out.println("\n####################################################\n");
+
+
         for (int i = 1; i <= actorId; i++) {
             Actor actor = db.getActor(i);
             System.out.println("Actor with id=" + i + " name=" + actor.getName());

@@ -13,7 +13,8 @@
     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="fr/insa/ams/hibernate/Actor.hbm.xml"/>
     <mapping resource="fr/insa/ams/hibernate/Application.hbm.xml"/>
-    <mapping resource="fr/insa/ams/hibernate/Group.hbm.xml"/>
     <mapping resource="fr/insa/ams/hibernate/CV.hbm.xml"/>
+    <mapping resource="fr/insa/ams/hibernate/Group.hbm.xml"/>
+    <mapping resource="fr/insa/ams/hibernate/InternshipAgreement.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

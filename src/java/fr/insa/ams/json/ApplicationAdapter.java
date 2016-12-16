@@ -17,6 +17,7 @@ public class ApplicationAdapter implements JsonSerializer<Application> {
         jsonObject.addProperty("idPartner", application.getPartner().getId());
         jsonObject.addProperty("idCoordinator", application.getCoordinator().getId());
         jsonObject.addProperty("idOffer", application.getOfferID());
+        jsonObject.addProperty("state", application.getState().toString());
         return jsonObject;
     }
 

@@ -219,6 +219,23 @@ public class Database {
         }
     }
 
+    public InternshipAgreement getInternshipAgreement(int id) {
+        Session session = factory.openSession();
+        InternshipAgreement agreement = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            agreement = (InternshipAgreement) session.get(InternshipAgreement.class, id);
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return agreement;
+        }
+    }
+
     public List<Application> getApplications(int actorId) {
         Session session = factory.openSession();
         List<Application> applications = null;

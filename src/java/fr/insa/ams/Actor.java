@@ -1,6 +1,7 @@
 package fr.insa.ams;
 
 import fr.insa.ams.stateMachine.ApplicationEvent;
+import fr.insa.ams.stateMachine.InternshipAgreementEvent;
 
 public abstract class Actor implements Databasable {
 
@@ -31,4 +32,5 @@ public abstract class Actor implements Databasable {
     public void setGroup(Group group) { this.group = group;}
 
     public abstract ApplicationEvent getApplicationEvent(boolean accept);
+    public abstract InternshipAgreementEvent getInternshipAgreementEvent(boolean accept);
 }

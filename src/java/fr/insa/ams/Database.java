@@ -1,6 +1,7 @@
 package fr.insa.ams;
 
 import fr.insa.ams.hibernate.HibernateUtil;
+import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -251,6 +252,16 @@ public class Database {
             session.close();
             return applications;
         }
+    }
+
+    public List<InternshipAgreement> getInternshipAgreements(int actorId) {
+        List<Application> applications = this.getApplications(actorId);
+        List<InternshipAgreement> agreements = new ArrayList<InternshipAgreement>();
+        for (Application application : applications) {
+            int id = application.getId();
+            agreements.add(this.getInternshipAgreement(id));
+        }
+        return agreements;
     }
 
     public List<Application> getApplicationsByOffer(int offerId) {

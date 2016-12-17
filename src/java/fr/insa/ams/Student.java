@@ -1,6 +1,7 @@
 package fr.insa.ams;
 
 import fr.insa.ams.stateMachine.ApplicationEvent;
+import fr.insa.ams.stateMachine.InternshipAgreementEvent;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,6 +42,11 @@ public class Student extends Actor {
     @Override
     public ApplicationEvent getApplicationEvent(boolean accept) {
         return accept ? ApplicationEvent.STUDENT_ACCEPT : ApplicationEvent.STUDENT_REFUSE;
+    }
+
+    @Override
+    public InternshipAgreementEvent getInternshipAgreementEvent(boolean accept) {
+        return accept ? InternshipAgreementEvent.STUDENT_APPROVE : InternshipAgreementEvent.STUDENT_REFUSE;
     }
 
 }

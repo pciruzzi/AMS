@@ -40,6 +40,7 @@ public class ApplicationWS {
         // It only can be called by the applications' owner
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
+        // FIXME: It fails for the FSD...
         List<Application> applications = db.getApplications(userId);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
@@ -95,6 +96,11 @@ public class ApplicationWS {
         application.setState(state);
         db.update(application);
         GsonBuilder gsonBuilder = new GsonBuilder();
+        if (state == ApplicationState.ACCEPTED) {
+            InternshipAgreement agreement = new InternshipAgreement(application);
+            db.add(agreement);
+            // TODO: Inform of the internship agreement creation?
+        }
         Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
         return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
     }

@@ -1,6 +1,7 @@
 package fr.insa.ams;
 
 import fr.insa.ams.stateMachine.ApplicationEvent;
+import fr.insa.ams.stateMachine.InternshipAgreementEvent;
 
 public class Partner extends Actor {
 
@@ -27,5 +28,10 @@ public class Partner extends Actor {
     @Override
     public ApplicationEvent getApplicationEvent(boolean accept) {
         return accept ? ApplicationEvent.PARTNER_APPROVE : ApplicationEvent.PARTNER_REFUSE;
+    }
+
+    @Override
+    public InternshipAgreementEvent getInternshipAgreementEvent(boolean accept) {
+        return accept ? InternshipAgreementEvent.PARTNER_APPROVE : InternshipAgreementEvent.PARTNER_REFUSE;
     }
 }

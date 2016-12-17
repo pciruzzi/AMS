@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import fr.insa.ams.WebUtils;
 
 import fr.insa.ams.stateMachine.ApplicationState;
+import fr.insa.ams.stateMachine.InternshipAgreementState;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -113,7 +114,7 @@ public class ApplicationWSTest {
         JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
         JsonObject jobject = jelement.getAsJsonArray().get(0).getAsJsonObject();
         assertEquals(jobject.get("id").getAsInt(), 1);
-        System.out.println("Content of id=1:\n" + json);
+        System.out.println("Content of id=2:\n" + json);
 
 
         uri = new URIBuilder().setPath(WebUtils.APPLICATIONS)
@@ -272,5 +273,22 @@ public class ApplicationWSTest {
         get.addHeader("id", "1");
         response = client.execute(get);
         assertEquals(WebUtils.NOT_FOUND, response.getStatusLine().getStatusCode());
+    }
+
+    @Test
+    public void shouldCreateInternshipAgreementWhenFinishingApplicationProcess() throws URISyntaxException, IOException {
+        this.studentShouldBeAbleToMakeTheApplicationProcess();
+        URI uri = new URIBuilder().setPath(WebUtils.AGREEMENTS + "/1/state").build();
+        HttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(uri);
+        get.addHeader("id", "2");
+        HttpResponse response = client.execute(get);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+
+        InputStream input = response.getEntity().getContent();
+        String json = IOUtils.toString(input, "UTF-8");
+        System.out.println("Content: " + json);
+        JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
+        assertEquals(InternshipAgreementState.WAITING_STUDENT.toString(), jelement.getAsJsonObject().get("state").getAsString());
     }
 }

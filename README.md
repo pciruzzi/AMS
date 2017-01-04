@@ -24,6 +24,7 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection
 
 ### Internship Agreements
+  _Note: The agreementID is the same as the applicationID_
   - **Obtain all agreements for user:** `GET` to `/agreements`
   - **Obtain agreement state:** `GET` to `/agreements/<agreementID>/state`
   - **Accept/refuse agreement:** `PUT` to `/agreements/<agreementID>`

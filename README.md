@@ -23,6 +23,12 @@ _In all the cases, a userId must be provided as a HP named `id`_
   - **Accept/refuse application:** `PUT` to `/applications/<applicationID>`
     + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection
 
+### Internship Agreements
+  - **Obtain all agreements for user:** `GET` to `/agreements`
+  - **Obtain agreement state:** `GET` to `/agreements/<agreementID>/state`
+  - **Accept/refuse agreement:** `PUT` to `/agreements/<agreementID>`
+    + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection
+
 ### Actors
   - **Obtain actor's profile:** `GET` to `/actors/<actorID>`
 

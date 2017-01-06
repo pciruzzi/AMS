@@ -9,10 +9,10 @@ import fr.insa.ams.json.InternshipAgreementStateAdapter;
 import fr.insa.ams.stateMachine.InternshipAgreementEvent;
 import fr.insa.ams.stateMachine.InternshipAgreementState;
 import fr.insa.ams.stateMachine.StateMachine;
+import java.io.File;
 import java.util.List;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.GET;
@@ -28,6 +28,8 @@ public class InternshipAgreementWS {
     @Context
     private UriInfo context;
 
+    private final String AGREEMENTS_FOLDER = "agreements";
+
     public InternshipAgreementWS() {
     }
 
@@ -42,6 +44,25 @@ public class InternshipAgreementWS {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(InternshipAgreement.class, new InternshipAgreementAdapter()).create();
         return Response.ok(gson.toJson(agreements), MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @Produces("application/pdf")
+    public Response getAgreementPdf(@HeaderParam("id") int userId, @PathParam("id") int id) {
+        Database db = new Database();
+        InternshipAgreement agreement = db.getInternshipAgreement(id);
+        if (agreement == null) return Response.status(Response.Status.NOT_FOUND).build();
+        File file = new File(AGREEMENTS_FOLDER);
+        if (! file.exists() && ! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
+        String filename;
+        try {
+            filename = agreement.generatePdf(AGREEMENTS_FOLDER);
+        } catch (Exception ex) {
+            return Response.status(Response.Status.NOT_MODIFIED).build();
+        }
+        file = new File(filename);
+        return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + agreement.getId() + ".pdf\"").build();
     }
 
     @GET

@@ -87,6 +87,11 @@ public class Main {
         InternshipAgreement agreement = new InternshipAgreement(application);
         Integer agreementId = db.add(agreement);
         System.out.println("Internship agreement created with id " + agreementId);
+        try {
+            agreement.generatePdf("/home/pablo");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
 
         System.out.println(gson.toJson(agreement));
         System.out.println("\n####################################################\n");

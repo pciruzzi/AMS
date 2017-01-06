@@ -42,7 +42,7 @@ public class PartnerWS {
     }
 
     @GET
-    @Path("/name/{name}")
+    @Path("/names/{name}")
     @Produces("application/json")
     public Response getPartnerByName(@HeaderParam("id") int userId, @PathParam("name") String name) {
         Database db = new Database();
@@ -60,7 +60,7 @@ public class PartnerWS {
                                                @QueryParam("telephone") String telephone, @QueryParam("location") String location,
                                                @QueryParam("group") String groupName) {
         Database db = new Database();
-        if (db.getActorByName(name) == null) return Response.status(Response.Status.CONFLICT).build();
+        if (db.getActorByName(name) != null) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group(groupName);
         db.addGroup(group);
         Partner partner = new Partner(name, password, email, address, telephone, location, group);

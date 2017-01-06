@@ -3,6 +3,7 @@ package fr.insa.ams;
 import fr.insa.ams.hibernate.HibernateUtil;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -244,6 +245,9 @@ public class Database {
         try {
             tx = session.beginTransaction();
             agreement = (InternshipAgreement) session.get(InternshipAgreement.class, id);
+            Hibernate.initialize(agreement.getPartner());
+            Hibernate.initialize(agreement.getStudent());
+            Hibernate.initialize(agreement.getCoordinator());
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

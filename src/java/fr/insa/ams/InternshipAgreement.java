@@ -53,10 +53,9 @@ public class InternshipAgreement implements Databasable {
     }
 
     private void writeInternshipAgreement(Document document) throws DocumentException {
-        document.add(new Paragraph("Hola"));
-//        document.add(new Paragraph("The student is " + this.getStudent().getName()));
-//        document.add(new Paragraph("The class coordinator is " + this.getCoordinator().getName()));
-//        document.add(new Paragraph("The partner is " + this.getPartner().getName()));
-//        document.add(new Paragraph("The offer id is " + this.getOfferID()));
+        document.add(new Paragraph("The student is " + this.getStudent().getName()));
+        document.add(new Paragraph("The class coordinator is " + this.getCoordinator().getName()));
+        document.add(new Paragraph("The partner is " + this.getPartner().getName()));
+        document.add(new Paragraph("The offer id is " + this.getOfferID()));
     }
 }

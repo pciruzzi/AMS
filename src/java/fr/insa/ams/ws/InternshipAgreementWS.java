@@ -53,6 +53,7 @@ public class InternshipAgreementWS {
         Database db = new Database();
         InternshipAgreement agreement = db.getInternshipAgreement(id);
         if (agreement == null) return Response.status(Response.Status.NOT_FOUND).build();
+        if (agreement.getState() != InternshipAgreementState.ACCEPTED) return Response.status(Response.Status.CONFLICT).build();
         File file = new File(AGREEMENTS_FOLDER);
         if (! file.exists() && ! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
         String filename;

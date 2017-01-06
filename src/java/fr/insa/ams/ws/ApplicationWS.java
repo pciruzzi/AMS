@@ -117,7 +117,6 @@ public class ApplicationWS {
         return Response.ok().build();
     }
 
-    // TODO: It should only receive studentID and offerID, the partner should be able to be found with the offerID??
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {

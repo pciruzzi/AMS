@@ -72,6 +72,25 @@ public class PartnerWSTest {
     }
 
     @Test
+    public void shouldGetPartnerByName() throws URISyntaxException, IOException {
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        HttpClient client = HttpClients.createDefault();
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/names/Airbus")
+                                          .setParameter("id", "2")
+                                          .build();
+        HttpGet get = new HttpGet(uri);
+        HttpResponse response = client.execute(get);
+        assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
+    }
+
+    @Test
+    public void shouldNotBeAbleToCreatePartnerWithSameName() throws URISyntaxException, IOException {
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        HttpResponse response = WebUtils.createPartner("Airbus", "Paris", "745679998");
+        assertEquals(WebUtils.CONFLICT, response.getStatusLine().getStatusCode());
+    }
+
+    @Test
      public void shouldNotGetPartnerIfIdIsNotOfIt() throws URISyntaxException, IOException {
         WebUtils.createClassCoordinator("pierre", 5, "IL");
         HttpClient client = HttpClients.createDefault();

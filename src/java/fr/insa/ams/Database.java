@@ -115,6 +115,23 @@ public class Database {
         }
     }
 
+    public Actor getActorByName(String name) {
+        Session session = factory.openSession();
+        List<Actor> actors = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            actors = session.createQuery("FROM Actor A WHERE A.name='" + name + "'").list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return actors.size() == 1 ? actors.get(0) : null;
+        }
+    }
+
     public Group getGroup(String name) {
         Session session = factory.openSession();
         Group group = null;

@@ -21,5 +21,8 @@
             </type>
         </property>
         <property name="offerID" column="offerID" type="int"/>
+        <many-to-one name="cv" class="fr.insa.ams.CV" fetch="select">
+            <column name="cvID"/>
+        </many-to-one>
     </class>
 </hibernate-mapping>

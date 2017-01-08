@@ -119,7 +119,8 @@ public class ApplicationWS {
 
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
-                                                     @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID) {
+                                                     @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID,
+                                                     @QueryParam("cvID") int cvId) {
         // Only the student can apply
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
@@ -143,7 +144,10 @@ public class ApplicationWS {
         }
         if (partner == null) return Response.status(Response.Status.BAD_REQUEST).build();
 
-        Application application = new Application(student, coordinator, partner, offerID);
+        CV cv = null;
+        if (cvId != -1) cv = db.getCV(cvId); //In order to use -1 when testing
+
+        Application application = new Application(student, coordinator, partner, offerID, cv);
         int applicationId = db.add(application);
         return Response.created(URI.create(String.valueOf(applicationId))).build();
     }

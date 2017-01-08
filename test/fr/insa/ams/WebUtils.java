@@ -103,6 +103,7 @@ public class WebUtils {
                                              .setParameter("studentID", String.valueOf(studentID))
                                              .setParameter("partnerID", String.valueOf(partnerID))
                                              .setParameter("offerID", String.valueOf(offerID))
+                                             .setParameter("cvID", "-1")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);

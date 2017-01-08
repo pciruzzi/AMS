@@ -45,7 +45,7 @@ public class Main {
         System.out.println("Group2 " + group2.getName() + " created with id " + groupName);
 
 
-        Student student = new Student("jp", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        Student student = new Student("jp", "password", "a@a.com", 5, "IR", "asd", "33769379998", group);
         Integer actorId = db.add(student);
         db.addCV(new CV("cv de jp"), actorId);
         db.addCV(new CV("otro cv de jp"), actorId);
@@ -63,7 +63,7 @@ public class Main {
         actorId = db.add(coordinator);
         System.out.println("ClassCoordinator created with id " + actorId);
 
-        Application application = new Application(student, coordinator, partner, 45);
+        Application application = new Application(student, coordinator, partner, 45, null);
         Integer appId = db.add(application);
         System.out.println("Application created with id " + appId);
 
@@ -73,10 +73,11 @@ public class Main {
 
         student = new Student("pablo", "password", "a@a.com", 5, "IL", "asd", "33769379998", group);
         actorId = db.add(student);
-        db.addCV(new CV("cv de pablo"), actorId);
+        CV cv = new CV("cv de pablo");
+        db.addCV(cv, actorId);
         System.out.println("Student created with id " + actorId);
 
-        application = new Application(student, coordinator, partner, 46);
+        application = new Application(student, coordinator, partner, 46, cv);
         appId = db.add(application);
         System.out.println("Application created with id " + appId);
 

@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import fr.insa.ams.Application;
+import fr.insa.ams.CV;
 import java.lang.reflect.Type;
 
 public class ApplicationAdapter implements JsonSerializer<Application> {
@@ -18,6 +19,10 @@ public class ApplicationAdapter implements JsonSerializer<Application> {
         jsonObject.addProperty("idCoordinator", application.getCoordinator().getId());
         jsonObject.addProperty("idOffer", application.getOfferID());
         jsonObject.addProperty("state", application.getState().toString());
+        CV cv = application.getCv();
+        int cvId = -1;
+        if (cv != null)  cvId = cv.getId();
+        jsonObject.addProperty("idCv", cvId);
         return jsonObject;
     }
 

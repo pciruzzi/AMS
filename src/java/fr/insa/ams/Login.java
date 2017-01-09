@@ -13,8 +13,12 @@ public class Login implements Databasable {
     public Login(int id, String password, Group group) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
-            byte[] passBytes = password.getBytes("UTF-8");
-            this.password = new String(md.digest(passBytes), "UTF-8");
+            byte[] hash = md.digest(password.getBytes("UTF-8"));
+            StringBuilder sb = new StringBuilder(2*hash.length);
+            for(byte b : hash){
+                sb.append(String.format("%02x", b&0xff));
+            }
+            this.password = sb.toString();
         } catch (UnsupportedEncodingException ex) {
             ex.printStackTrace();
             this.password = password;

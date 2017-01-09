@@ -11,15 +11,17 @@ public class Application implements Databasable {
     private ApplicationState state;
     private CV cv;
     private int offerID;
+    private String coverLetter;
 
     public Application() {}
-    public Application(Student student, ClassCoordinator coordinator, Partner partner, int offerID, CV cv) {
+    public Application(Student student, ClassCoordinator coordinator, Partner partner, int offerID, CV cv, String coverLetter) {
         this.student = student;
         this.coordinator = coordinator;
         this.partner = partner;
         this.state = ApplicationState.WAITING_PARTNER;
         this.offerID = offerID;
         this.cv = cv;
+        this.coverLetter = coverLetter;
     }
 
     public int getId() { return this.id;}
@@ -29,6 +31,7 @@ public class Application implements Databasable {
     public ApplicationState getState() { return this.state;}
     public int getOfferID() { return this.offerID;}
     public CV getCv() { return this.cv;}
+    public String getCoverLetter() { return this.coverLetter;}
 
     public void setId(int id) { this.id = id;}
     public void setStudent(Student student) { this.student = student;}
@@ -37,5 +40,5 @@ public class Application implements Databasable {
     public void setState(ApplicationState state) { this.state = state;}
     public void setOfferID(int offerID) { this.offerID = offerID;}
     public void setCv(CV cv) { this.cv = cv;}
-
+    public void setCoverLetter(String coverLetter) { this.coverLetter = coverLetter;}
 }

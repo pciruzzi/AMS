@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -40,7 +41,6 @@ public class ApplicationWS {
         // It only can be called by the applications' owner
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        // FIXME: It fails for the FSD...
         List<Application> applications = db.getApplications(userId);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
@@ -120,7 +120,7 @@ public class ApplicationWS {
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID,
-                                                     @QueryParam("cvID") int cvId) {
+                                                     @QueryParam("cvID") int cvId, @DefaultValue("") @QueryParam("coverLetter") String coverLetter) {
         // Only the student can apply
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
@@ -147,7 +147,7 @@ public class ApplicationWS {
         CV cv = null;
         if (cvId != -1) cv = db.getCV(cvId); //In order to use -1 when testing
 
-        Application application = new Application(student, coordinator, partner, offerID, cv);
+        Application application = new Application(student, coordinator, partner, offerID, cv, coverLetter);
         int applicationId = db.add(application);
         return Response.created(URI.create(String.valueOf(applicationId))).build();
     }

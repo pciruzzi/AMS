@@ -20,6 +20,7 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _partnerID (QP)_
     + _offerID (QP)_
     + _cvID (QP)_
+    + _coverLetter (QP)_
   - **Obtain application state:** `GET` to `/applications/<applicationID>/state`
   - **Accept/refuse application:** `PUT` to `/applications/<applicationID>`
     + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection

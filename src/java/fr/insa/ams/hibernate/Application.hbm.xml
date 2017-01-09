@@ -24,5 +24,6 @@
         <many-to-one name="cv" class="fr.insa.ams.CV" fetch="select">
             <column name="cvID"/>
         </many-to-one>
+        <property name="coverLetter" column="coverLetter" type="string"/>
     </class>
 </hibernate-mapping>

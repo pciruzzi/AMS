@@ -39,7 +39,6 @@ public class InternshipAgreementWS {
         // It only can be called by the applications' owner
         if (userId != id) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
-        // FIXME: It fails for the FSD...
         List<InternshipAgreement> agreements = db.getInternshipAgreements(userId);
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(InternshipAgreement.class, new InternshipAgreementAdapter()).create();

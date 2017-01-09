@@ -8,6 +8,7 @@ import fr.insa.ams.json.CVAdapter;
 import fr.insa.ams.json.ClassCoordinatorAdapter;
 import fr.insa.ams.json.FSDAdapter;
 import fr.insa.ams.json.GroupAdapter;
+import fr.insa.ams.json.InternshipAgreementAdapter;
 import fr.insa.ams.json.PartnerAdapter;
 import fr.insa.ams.json.StudentAdapter;
 import java.util.List;
@@ -31,6 +32,7 @@ public class Main {
                                       .registerTypeAdapter(CV.class, new CVAdapter())
                                       .registerTypeAdapter(Group.class, new GroupAdapter())
                                       .registerTypeAdapter(Application.class, new ApplicationAdapter())
+                                      .registerTypeAdapter(InternshipAgreement.class, new InternshipAgreementAdapter())
                                       .create();
 
         Group group = new Group("STUDENT");
@@ -75,7 +77,7 @@ public class Main {
         db.add(login);
         System.out.println("ClassCoordinator created with id " + actorId);
 
-        Application application = new Application(student, coordinator, partner, 45, null);
+        Application application = new Application(student, coordinator, partner, 45, null, "My name is pepe");
         Integer appId = db.add(application);
         System.out.println("Application created with id " + appId);
 
@@ -101,7 +103,7 @@ public class Main {
         db.add(login);
         System.out.println("FSD created with id " + actorId);
 
-        application = new Application(student, coordinator, partner, 46, cv);
+        application = new Application(student, coordinator, partner, 46, cv, "");
         appId = db.add(application);
         System.out.println("Application created with id " + appId);
 
@@ -129,11 +131,17 @@ public class Main {
         }
         System.out.println("\n####################################################\n");
 
-
         for (int i = 1; i <= actorId; i++) {
             List<Application> applications = db.getApplications(i);
             System.out.println("Applications of actor with id=" + i);
             System.out.println(gson.toJson(applications));
+        }
+        System.out.println("\n####################################################\n");
+
+        for (int i = 1; i <= actorId; i++) {
+            List<InternshipAgreement> agreements = db.getInternshipAgreements(i);
+            System.out.println("Internship Agreements of actor with id=" + i);
+            System.out.println(gson.toJson(agreements));
         }
         System.out.println("\n####################################################\n");
     }

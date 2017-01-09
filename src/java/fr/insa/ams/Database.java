@@ -267,7 +267,11 @@ public class Database {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            applications = session.createQuery("FROM Application A WHERE A.student.id=" + actorId + " OR A.partner.id=" + actorId + " OR A.coordinator.id=" + actorId).list();
+            if (actorId == this.getFSD().getId()) {
+                applications = session.createQuery("FROM Application A").list();
+            } else {
+                applications = session.createQuery("FROM Application A WHERE A.student.id=" + actorId + " OR A.partner.id=" + actorId + " OR A.coordinator.id=" + actorId).list();
+            }
             for (Application app : applications) {
                 Hibernate.initialize(app.getPartner());
             }
@@ -286,7 +290,8 @@ public class Database {
         List<InternshipAgreement> agreements = new ArrayList<InternshipAgreement>();
         for (Application application : applications) {
             int id = application.getId();
-            agreements.add(this.getInternshipAgreement(id));
+            InternshipAgreement agreement = this.getInternshipAgreement(id);
+            if (agreement != null) agreements.add(agreement);
         }
         return agreements;
     }

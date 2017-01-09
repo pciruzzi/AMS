@@ -230,6 +230,7 @@ public class Database {
         try {
             tx = session.beginTransaction();
             application = (Application) session.get(Application.class, id);
+            Hibernate.initialize(application.getPartner());
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -267,6 +268,9 @@ public class Database {
         try {
             tx = session.beginTransaction();
             applications = session.createQuery("FROM Application A WHERE A.student.id=" + actorId + " OR A.partner.id=" + actorId + " OR A.coordinator.id=" + actorId).list();
+            for (Application app : applications) {
+                Hibernate.initialize(app.getPartner());
+            }
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();
@@ -294,6 +298,9 @@ public class Database {
         try {
             tx = session.beginTransaction();
             applications = session.createQuery("FROM Application A WHERE A.offerID=" + offerId).list();
+            for (Application app : applications) {
+                Hibernate.initialize(app.getPartner());
+            }
             tx.commit();
         } catch (HibernateException e) {
             if (tx!=null) tx.rollback();

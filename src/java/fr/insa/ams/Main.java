@@ -33,34 +33,46 @@ public class Main {
                                       .registerTypeAdapter(Application.class, new ApplicationAdapter())
                                       .create();
 
-        Group group = new Group("group1");
+        Group group = new Group("STUDENT");
         String groupName = db.addGroup(group);
         System.out.println("Group " + group.getName() + " created with id " + groupName);
 
-        Group group1 = db.getGroup("group1");
-        System.out.println("Group " + group1.getName() + " got from DB");
+        Group group1 = db.getGroup("STUDENT");
+        System.out.println("Group1 " + group1.getName() + " got from DB");
 
-        Group group2 = new Group("group1");
+        Group group2 = new Group("STUDENT");
         groupName = db.addGroup(group2);
         System.out.println("Group2 " + group2.getName() + " created with id " + groupName);
 
 
-        Student student = new Student("jp", "password", "a@a.com", 5, "IR", "asd", "33769379998", group);
+        Student student = new Student("jp", "a@a.com", 5, "IR", "asd", "33769379998", group);
         Integer actorId = db.add(student);
+        Login login = new Login(actorId, "password1", group);
+        db.add(login);
         db.addCV(new CV("cv de jp"), actorId);
         db.addCV(new CV("otro cv de jp"), actorId);
         System.out.println("Student created with id " + actorId);
 
-        student = new Student("pepe", "password", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        student = new Student("pepe", "a@a.com", 4, "IR", "asd", "33769379998", group);
         actorId = db.add(student);
+        login = new Login(actorId, "password2", group);
+        db.add(login);
         System.out.println("Student created with id " + actorId);
 
-        Partner partner = new Partner("Airbus", "password", "a@a.com", "INSA", "1144370513", "Toulouse", group);
+        group = new Group("PARTNER");
+        db.addGroup(group);
+        Partner partner = new Partner("Airbus", "a@a.com", "INSA", "1144370513", "Toulouse", group);
         actorId = db.add(partner);
+        login = new Login(actorId, "password3", group);
+        db.add(login);
         System.out.println("Partner created with id " + actorId);
 
-        ClassCoordinator coordinator = new ClassCoordinator("Pierre", "password", "a@a.com", 5, "IR", group);
+        group = new Group("CLASS_COORDINATOR");
+        db.addGroup(group);
+        ClassCoordinator coordinator = new ClassCoordinator("Pierre", "a@a.com", 5, "IR", group);
         actorId = db.add(coordinator);
+        login = new Login(actorId, "password4", group);
+        db.add(login);
         System.out.println("ClassCoordinator created with id " + actorId);
 
         Application application = new Application(student, coordinator, partner, 45, null);
@@ -71,11 +83,23 @@ public class Main {
         System.out.println("\n####################################################\n");
 
 
-        student = new Student("pablo", "password", "a@a.com", 5, "IL", "asd", "33769379998", group);
+        group = new Group("STUDENT");
+        db.addGroup(group);
+        student = new Student("pablo", "a@a.com", 5, "IL", "asd", "33769379998", group);
         actorId = db.add(student);
+        login = new Login(actorId, "password5", group);
+        db.add(login);
         CV cv = new CV("cv de pablo");
         db.addCV(cv, actorId);
         System.out.println("Student created with id " + actorId);
+
+        group = new Group("FSD");
+        db.addGroup(group);
+        FSD fsd = new FSD("a@a.com", group);
+        actorId = db.add(fsd);
+        login = new Login(actorId, "password6", group);
+        db.add(login);
+        System.out.println("FSD created with id " + actorId);
 
         application = new Application(student, coordinator, partner, 46, cv);
         appId = db.add(application);

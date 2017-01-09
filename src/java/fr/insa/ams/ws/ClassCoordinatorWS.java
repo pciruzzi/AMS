@@ -6,6 +6,7 @@ import fr.insa.ams.Actor;
 import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.Database;
 import fr.insa.ams.Group;
+import fr.insa.ams.Login;
 import fr.insa.ams.json.ClassCoordinatorAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
@@ -44,13 +45,15 @@ public class ClassCoordinatorWS {
     @POST
     public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password,
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
-                                                      @QueryParam("pathway") String pathway, @QueryParam("group") String groupName) {
+                                                      @QueryParam("pathway") String pathway) {
         Database db = new Database();
         if (db.existsCoordinator(year, pathway)) return Response.status(Response.Status.CONFLICT).build();
-        Group group = new Group(groupName);
+        Group group = new Group("CLASS_COORDINATOR");
         db.addGroup(group);
-        ClassCoordinator coordinator = new ClassCoordinator(name, password, email, year, pathway, group);
+        ClassCoordinator coordinator = new ClassCoordinator(name, email, year, pathway, group);
         int coordinatorId = db.add(coordinator);
+        Login login = new Login(coordinatorId, password, group);
+        db.add(login);
         return Response.created(URI.create(String.valueOf(coordinatorId))).build();
     }
 }

@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import fr.insa.ams.Actor;
 import fr.insa.ams.Database;
 import fr.insa.ams.Group;
+import fr.insa.ams.Login;
 import fr.insa.ams.Partner;
 import fr.insa.ams.json.PartnerAdapter;
 import java.net.URI;
@@ -57,14 +58,15 @@ public class PartnerWS {
     @POST
     public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password,
                                                @QueryParam("email") String email, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location,
-                                               @QueryParam("group") String groupName) {
+                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
         Database db = new Database();
         if (db.getActorByName(name) != null) return Response.status(Response.Status.CONFLICT).build();
-        Group group = new Group(groupName);
+        Group group = new Group("PARTNER");
         db.addGroup(group);
-        Partner partner = new Partner(name, password, email, address, telephone, location, group);
+        Partner partner = new Partner(name, email, address, telephone, location, group);
         int partnerId = db.add(partner);
+        Login login = new Login(partnerId, password, group);
+        db.add(login);
         return Response.created(URI.create(String.valueOf(partnerId))).build();
     }
 }

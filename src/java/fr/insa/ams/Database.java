@@ -17,10 +17,12 @@ public class Database {
         factory = HibernateUtil.getSessionFactory();
         // Like this the administrator should be always the first actor
         if (! existsAdministrator()) {
-            Group group = new Group("administrator");
+            Group group = new Group("ADMIN");
             this.addGroup(group);
-            Administrator admin = new Administrator("password", "a@a.com", group);
-            this.add(admin);
+            Administrator admin = new Administrator("a@a.com", group);
+            int id = this.add(admin);
+            Login login = new Login(id, "password", group);
+            this.add(login);
         }
     }
 

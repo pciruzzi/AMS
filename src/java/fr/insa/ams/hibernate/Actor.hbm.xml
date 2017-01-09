@@ -6,10 +6,9 @@
             <generator class="increment"/>
         </id>
         <property name="name" column="name" type="string"/>
-        <property name="password" column="password" type="string"/>
         <property name="email" column="email" type="string"/>
         <many-to-one name="group" class="fr.insa.ams.Group" fetch="select">
-            <column name="groupID"/>
+            <column name="group_name"/>
         </many-to-one>
         <union-subclass name="fr.insa.ams.Student" table="students">
             <property name="year" column="year" type="int"/>

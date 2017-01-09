@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="fr.insa.ams.Login" table="users">
+        <id name="id" type="int" column="user_id">
+            <generator class="assigned"/>
+        </id>
+        <property name="password" column="password" type="string"/>
+        <many-to-one name="group" class="fr.insa.ams.Group" fetch="select">
+            <column name="group_name"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

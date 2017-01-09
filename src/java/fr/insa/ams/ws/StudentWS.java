@@ -55,12 +55,14 @@ public class StudentWS {
     public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password,
                                                @QueryParam("email") String email, @QueryParam("year") int year,
                                                @QueryParam("pathway") String pathway, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone, @QueryParam("group") String groupName) {
+                                               @QueryParam("telephone") String telephone) {
         Database db = new Database();
-        Group group = new Group(groupName);
+        Group group = new Group("STUDENT");
         db.addGroup(group);
-        Student student = new Student(name, password, email, year, pathway, address, telephone, group);
+        Student student = new Student(name, email, year, pathway, address, telephone, group);
         int studentId = db.add(student);
+        Login login = new Login(studentId, password, group);
+        db.add(login);
         return Response.created(URI.create(String.valueOf(studentId))).build();
     }
 

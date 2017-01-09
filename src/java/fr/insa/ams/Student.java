@@ -14,8 +14,8 @@ public class Student extends Actor {
     private Set<CV> cvs;
 
     public Student() {}
-    public Student(String name, String password, String email, int year, String pathway, String address, String telephone, Group group) {
-        super(name, password, email, group);
+    public Student(String name, String email, int year, String pathway, String address, String telephone, Group group) {
+        super(name, email, group);
         this.year = year;
         this.pathway = pathway;
         this.address = address;

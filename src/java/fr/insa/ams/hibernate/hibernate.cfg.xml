@@ -16,5 +16,6 @@
     <mapping resource="fr/insa/ams/hibernate/CV.hbm.xml"/>
     <mapping resource="fr/insa/ams/hibernate/Group.hbm.xml"/>
     <mapping resource="fr/insa/ams/hibernate/InternshipAgreement.hbm.xml"/>
+    <mapping resource="fr/insa/ams/hibernate/Login.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

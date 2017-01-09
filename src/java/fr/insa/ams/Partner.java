@@ -10,8 +10,8 @@ public class Partner extends Actor {
     private String location;
 
     public Partner() {}
-    public Partner(String name, String password, String email, String address, String telephone, String location, Group group) {
-        super(name, password, email, group);
+    public Partner(String name, String email, String address, String telephone, String location, Group group) {
+        super(name, email, group);
         this.address = address;
         this.telephone = telephone;
         this.location = location;

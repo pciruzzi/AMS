@@ -36,14 +36,15 @@ public class FsdWS {
     }
 
     @POST
-    public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email,
-                                         @QueryParam("group") String groupName) {
+    public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email) {
         Database db = new Database();
         if (db.existsFSD()) return Response.status(Response.Status.CONFLICT).build();
-        Group group = new Group(groupName);
+        Group group = new Group("FSD");
         db.addGroup(group);
-        FSD fsd = new FSD(password, email, group);
+        FSD fsd = new FSD(email, group);
         int fsdId = db.add(fsd);
+        Login login = new Login(fsdId, password, group);
+        db.add(login);
         return Response.created(URI.create(String.valueOf(fsdId))).build();
     }
 }

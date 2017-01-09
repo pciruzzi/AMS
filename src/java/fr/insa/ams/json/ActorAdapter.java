@@ -11,7 +11,6 @@ public class ActorAdapter {
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("id", actor.getId());
         jsonObject.addProperty("name", actor.getName());
-        jsonObject.addProperty("password", actor.getPassword());
         jsonObject.addProperty("email", actor.getEmail());
         jsonObject.addProperty("group", actor.getGroup().getName());
         return jsonObject;

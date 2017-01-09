@@ -43,14 +43,12 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _email (QP)_ - Class coordinator's email
     + _year (QP)_ - Class coordinator's year
     + _pathway (QP)_ - Class coordinator's pathway
-    + _group (QP)_ - Class coordinator's group name
 
 ### FSD
   - **Obtain FSD's profile:** `GET` to `/fsd`
   - **Create FSD:** `POST` to `/fsd`
     + _password (QP)_ - FSD's password
     + _email (QP)_ - FSD's email
-    + _group (QP)_ - FSD's group name
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`
@@ -62,7 +60,6 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _address (QP)_ - Partner's address
     + _telephone (QP)_ - Partner's telephone
     + _location (QP)_ - Partner's location
-    + _group (QP)_ - Partner's group name
 
 ### Students
   - **Obtain student's profile:** `GET` to `/students/<studentID>`
@@ -74,7 +71,6 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _pathway (QP)_ - Student's pathway
     + _address (QP)_ - Student's address
     + _telephone (QP)_ - Student's telephone
-    + _group (QP)_ - Student's group name
 
 #### CVs
   - **Download CV:** `GET` to `/students/cvs/<cvID>`

@@ -6,8 +6,8 @@ import fr.insa.ams.stateMachine.InternshipAgreementEvent;
 public class Administrator extends Actor {
 
     public Administrator() {}
-    public Administrator(String password, String email, Group group) {
-        super("admin", password, email, group);
+    public Administrator(String email, Group group) {
+        super("admin", email, group);
     }
 
     @Override

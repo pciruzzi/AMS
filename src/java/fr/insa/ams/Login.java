@@ -1,5 +1,8 @@
 package fr.insa.ams;
 
+import java.io.UnsupportedEncodingException;
+import java.security.*;
+
 public class Login implements Databasable {
 
     private String password;
@@ -8,7 +11,17 @@ public class Login implements Databasable {
 
     public Login() {}
     public Login(int id, String password, Group group) {
-        this.password = password;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = password.getBytes("UTF-8");
+            this.password = new String(md.digest(passBytes), "UTF-8");
+        } catch (UnsupportedEncodingException ex) {
+            ex.printStackTrace();
+            this.password = password;
+        } catch (NoSuchAlgorithmException ex) {
+            ex.printStackTrace();
+            this.password = password;
+        }
         this.id = id;
         this.group = group;
     }

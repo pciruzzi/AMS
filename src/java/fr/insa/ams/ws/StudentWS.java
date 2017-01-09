@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.util.HashSet;
 import java.util.Set;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -73,6 +74,7 @@ public class StudentWS {
     public Response getCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
+        // I don't put the || ! cv.getIsAvailable() here because I have to leave it in case someone want to see the CV of an application
         if (cv == null) return Response.status(Response.Status.NOT_FOUND).build();
         File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf");
         return Response.ok(file).header("Content-Disposition", "attachment; filename=\"" + cv.getName() + ".pdf\"").build();
@@ -83,15 +85,10 @@ public class StudentWS {
     public Response deleteCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
-        if (cv != null) {
-            File file = new File(CVS_FOLDER + "/" + cv.getId() + ".pdf");
-            if (file.delete()) {
-                db.delete(cv);
-                return Response.ok().build();
-            }
-            return Response.status(Response.Status.NOT_MODIFIED).build();
-        }
-        return Response.status(Response.Status.NOT_FOUND).build();
+        if (cv == null || ! cv.getIsAvailable()) return Response.status(Response.Status.NOT_FOUND).build();
+        cv.setIsAvailable(false);
+        db.update(cv);
+        return Response.ok().build();
     }
 
     @PUT
@@ -100,7 +97,7 @@ public class StudentWS {
                                               @QueryParam("name") String newName) {
         Database db = new Database();
         CV cv = db.getCV(cvId);
-        if (cv == null) return Response.status(Response.Status.NOT_FOUND).build();
+        if (cv == null || ! cv.getIsAvailable()) return Response.status(Response.Status.NOT_FOUND).build();
         cv.setName(newName);
         db.update(cv);
         return Response.ok().build();
@@ -119,9 +116,13 @@ public class StudentWS {
         if (! (student instanceof Student)) return Response.status(Response.Status.BAD_REQUEST).build();
 
         Set<CV> cvs = ((Student) student).getCvs();
+        Set<CV> cvsAvailables = new HashSet<CV>();
+        for (CV cv : cvs) {
+            if (cv.getIsAvailable()) cvsAvailables.add(cv);
+        }
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(CV.class, new CVAdapter()).create();
-        return Response.ok(gson.toJson(cvs), MediaType.APPLICATION_JSON).build();
+        return Response.ok(gson.toJson(cvsAvailables), MediaType.APPLICATION_JSON).build();
     }
 
     @POST

@@ -52,7 +52,10 @@ public class Main {
         Login login = new Login(actorId, "password1", group);
         db.add(login);
         db.addCV(new CV("cv de jp"), actorId);
-        db.addCV(new CV("otro cv de jp"), actorId);
+        CV cv = new CV("otro cv de jp");
+        cv.setIsAvailable(false); //Delete...
+        db.addCV(cv, actorId);
+
         System.out.println("Student created with id " + actorId);
 
         student = new Student("pepe", "a@a.com", 4, "IR", "asd", "33769379998", group);
@@ -91,7 +94,7 @@ public class Main {
         actorId = db.add(student);
         login = new Login(actorId, "password5", group);
         db.add(login);
-        CV cv = new CV("cv de pablo");
+        cv = new CV("cv de pablo");
         db.addCV(cv, actorId);
         System.out.println("Student created with id " + actorId);
 

@@ -10,6 +10,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import fr.insa.ams.stateMachine.InternshipAgreementState;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
+import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
+import org.apache.pdfbox.pdmodel.interactive.form.PDField;
 
 public class InternshipAgreement implements Databasable {
 
@@ -50,6 +58,36 @@ public class InternshipAgreement implements Databasable {
         writeInternshipAgreement(document);
         document.close();
         return filename;
+    }
+
+    public void generatePdf2(String folder) throws IOException {
+        File file = new File("/home/pablo/Francia/projetPDL/ams/formTest.pdf");
+        PDDocument pdfTemplate = PDDocument.load(file);
+        PDDocumentCatalog docCatalog = pdfTemplate.getDocumentCatalog();
+        PDAcroForm acroForm = docCatalog.getAcroForm();
+
+//        List<PDField> fields = acroForm.getFields();
+//        List<String> fieldNames = new ArrayList<String>();
+//        for (PDField field : fields) {
+//            fieldNames.add(field.getFullyQualifiedName());
+//            System.out.println(field.getFullyQualifiedName());
+//        }
+//
+//        PDField field = acroForm.getField(fieldNames.get(0));
+//        field.setValue("example value");
+
+        PDField field = acroForm.getField("studentId");
+        field.setValue(String.valueOf(this.getStudent().getId()));
+        field.setReadOnly(true);
+        field = acroForm.getField("partnerId");
+        field.setValue(String.valueOf(this.getPartner().getId()));
+        field = acroForm.getField("coordinatorId");
+        field.setValue(String.valueOf(this.getCoordinator().getId()));
+        field = acroForm.getField("offerId");
+        field.setValue(String.valueOf(this.getOfferID()));
+
+        pdfTemplate.save(new File("/home/pablo/Francia/projetPDL/ams/out.pdf"));
+        pdfTemplate.close();
     }
 
     private void writeInternshipAgreement(Document document) throws DocumentException {

@@ -118,8 +118,7 @@ public class Main {
         Integer agreementId = db.add(agreement);
         System.out.println("Internship agreement created with id " + agreementId);
         try {
-//            agreement.generatePdf("/home/pablo");
-            agreement.generatePdf2("/home/pablo");
+            agreement.generatePdf("/home/pablo");
         } catch (Exception ex) {
             ex.printStackTrace();
         }

@@ -54,10 +54,6 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library>
-                    <file>${file.reference.itextpdf-5.5.10.jar}</file>
-                    <path-in-war>WEB-INF/lib</path-in-war>
-                </library>
-                <library>
                     <file>${file.reference.pdfbox-2.0.4.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>

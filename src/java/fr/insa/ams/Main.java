@@ -113,6 +113,20 @@ public class Main {
         System.out.println(gson.toJson(application));
         System.out.println("\n####################################################\n");
 
+        group = new Group("PARTNER");
+        db.addGroup(group);
+        partner = new Partner("Sogeti_France", "a@a.com", "INSA", "1144370513", "Toulouse", group);
+        actorId = db.add(partner);
+        login = new Login(actorId, "password7", group);
+        db.add(login);
+        System.out.println("Partner created with id " + actorId);
+
+        partner = new Partner("Sopra_Steria", "a@a.com", "INSA", "1144370513", "Toulouse", group);
+        actorId = db.add(partner);
+        login = new Login(actorId, "password8", group);
+        db.add(login);
+        System.out.println("Partner created with id " + actorId);
+
 
         InternshipAgreement agreement = new InternshipAgreement(application);
         Integer agreementId = db.add(agreement);

@@ -3,6 +3,9 @@ package fr.insa.ams;
 import fr.insa.ams.stateMachine.InternshipAgreementState;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDDocumentCatalog;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
@@ -43,13 +46,33 @@ public class InternshipAgreement implements Databasable {
         PDDocumentCatalog docCatalog = pdfTemplate.getDocumentCatalog();
         PDAcroForm acroForm = docCatalog.getAcroForm();
 
-        addIntField(acroForm, "studentId", this.getStudent().getId());
-        addField(acroForm, "studentName", this.getStudent().getName());
-        addIntField(acroForm, "partnerId", this.getPartner().getId());
-        addField(acroForm, "partnerName", this.getPartner().getName());
-        addIntField(acroForm, "coordinatorId", this.getCoordinator().getId());
-        addField(acroForm, "coordinatorName", this.getCoordinator().getName());
-        addIntField(acroForm, "offerId", this.getOfferID());
+        Partner partner = this.getPartner();
+        addField(acroForm, "partnerName", partner.getName());
+        addField(acroForm, "partnerAddress", partner.getAddress());
+        addField(acroForm, "partnerTelephone", partner.getTelephone());
+        addField(acroForm, "partnerMail", partner.getEmail());
+        addField(acroForm, "partnerLocation", partner.getLocation());
+
+        Student student = this.getStudent();
+        addField(acroForm, "studentName", student.getName());
+        addField(acroForm, "studentAddress", student.getAddress());
+        addField(acroForm, "studentTelephone", student.getTelephone());
+        addField(acroForm, "studentMail", student.getEmail());
+        String studentFormation = student.getYear() + "ème anée " + student.getPathway();
+        addField(acroForm, "studentFormation", studentFormation);
+
+        ClassCoordinator coordinator = this.getCoordinator();
+        addField(acroForm, "coordinatorName", coordinator.getName());
+        addField(acroForm, "coordinatorMail", coordinator.getEmail());
+
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        addField(acroForm, "date", dateFormat.format(date));
+        //TODO: Here
+        addIntField(acroForm, "internshipPay", 550);
+        addField(acroForm, "internshipSubject", "Quelque chose...");
+        addField(acroForm, "internshipStartDate", "une date");
+        addField(acroForm, "internshipFinDate", "fin date");
 
         pdfTemplate.save(new File(outFilename));
         pdfTemplate.close();

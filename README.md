@@ -28,6 +28,7 @@ _In all the cases, a userId must be provided as a HP named `id`_
 ### Internship Agreements
   _Note: The agreementID is the same as the applicationID_
   - **Obtain all agreements for user:** `GET` to `/agreements`
+    + _id (QP)_ - ID of the user whom agreements want to obtain
   - **Download agreement PDF:** `GET` to `/agreements/<agreementID>`
   - **Obtain agreement state:** `GET` to `/agreements/<agreementID>/state`
   - **Accept/refuse agreement:** `PUT` to `/agreements/<agreementID>`

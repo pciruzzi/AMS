@@ -53,7 +53,7 @@ public class StudentWS {
     }
 
     @POST
-    public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password,
+    public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name and address in body
                                                @QueryParam("email") String email, @QueryParam("year") int year,
                                                @QueryParam("pathway") String pathway, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone) {
@@ -94,7 +94,7 @@ public class StudentWS {
     @PUT
     @Path("/cvs/{cvId}")
     public Response renameCV(@HeaderParam("id") int userId, @PathParam("cvId") int cvId,
-                                              @QueryParam("name") String newName) {
+                                              @QueryParam("name") String newName) { //TODO: newName in body?
         Database db = new Database();
         CV cv = db.getCV(cvId);
         if (cv == null || ! cv.getIsAvailable()) return Response.status(Response.Status.NOT_FOUND).build();
@@ -129,7 +129,7 @@ public class StudentWS {
     @Path("/{id}/cvs")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     public Response uploadCV(@HeaderParam("id") int userId, @PathParam("id") int id,
-                                            @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) {
+                                            @FormDataParam("file") InputStream uploadedInputStream, @QueryParam("name") String name) { //TODO: name in body
         File file = new File(CVS_FOLDER);
         if (! file.exists() && ! file.mkdir()) return Response.status(Response.Status.NOT_MODIFIED).build();
         // Only the connected user is able to upload a CV

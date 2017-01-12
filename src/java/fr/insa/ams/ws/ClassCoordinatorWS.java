@@ -43,7 +43,7 @@ public class ClassCoordinatorWS {
     }
 
     @POST
-    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password,
+    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name in body
                                                       @QueryParam("email") String email, @QueryParam("year") int year,
                                                       @QueryParam("pathway") String pathway) {
         Database db = new Database();

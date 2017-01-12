@@ -291,4 +291,13 @@ public class ApplicationWSTest {
         JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
         assertEquals(InternshipAgreementState.WAITING_STUDENT.toString(), jelement.getAsJsonObject().get("state").getAsString());
     }
+
+    @Test
+    public void shouldNotBeAbleToApplyTwice() throws URISyntaxException, IOException {
+        WebUtils.createStudent("pablo", 5, "IL");
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        WebUtils.createClassCoordinator("Pierre", 5, "IL");
+        WebUtils.createApplication(2, 2, 3, 28);
+        assertEquals(WebUtils.NOT_MODIFIED, WebUtils.createApplication(2, 2, 3, 28).getStatusLine().getStatusCode());
+    }
 }

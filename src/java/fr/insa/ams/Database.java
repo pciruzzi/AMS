@@ -206,6 +206,23 @@ public class Database {
         return getCoordinator(year, pathway) != null;
     }
 
+    public boolean existsApplication(int studentId, int partnerId, int offerId) {
+        Session session = factory.openSession();
+        List<Application> applications = null;
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            applications = session.createQuery("FROM Application A WHERE A.student.id=" + studentId + " AND A.partner.id=" + partnerId + " AND A.offerID=" + offerId).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return ! applications.isEmpty();
+        }
+    }
+
     public CV getCV(int id) {
         Session session = factory.openSession();
         CV cv = null;
@@ -267,7 +284,8 @@ public class Database {
         Transaction tx = null;
         try {
             tx = session.beginTransaction();
-            if (actorId == this.getFSD().getId()) {
+            FSD fsd = this.getFSD();
+            if (fsd != null && actorId == fsd.getId()) {
                 applications = session.createQuery("FROM Application A").list();
             } else {
                 applications = session.createQuery("FROM Application A WHERE A.student.id=" + actorId + " OR A.partner.id=" + actorId + " OR A.coordinator.id=" + actorId).list();

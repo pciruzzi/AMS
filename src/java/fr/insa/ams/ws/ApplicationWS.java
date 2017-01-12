@@ -120,7 +120,7 @@ public class ApplicationWS {
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID,
-                                                     @QueryParam("cvID") int cvId, @DefaultValue("") @QueryParam("coverLetter") String coverLetter) {
+                                                     @QueryParam("cvID") int cvId, @DefaultValue("") @QueryParam("coverLetter") String coverLetter) { //TODO: coverLetter in body
         // Only the student can apply
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();
@@ -143,6 +143,8 @@ public class ApplicationWS {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         if (partner == null) return Response.status(Response.Status.BAD_REQUEST).build();
+
+        if (db.existsApplication(studentID, partnerID, offerID)) return Response.status(Response.Status.NOT_MODIFIED).build();
 
         CV cv = null;
         if (cvId != -1) cv = db.getCV(cvId); //In order to use -1 when testing

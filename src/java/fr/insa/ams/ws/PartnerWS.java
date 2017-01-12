@@ -56,7 +56,7 @@ public class PartnerWS {
     }
 
     @POST
-    public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password,
+    public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name, address and location in body
                                                @QueryParam("email") String email, @QueryParam("address") String address,
                                                @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
         Database db = new Database();

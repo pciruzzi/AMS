@@ -11,6 +11,7 @@ import fr.insa.ams.json.GroupAdapter;
 import fr.insa.ams.json.InternshipAgreementAdapter;
 import fr.insa.ams.json.PartnerAdapter;
 import fr.insa.ams.json.StudentAdapter;
+import fr.insa.ams.stateMachine.InternshipAgreementState;
 import java.util.List;
 
 public class Main {
@@ -131,6 +132,9 @@ public class Main {
         InternshipAgreement agreement = new InternshipAgreement(application);
         Integer agreementId = db.add(agreement);
         System.out.println("Internship agreement created with id " + agreementId);
+        agreement.setState(InternshipAgreementState.ACCEPTED);
+        db.update(agreement);
+        System.out.println("Internship agreement updated to state " + InternshipAgreementState.ACCEPTED.name());
         try {
             agreement.generatePdf("/home/pablo");
         } catch (Exception ex) {

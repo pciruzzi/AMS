@@ -13,7 +13,6 @@ import java.net.URI;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
-import javax.ws.rs.DefaultValue;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.UriInfo;
 import javax.ws.rs.Path;
@@ -99,7 +98,6 @@ public class ApplicationWS {
         if (state == ApplicationState.ACCEPTED) {
             InternshipAgreement agreement = new InternshipAgreement(application);
             db.add(agreement);
-            // TODO: Inform of the internship agreement creation?
         }
         Gson gson = gsonBuilder.registerTypeAdapter(ApplicationState.class, new ApplicationStateAdapter()).create();
         return Response.ok(gson.toJson(state), MediaType.APPLICATION_JSON).build();
@@ -120,7 +118,7 @@ public class ApplicationWS {
     @POST
     public Response addApplication(@HeaderParam("id") int userId, @QueryParam("studentID") int studentID,
                                                      @QueryParam("partnerID") int partnerID, @QueryParam("offerID") int offerID,
-                                                     @QueryParam("cvID") int cvId, @DefaultValue("") @QueryParam("coverLetter") String coverLetter) { //TODO: coverLetter in body
+                                                     @QueryParam("cvID") int cvId, String coverLetter) {
         // Only the student can apply
         if (userId != studentID) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
         Database db = new Database();

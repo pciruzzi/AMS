@@ -20,6 +20,7 @@ public class ApplicationAdapter implements JsonSerializer<Application> {
         jsonObject.addProperty("idCoordinator", application.getCoordinator().getId());
         jsonObject.addProperty("idOffer", application.getOfferID());
         jsonObject.addProperty("state", application.getState().toString());
+        jsonObject.addProperty("coverLetter", application.getCoverLetter());
         CV cv = application.getCv();
         int cvId = -1;
         if (cv != null)  cvId = cv.getId();

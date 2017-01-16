@@ -3,12 +3,14 @@ package fr.insa.ams;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 
 public class WebUtils {
@@ -105,6 +107,9 @@ public class WebUtils {
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
         post.addHeader("id", String.valueOf(userID));
+        String coverLetter = "a cover letter";
+        HttpEntity entity = new ByteArrayEntity(coverLetter.getBytes("UTF-8"));
+        post.setEntity(entity);
         return client.execute(post);
     }
 

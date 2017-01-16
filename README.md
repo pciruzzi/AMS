@@ -7,7 +7,7 @@ See the [OMS Module](https://github.com/pierromumu/PartnerOffers).
 ## REST API
 In this module, in order to access to it, we have developed several Web Services using REST protocol. For this reason, we had to define our Restful API:
 
-_We use the next abbreviations: HP=Header Parameter, QP=Query Parameter_
+_We use the next abbreviations: HP=Header Parameter, QP=Query Parameter, B=Body_
 
 _In all the cases, a userId must be provided as a HP named `id`_
 
@@ -20,7 +20,7 @@ _In all the cases, a userId must be provided as a HP named `id`_
     + _partnerID (QP)_
     + _offerID (QP)_
     + _cvID (QP)_
-    + _coverLetter (QP)_
+    + _coverLetter (B)_ - Text plain string
   - **Obtain application state:** `GET` to `/applications/<applicationID>/state`
   - **Accept/refuse application:** `PUT` to `/applications/<applicationID>`
     + _accept (QP)_ - Boolean indicating if it's an acceptance or a rejection

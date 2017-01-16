@@ -2,6 +2,8 @@ package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import fr.insa.ams.Actor;
 import fr.insa.ams.Database;
 import fr.insa.ams.Group;
@@ -45,7 +47,7 @@ public class PartnerWS {
     @GET
     @Path("/names/{name}")
     @Produces("application/json")
-    public Response getPartnerByName(@HeaderParam("id") int userId, @PathParam("name") String name) {
+    public Response getPartnerByName(@HeaderParam("id") int userId, @PathParam("name") String name) { //TODO: name in body?
         Database db = new Database();
         Actor partner = db.getActorByName(name);
         if (partner == null) return Response.status(Response.Status.NOT_FOUND).build();
@@ -56,9 +58,15 @@ public class PartnerWS {
     }
 
     @POST
-    public Response addPartner(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name, address and location in body
-                                               @QueryParam("email") String email, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone, @QueryParam("location") String location) {
+    public Response addPartner(String jsonPartner) {
+        JsonObject jobject = new Gson().fromJson(jsonPartner, JsonElement.class).getAsJsonObject();
+        String name = jobject.get("name").getAsString();
+        String password = jobject.get("password").getAsString();
+        String email = jobject.get("email").getAsString();
+        String address = jobject.get("address").getAsString();
+        String telephone = jobject.get("telephone").getAsString();
+        String location = jobject.get("location").getAsString();
+
         Database db = new Database();
         if (db.getActorByName(name) != null) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group("PARTNER");

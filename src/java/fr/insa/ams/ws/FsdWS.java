@@ -3,6 +3,8 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import fr.insa.ams.json.FSDAdapter;
 import java.net.URI;
 import javax.ws.rs.core.Context;
@@ -36,7 +38,11 @@ public class FsdWS {
     }
 
     @POST
-    public Response addFSD(@QueryParam("password") String password, @QueryParam("email") String email) {
+    public Response addFSD(String jsonFsd) {
+        JsonObject jobject = new Gson().fromJson(jsonFsd, JsonElement.class).getAsJsonObject();
+        String password = jobject.get("password").getAsString();
+        String email = jobject.get("email").getAsString();
+
         Database db = new Database();
         if (db.existsFSD()) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group("FSD");

@@ -2,6 +2,8 @@ package fr.insa.ams.ws;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import fr.insa.ams.Actor;
 import fr.insa.ams.ClassCoordinator;
 import fr.insa.ams.Database;
@@ -43,9 +45,14 @@ public class ClassCoordinatorWS {
     }
 
     @POST
-    public Response addCoordinator(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name in body
-                                                      @QueryParam("email") String email, @QueryParam("year") int year,
-                                                      @QueryParam("pathway") String pathway) {
+    public Response addCoordinator(String jsonCoordinator) {
+        JsonObject jobject = new Gson().fromJson(jsonCoordinator, JsonElement.class).getAsJsonObject();
+        String name = jobject.get("name").getAsString();
+        String password = jobject.get("password").getAsString();
+        String email = jobject.get("email").getAsString();
+        int year = jobject.get("year").getAsInt();
+        String pathway = jobject.get("pathway").getAsString();
+
         Database db = new Database();
         if (db.existsCoordinator(year, pathway)) return Response.status(Response.Status.CONFLICT).build();
         Group group = new Group("CLASS_COORDINATOR");

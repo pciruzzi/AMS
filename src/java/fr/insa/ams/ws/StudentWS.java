@@ -3,6 +3,8 @@ package fr.insa.ams.ws;
 import fr.insa.ams.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.sun.jersey.multipart.FormDataParam;
 import fr.insa.ams.json.CVAdapter;
 import fr.insa.ams.json.StudentAdapter;
@@ -53,10 +55,16 @@ public class StudentWS {
     }
 
     @POST
-    public Response addStudent(@QueryParam("name") String name, @QueryParam("password") String password, //TODO: name and address in body
-                                               @QueryParam("email") String email, @QueryParam("year") int year,
-                                               @QueryParam("pathway") String pathway, @QueryParam("address") String address,
-                                               @QueryParam("telephone") String telephone) {
+    public Response addStudent(String jsonStudent) {
+        JsonObject jobject = new Gson().fromJson(jsonStudent, JsonElement.class).getAsJsonObject();
+        String name = jobject.get("name").getAsString();
+        String password = jobject.get("password").getAsString();
+        String email = jobject.get("email").getAsString();
+        int year = jobject.get("year").getAsInt();
+        String pathway = jobject.get("pathway").getAsString();
+        String address = jobject.get("address").getAsString();
+        String telephone = jobject.get("telephone").getAsString();
+
         Database db = new Database();
         Group group = new Group("STUDENT");
         db.addGroup(group);

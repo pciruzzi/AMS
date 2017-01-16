@@ -1,5 +1,6 @@
 package fr.insa.ams;
 
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -47,53 +48,85 @@ public class WebUtils {
 
     public static HttpResponse createClassCoordinator(String name, int year, String pathway) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(COORDINATORS)
-                                             .setParameter("name", name)
-                                             .setParameter("password", "password")
-                                             .setParameter("email", "a@a.com")
-                                             .setParameter("year", String.valueOf(year))
-                                             .setParameter("pathway", pathway)
+//                                             .setParameter("name", name)
+//                                             .setParameter("password", "password")
+//                                             .setParameter("email", "a@a.com")
+//                                             .setParameter("year", String.valueOf(year))
+//                                             .setParameter("pathway", pathway)
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("password", "password");
+        json.addProperty("email", "a@a.com");
+        json.addProperty("year", year);
+        json.addProperty("pathway", pathway);
+        HttpEntity entity = new ByteArrayEntity(json.toString().getBytes("UTF-8"));
+        post.setEntity(entity);
         return client.execute(post);
     }
 
     public static HttpResponse createPartner(String name, String address, String telephone) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(PARTNERS)
-                                             .setParameter("name", name)
-                                             .setParameter("password", "password")
-                                             .setParameter("email", "a@a.com")
-                                             .setParameter("address", address)
-                                             .setParameter("telephone", telephone)
-                                             .setParameter("location", "Toulouse")
+//                                             .setParameter("name", name)
+//                                             .setParameter("password", "password")
+//                                             .setParameter("email", "a@a.com")
+//                                             .setParameter("address", address)
+//                                             .setParameter("telephone", telephone)
+//                                             .setParameter("location", "Toulouse")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("password", "password");
+        json.addProperty("email", "a@a.com");
+        json.addProperty("address", address);
+        json.addProperty("telephone", telephone);
+        json.addProperty("location", "Toulouse");
+        HttpEntity entity = new ByteArrayEntity(json.toString().getBytes("UTF-8"));
+        post.setEntity(entity);
         return client.execute(post);
     }
 
     public static HttpResponse createStudent(String name, int year, String pathway) throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(STUDENTS)
-                                             .setParameter("name", name)
-                                             .setParameter("password", "password")
-                                             .setParameter("email", "a@a.com")
-                                             .setParameter("year", String.valueOf(year))
-                                             .setParameter("pathway", pathway)
-                                             .setParameter("address", "INSA Toulouse")
-                                             .setParameter("telephone", "33769379998")
+//                                             .setParameter("name", name)
+//                                             .setParameter("password", "password")
+//                                             .setParameter("email", "a@a.com")
+//                                             .setParameter("year", String.valueOf(year))
+//                                             .setParameter("pathway", pathway)
+//                                             .setParameter("address", "INSA Toulouse")
+//                                             .setParameter("telephone", "33769379998")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
+        JsonObject json = new JsonObject();
+        json.addProperty("name", name);
+        json.addProperty("password", "password");
+        json.addProperty("email", "a@a.com");
+        json.addProperty("year", year);
+        json.addProperty("pathway", pathway);
+        json.addProperty("address", "INSA Toulouse");
+        json.addProperty("telephone", "33769379998");
+        HttpEntity entity = new ByteArrayEntity(json.toString().getBytes("UTF-8"));
+        post.setEntity(entity);
         return client.execute(post);
     }
 
     public static HttpResponse createFSD() throws URISyntaxException, IOException {
         URI uri = new URIBuilder().setPath(FSD)
-                                             .setParameter("password", "password")
-                                             .setParameter("email", "a@a.com")
+//                                             .setParameter("password", "password")
+//                                             .setParameter("email", "a@a.com")
                                              .build();
         HttpClient client = HttpClients.createDefault();
         HttpPost post = new HttpPost(uri);
+        JsonObject json = new JsonObject();
+        json.addProperty("password", "password");
+        json.addProperty("email", "a@a.com");
+        HttpEntity entity = new ByteArrayEntity(json.toString().getBytes("UTF-8"));
+        post.setEntity(entity);
         return client.execute(post);
     }
 

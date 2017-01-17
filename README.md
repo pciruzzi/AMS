@@ -78,9 +78,9 @@ _In all the cases, a userId must be provided as a HP named `id`_
   - **Download CV:** `GET` to `/students/cvs/<cvID>`
   - **Get CVs list:** `GET` to `/students/<studentID>/cvs`
   - **Upload CV:** `POST` to `/students/<studentID>/cvs`
-	+ _name (QP)_ - CV's name
+	+ _name (B)_ - CV's name as text plain string (**Not JSON**)
   - **Rename CV:** `PUT` to `/students/cvs/<cvID>`
-    + _name (QP)_ - CV's new name
+    + _name (B)_ - CV's new name as text plain string (**Not JSON**)
   - **Delete CV:** `DELETE` to `/students/cvs/<cvID>`
 
 ### Database (ONLY FOR TESTING)

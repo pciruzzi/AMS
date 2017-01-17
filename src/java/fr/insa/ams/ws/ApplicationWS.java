@@ -6,6 +6,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import fr.insa.ams.json.ApplicationAdapter;
 import fr.insa.ams.json.ApplicationStateAdapter;
+import fr.insa.ams.json.CVAdapter;
+import fr.insa.ams.json.StudentAdapter;
 import fr.insa.ams.stateMachine.ApplicationEvent;
 import fr.insa.ams.stateMachine.ApplicationState;
 import fr.insa.ams.stateMachine.StateMachine;
@@ -57,6 +59,19 @@ public class ApplicationWS {
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.registerTypeAdapter(Application.class, new ApplicationAdapter()).create();
         return Response.ok(gson.toJson(applications), MediaType.APPLICATION_JSON).build();
+    }
+
+    @GET
+    @Path("/offers/{id}/students")
+    @Produces("application/json")
+    public Response getStudentsForOffer(@HeaderParam("id") int userId, @PathParam("id") int offerId) {
+        Database db = new Database();
+        List<Student> students = db.getStudentsByOffer(offerId);
+        // TODO: It only can be called by the offer owner??
+//         if (! applications.isEmpty() && applications.get(0).getPartner().getId() != userId) return Response.status(Response.Status.UNAUTHORIZED.getStatusCode()).build();
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        Gson gson = gsonBuilder.registerTypeAdapter(Student.class, new StudentAdapter()).registerTypeAdapter(CV.class, new CVAdapter()).create();
+        return Response.ok(gson.toJson(students), MediaType.APPLICATION_JSON).build();
     }
 
     @GET

@@ -228,7 +228,7 @@ public class ApplicationWSTest {
     }
 
     @Test
-    public void shouldGetCorrectAplicationsByOffers() throws URISyntaxException, IOException {
+    public void shouldGetCorrectApplicationsByOffers() throws URISyntaxException, IOException {
         WebUtils.createStudent("pablo", 5, "IL");
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
@@ -299,5 +299,31 @@ public class ApplicationWSTest {
         WebUtils.createClassCoordinator("Pierre", 5, "IL");
         WebUtils.createApplication(2, 2, 3, 28);
         assertEquals(WebUtils.NOT_MODIFIED, WebUtils.createApplication(2, 2, 3, 28).getStatusLine().getStatusCode());
+    }
+
+    @Test
+    public void shouldGetCorrectStudentsByOffers() throws URISyntaxException, IOException {
+        WebUtils.createStudent("pablo", 5, "IL");
+        WebUtils.createPartner("Airbus", "Toulouse", "769379998");
+        WebUtils.createClassCoordinator("Pierre", 5, "IL");
+        WebUtils.createStudent("pepe", 5, "IL");
+        WebUtils.createApplication(2, 2, 3, 28);
+        WebUtils.createApplication(5, 5, 3, 29);
+        WebUtils.createApplication(5, 5, 3, 28);
+
+        URI uri = new URIBuilder().setPath(WebUtils.APPLICATIONS + "/offers/28/students").build();
+        HttpClient client = HttpClients.createDefault();
+        HttpGet get = new HttpGet(uri);
+        get.addHeader("id", "2");
+        HttpResponse response = client.execute(get);
+
+        InputStream input = response.getEntity().getContent();
+        String json = IOUtils.toString(input, "UTF-8");
+        System.out.println("Content of offer=28:\n" + json);
+        JsonElement jelement = new Gson().fromJson(json, JsonElement.class);
+        JsonObject jobject = jelement.getAsJsonArray().get(0).getAsJsonObject();
+        assertEquals(jobject.get("id").getAsInt(), 2);
+        jobject = jelement.getAsJsonArray().get(1).getAsJsonObject();
+        assertEquals(jobject.get("id").getAsInt(), 5);
     }
 }

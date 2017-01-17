@@ -334,6 +334,23 @@ public class Database {
         }
     }
 
+    public List<Student> getStudentsByOffer(int offerId) {
+        Session session = factory.openSession();
+        List<Student> students = new ArrayList<Student>();
+        Transaction tx = null;
+        try {
+            tx = session.beginTransaction();
+            students = session.createQuery("SELECT s FROM Application A inner join A.student s WHERE A.offerID=" + offerId).list();
+            tx.commit();
+        } catch (HibernateException e) {
+            if (tx!=null) tx.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+            return students;
+        }
+    }
+
     public void update(Databasable entity) {
         Session session = factory.openSession();
         Transaction tx = null;

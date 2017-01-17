@@ -11,10 +11,12 @@ import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.apache.commons.io.IOUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.utils.URIBuilder;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.junit.After;
 import org.junit.Before;
@@ -75,10 +77,13 @@ public class PartnerWSTest {
     public void shouldGetPartnerByName() throws URISyntaxException, IOException {
         WebUtils.createPartner("Airbus", "Toulouse", "769379998");
         HttpClient client = HttpClients.createDefault();
-        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/names/Airbus")
+        URI uri = new URIBuilder().setPath(WebUtils.PARTNERS + "/names")
                                           .setParameter("id", "2")
                                           .build();
-        HttpGet get = new HttpGet(uri);
+        HttpGetWithEntity get = new HttpGetWithEntity(uri);
+        String name = "Airbus";
+        HttpEntity entity = new ByteArrayEntity(name.getBytes("UTF-8"));
+        get.setEntity(entity);
         HttpResponse response = client.execute(get);
         assertEquals(WebUtils.SUCCESS, response.getStatusLine().getStatusCode());
     }

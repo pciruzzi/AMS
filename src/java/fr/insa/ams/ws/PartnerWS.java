@@ -45,9 +45,9 @@ public class PartnerWS {
     }
 
     @GET
-    @Path("/names/{name}")
+    @Path("/names")
     @Produces("application/json")
-    public Response getPartnerByName(@HeaderParam("id") int userId, @PathParam("name") String name) { //TODO: name in body?
+    public Response getPartnerByName(@HeaderParam("id") int userId, String name) {
         Database db = new Database();
         Actor partner = db.getActorByName(name);
         if (partner == null) return Response.status(Response.Status.NOT_FOUND).build();

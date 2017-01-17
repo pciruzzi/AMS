@@ -54,7 +54,8 @@ _In all the cases, a userId must be provided as a HP named `id`_
 
 ### Partners
   - **Obtain partner's profile:** `GET` to `/partners/<partnerID>`
-  - **Obtain partner's profile by name:** `GET` to `/partners/names/<partnerName>`
+  - **Obtain partner's profile by name:** `GET` to `/partners/names`
+    + _name (B)_ - Text plain string (**Not JSON**)
   - **Create partner:** `POST` to `/partners`
     + _name (B)_ - Partner's name
     + _password (B)_ - Partner's password

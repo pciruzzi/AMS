@@ -11,8 +11,6 @@ import fr.insa.ams.json.GroupAdapter;
 import fr.insa.ams.json.InternshipAgreementAdapter;
 import fr.insa.ams.json.PartnerAdapter;
 import fr.insa.ams.json.StudentAdapter;
-import fr.insa.ams.stateMachine.InternshipAgreementState;
-import java.util.List;
 
 public class Main {
 
@@ -48,95 +46,85 @@ public class Main {
         System.out.println("Group2 " + group2.getName() + " created with id " + groupName);
 
 
-        Student student = new Student("jp", "a@a.com", 5, "IR", "asd", "33769379998", group);
+        Student student = new Student("Aurélien Laine", "aurelien.aine@etud.insa-toulouse.fr", 5, "IR", "143 avenue de Rangueil 31600 Muret", "33769379998", group);
         Integer actorId = db.add(student);
-        Login login = new Login(actorId, "password1", group);
+        Login login = new Login(actorId, "password", group);
         db.add(login);
-        db.addCV(new CV("cv de jp"), actorId);
-        CV cv = new CV("otro cv de jp");
-        cv.setIsAvailable(false); //Delete...
+        db.addCV(new CV("premier cv"), actorId);
+        CV cv = new CV("deuxieme cv");
+        cv.setIsAvailable(true); //Delete...
         db.addCV(cv, actorId);
 
         System.out.println("Student created with id " + actorId);
 
-        student = new Student("pepe", "a@a.com", 4, "IR", "asd", "33769379998", group);
+        student = new Student("Nicolas Lanore", "nicolas.lanore@etud.insa-toulouse.fr", 5, "IR", "135 avenue de Rangueil ", "33610966077", group);
         actorId = db.add(student);
-        login = new Login(actorId, "password2", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
+        db.addCV(new CV("premier cv"), actorId);
+        db.addCV(new CV("deuxieme cv"), actorId);
         System.out.println("Student created with id " + actorId);
-
-        group = new Group("PARTNER");
-        db.addGroup(group);
-        Partner partner = new Partner("Airbus", "a@a.com", "INSA", "1144370513", "Toulouse", group);
-        actorId = db.add(partner);
-        login = new Login(actorId, "password3", group);
-        db.add(login);
-        System.out.println("Partner created with id " + actorId);
 
         group = new Group("CLASS_COORDINATOR");
         db.addGroup(group);
-        ClassCoordinator coordinator = new ClassCoordinator("Pierre", "a@a.com", 5, "IR", group);
+        ClassCoordinator coordinator = new ClassCoordinator("Maitre Pierre Murez", "pierre.murez.ps4@etud.insa-toulouse.fr", 5, "IR", group);
         actorId = db.add(coordinator);
-        login = new Login(actorId, "password4", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
         System.out.println("ClassCoordinator created with id " + actorId);
 
-        Application application = new Application(student, coordinator, partner, 45, null, "My name is pepe");
-        Integer appId = db.add(application);
-        System.out.println("Application created with id " + appId);
+        //Application application = new Application(student, coordinator, partner, 45, null, "My name is pepe");
+        //Integer appId = db.add(application);
+        //System.out.println("Application created with id " + appId);
 
-        System.out.println(gson.toJson(application));
+        //System.out.println(gson.toJson(application));
         System.out.println("\n####################################################\n");
 
 
         group = new Group("STUDENT");
         db.addGroup(group);
-        student = new Student("pablo", "a@a.com", 5, "IL", "asd", "33769379998", group);
+        student = new Student("Thomas Ravioli", "thomas.ravioli@etud.insa-toulouse.fr", 5, "IR", "15 rue de la Fantaisie Finale 31416 Tourcoing", "33612346183", group);
         actorId = db.add(student);
-        login = new Login(actorId, "password5", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
-        cv = new CV("cv de pablo");
+        cv = new CV("premier cv");
         db.addCV(cv, actorId);
         System.out.println("Student created with id " + actorId);
 
         group = new Group("FSD");
         db.addGroup(group);
-        FSD fsd = new FSD("a@a.com", group);
+        FSD fsd = new FSD("fsd@insa-toulouse.fr", group);
         actorId = db.add(fsd);
-        login = new Login(actorId, "password6", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
         System.out.println("FSD created with id " + actorId);
 
-        application = new Application(student, coordinator, partner, 46, cv, "");
-        appId = db.add(application);
-        System.out.println("Application created with id " + appId);
-
-        System.out.println(gson.toJson(application));
+        //System.out.println(gson.toJson(application));
         System.out.println("\n####################################################\n");
 
         group = new Group("PARTNER");
         db.addGroup(group);
-        partner = new Partner("Sogeti_France", "a@a.com", "INSA", "1144370513", "Toulouse", group);
+        Partner partner = new Partner("Sogeti_France", "sogeti.france@sogeti.fr", "15 rue des Lilas 31430 Toulouse", "1144370513", "Toulouse", group);
         actorId = db.add(partner);
-        login = new Login(actorId, "password7", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
         System.out.println("Partner created with id " + actorId);
 
-        partner = new Partner("Sopra_Steria", "a@a.com", "INSA", "1144370513", "Toulouse", group);
+        partner = new Partner("Sopra_Steria", "sopra.steria@sopra.fr", "21 rue des Tournesol 31900 Toulouse", "1144370513", "Toulouse", group);
         actorId = db.add(partner);
-        login = new Login(actorId, "password8", group);
+        login = new Login(actorId, "password", group);
         db.add(login);
         System.out.println("Partner created with id " + actorId);
 
 
-        InternshipAgreement agreement = new InternshipAgreement(application);
+        /*InternshipAgreement agreement = new InternshipAgreement(application);
         Integer agreementId = db.add(agreement);
         System.out.println("Internship agreement created with id " + agreementId);
         agreement.setState(InternshipAgreementState.ACCEPTED);
         db.update(agreement);
         System.out.println("Internship agreement updated to state " + InternshipAgreementState.ACCEPTED.name());
         try {
-            agreement.generatePdf("/home/pablo");
+            agreement.generatePdf("/home/remi/test");
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -164,6 +152,6 @@ public class Main {
             System.out.println("Internship Agreements of actor with id=" + i);
             System.out.println(gson.toJson(agreements));
         }
-        System.out.println("\n####################################################\n");
+        System.out.println("\n####################################################\n");*/
     }
 }

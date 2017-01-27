@@ -38,7 +38,7 @@ public class InternshipAgreement implements Databasable {
     public int getOfferID() { return this.application.getOfferID();}
 
     public String generatePdf(String outFolder) throws IOException {
-        String formFilename = "/home/pablo/Francia/projetPDL/ams/formTest.pdf";
+        String formFilename = "/home/remi/dev/NetBeansProjects-6.7.1/AMS/formTest.pdf";
         String outFilename = outFolder + "/" + this.id + ".pdf";
 
         File file = new File(formFilename);

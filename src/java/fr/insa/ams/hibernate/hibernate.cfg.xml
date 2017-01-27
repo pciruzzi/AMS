@@ -5,11 +5,11 @@
     <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
     <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
     <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/ams</property>
-    <property name="hibernate.connection.username">amsUser</property>
-    <property name="hibernate.connection.password">amsuser</property>
+    <property name="hibernate.connection.username">user</property>
+    <property name="hibernate.connection.password">user</property>
     <property name="hibernate.connection.show_sql">true</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.hbm2ddl.auto">create</property>
+    <property name="hibernate.hbm2ddl.auto">update</property>
     <property name="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</property>
     <mapping resource="fr/insa/ams/hibernate/Actor.hbm.xml"/>
     <mapping resource="fr/insa/ams/hibernate/Application.hbm.xml"/>
